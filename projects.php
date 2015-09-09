@@ -1,3 +1,4 @@
+
 <?php ob_start();?>
 <?php include("include/dbconnect.php"); ?>
 <?php include("include/functions.php"); ?>
@@ -27,15 +28,16 @@
  ?>
 
 <html>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk" lang="sk">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <meta name="author" content="" />
 	<title>Miniwike</title>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
     <link rel='shortcut icon' href='project.ico'>
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
@@ -123,7 +125,7 @@ xmlhttp.send();
             </div> <!-- middle -->
             
             <div style="clear:both;"></div>
-			<div id="footer"></div>
+			<div id="<?php include ("include/footer.php"); ?>"></div>
 		</div>
 </body>
 </html>

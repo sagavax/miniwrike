@@ -1,0 +1,93 @@
+/*
+* Author : Ali Aboussebaba
+* Email : bewebdeveloper@gmail.com
+* Website : http://www.bewebdeveloper.com
+* Subject : Dynamic Drag and Drop with jQuery and PHP
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	padding: 10px;
+	background: #eaeaea;
+	text-align: center;
+	font-family: arial;
+	font-size: 12px;
+	color: #333333;
+}
+.container {
+	width: 1000px;
+	height: auto;
+	background: #ffffff;
+	border: 1px solid #cccccc;
+	border-radius: 10px;
+	margin: auto;
+	text-align: left;
+}
+.header {
+	padding: 10px;
+}
+.main_title {
+	background: #cccccc;
+	color: #ffffff;
+	padding: 10px;
+	font-size: 20px;
+	line-height: 20px;
+}
+.content {
+	padding: 10px;
+	min-height: 100px;
+	text-align: center;
+}
+.footer {
+	padding: 10px;
+	text-align: right;
+}
+.footer a {
+	color: #999999;
+	text-decoration: none;
+}
+.footer a:hover {
+	text-decoration: underline;
+}
+/* Sortable ******************/
+#sortable { 
+	list-style: none; 
+	text-align: left; 
+}
+#sortable li { 
+	margin: 0 0 10px 0;
+	height: 75px; 
+	background: #dbd9d9;
+	border: 1px solid #999999;
+	border-radius: 5px;
+	color: #333333;
+}
+#sortable li span {
+	background-color: #b4b3b3;
+	background-image: url('../images/drag.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 30px;
+	height: 75px; 
+	display: inline-block;
+	float: left;
+	cursor: move;
+}
+#sortable li img {
+	height: 65px;
+	border: 5px solid #cccccc;
+	display: inline-block;
+	float: left;
+}
+#sortable li div {
+	padding: 5px;
+}
+#sortable li h2 {    
+	font-size: 16px;
+    line-height: 20px;
+}
+
+

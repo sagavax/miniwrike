@@ -1,16 +1,15 @@
-<? ob_start(); ?>
+<?php session_start(); ?>
 <?php include("include/dbconnect.php"); ?>
 <?php include("include/functions.php"); ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk" lang="sk">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<meta name="author" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
 		<title>Miniwrike - simple project task manager</title>
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -25,21 +24,16 @@
 	<?php 
 
 		$user_id=$_GET['user_id'];
-		echo "user=$user_id";
 	?>
 
 	<div id="main">
 						
 			<!-- header -->
-				<div id="header">miniwrike<div class="logged_user"><div class="circle"></div><div class="user">Tomas Misura</div></div></div>
+				<?php include ("include/header.php"); ?>
+				<?php include ("include/menu.php"); ?>
             <!-- header -->
             
-            <div id="menu">
-                <ul>
-                    <li><a href="index.php">Home</a></li>                   
-					
-                </ul>
-            </div>
+            
             <div id="middle"> <!-- middle section -->
 
 	            <div id="project_user_basic_info">
@@ -48,7 +42,6 @@
 	            			<?php 
 
 	            		$sql="SELECT *  FROM project_users WHERE user_id=$user_id";
-	            		//echo "$sql";
 	            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
 	            		while ($row = mysql_fetch_array($result)) {
 	            			$full_name=$row['full_name'];
@@ -56,11 +49,14 @@
 	            			$email=$row['email'];
 	            			$phone=$row['phone'];
 	            			$created_date=$row['created_date'];
+	            			$img=$row['profile_photo'];
 	            			///$duration
 	            		
 	            		}	
 
 	            	?>
+	            	
+	            
 	            	<table>
 	            		<tr>
 	            			<td>Full name:</td><td><?php echo  $full_name; ?></td>
@@ -76,17 +72,17 @@
 	            		</tr>
 	            		<tr>
 	            			<td>Created:</td><td><?php echo  $created_date; ?></td>
-	            		</tr>				
+	            		</tr>					
 	            	</table>	
 	            	<!--1. basic information about user -->
 	            </div>
 
-	            <div id="project_user_list_of_projects">
+	            <div id="project_user_project_list">
 	            	<h3>List of the actual projects:</h3>
 	            	<ul>
 	            	<?php 
 
-	            		$sql="SELECT a.assigned_date,a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE a.user_id=$user_id and a.project_id = b.id";
+	            		$sql="SELECT a.assigned_date,a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE b.project_status not in ('Completed','Cancelled') and a.user_id=$user_id and a.project_id = b.id";
 	            		//echo "$sql";
 	            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
 	            		while ($row = mysql_fetch_array($result)) {
@@ -108,7 +104,7 @@
 	            		<?php 
 		            		//$sql="SELECT SELECT a.assigned_date, a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE a.user_id =$user_id AND b.project_status='Completed' AND a.project_id = b.id";
 		            		
-		            		$sql="SELECT a.assigned_date, a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE a.user_id =$user_id AND b.project_status =  'Completed' AND a.project_id = b.id";
+		            		$sql="SELECT a.assigned_date, a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE a.user_id =$user_id AND b.project_status in ('Completed','Cancelled') AND a.project_id = b.id";
 
 
 		            		///echo "$sql";
@@ -121,7 +117,14 @@
 
 	            			///$duration
 
-	            			echo "<li><div class='user_details_project_wrap'><div class='user_details_project_name'><a href='project_details.php?project_id=$project_id'>$project_name</a></div><div class='user_details_project_duration'>duration</div><div class='user_details_project_status'>$project_status</div><div class='user_details_project_ass_date'>$assigned_date</div></div></li>";
+	            			echo "<li>
+	            					<div class='user_details_project_wrap'>
+	            						<div class='user_details_project_name'><a href='project_details.php?project_id=$project_id'>$project_name</a></div>
+	            						<div class='user_details_project_duration'>duration</div>
+	            						<div class='user_details_project_status'>$project_status</div>
+	            						<div class='user_details_project_ass_date'>$assigned_date</div>
+	            					</div>
+	            				</li>";
 	            		}	
 
 	            	?>
@@ -132,8 +135,9 @@
 	            	<!-- 	2. list of projects user was working on (or still working) -> tasks or subtask, meetings, calculating duration spent on particular project
 	 					and percentage 	from overal activities
 	 				-->
-	            <div id="project_user_list_of_tasks">
+	            <div id="project_user_task_list">
 	            	<h3>List of the task:</h3>
+	            	 <ul>
 		           		<?php 
 			           		$sql="SELECT * from project_task_assigned_people WHERE user_id=$user_id";
 		            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
@@ -146,7 +150,10 @@
 
 	            				echo "<li>
 	            					<div class='user_details_task_wrap'>
-	            						<div class='user_details_task_name'><a href='project_task_details.php?task_id=$task_id&project_id=$project_id'>$task_name</a></div><div class='user_details_task_duration'>duration</div><div class='user_details_task_status'>$task_status</div><div class='user_details_task_ass_date'>$assigned_date</div>
+	            						<div class='user_details_task_name'><a href='project_task.php?task_id=$task_id&project_id=$project_id'>$task_name</a></div>
+	            						<div class='user_details_task_duration'>duration</div>
+	            						<div class='user_details_task_status'>$task_status</div>
+	            						<div class='user_details_task_ass_date'>$assigned_date</div>
 	            					</div>
 
 	            				</li>";
@@ -154,20 +161,69 @@
 	            			}	
 		           			
 				         ?>	
-			       	<ul>
-
-	            	</ul>	
+			       	</ul>	
 	            </div>
 
 
 	             <div id="project_user_meetings">
 	            	<h3>Project meetings:</h3>
+	            		<ul>
+		           		<?php 
+			           		$sql="SELECT a.meeting_id, a.project_id, b.id,b.meeting_title, b.date_of_meeting, b.start_time, b.end_time, c.project_name from project_meetings_atendees a, project_meetings b, projects c where a.user_id=$user_id and a.meeting_id=b.id and a.project_id=c.id";
+		            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
+		            		while ($row = mysql_fetch_array($result)) {
+	            				$meeting_id=$row['meeting_id']; //id mitingu
+	            				$meeting_title=$row['meeting_title'];
+	            				$start_time=$row['start_time'];
+	            				$end_time=$row['end_time'];
+	            				
+	            				$project_id=$row['project_id'];
+	            				$project_name=$row['project_name']; //id projektu
+
+
+	            				
+	            				echo "<li>
+	            					<div class='user_details_project_wrap'>
+	            						<div class='user_details_project'><a href='project_details.php?project_id=$project_id'>$project_name</a></div>
+	            						<div class='user_details_meeting_title'><a href='project_meeting_minutes.php?m_id=$meeting_id'>$meeting_title</a></div>
+	            						<div class='user_details_meeting_start_time'>$start_time</div>
+	            						<div class='user_details_meeting_end_time'>$end_time</div>
+	            						
+	            					</div>
+	            				</li>";
+
+	            			}	
+		           			
+				         ?>	
+			       	</ul>	
+
 
 	            </div>
 
 	            <div id="project_user_uploaded_docs">
 	            	<h3>Uploaded docs:</h3>
 
+	            		<ul>
+		           		<?php 
+			           		$sql="SELECT a.uploaded_by, a.Uploaded_date, b.project_name,c.full_name from project_documents a, projects b, project_users c where a.uploaded_by=$user_id and a.project_id=b.id and a.Uploaded_by=c.user_id";
+		            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
+		            		$num=mysql_num_rows($result);
+		            		if ($num==0) {
+		            			echo "<div></div>";
+		            		}
+		            		while ($row = mysql_fetch_array($result)) {
+		            			echo "<li>
+	            					<div class='user_details_docs'>
+	            						<div class='user_details_project'><a href='project_details.php?project_id=$project_id'>".$row['project_name']."</a></div>
+	            						<div class='user_details_meeting_title'><a href='project_meeting_minutes.php?m_id=$meeting_id'>$meeting_title</a></div>
+	            						<div class='user_details_meeting_start_time'>$start_time</div>
+	            						<div class='user_details_meeting_end_time'>$end_time</div>
+	            						
+	            					</div>
+	            				</li>";
+	            			}	
+	            	   ?>
+	            	  	</ul> 		
 	            </div>
 
 	            <div id="project_user_planned_absence">
@@ -181,16 +237,7 @@
             <div style="clear:both;"></div>
             
 						
-			<!-- FOOTER -->
-			
-			<div id="footer"><!-- FOOTER -->
-
-				<ul id="footer-left">
-					<li>Simple miniproject administrator/manager</li>
-					<li>Created by Tomas Misura</li>
-				</ul>
-
-			</div> <!-- FOOTER -->
+			<?php include ("include/footer.php"); ?>
 			
 		</div><!-- main -->	
 

@@ -122,10 +122,10 @@
   }
 
  function GetTaskName($task_id) {
- $sql="SELECT colNoteText from project_tasks WHERE task_id=$task_id";
+ $sql="SELECT task_name from project_tasks WHERE task_id=$task_id";
   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
      while ($row = mysql_fetch_array($result)) {
-     $task_name=$row['colNoteText'];
+     $task_name=$row['task_name'];
  } return $task_name;
 
 }
@@ -141,7 +141,7 @@
 
 function GetPPlProjectDuration($user_id,$project_id) {
 
-$sql="SELECT  ABS(DATEDIFF(assigned_date, now() ) ) AS duration from project_project_assigned_people WHERE user_id=$user_id and project_id=$project_id";
+$sql="SELECT  ABS(DATEDIFF(assigned_date, now() ) ) AS duration from project_assigned_people WHERE user_id=$user_id and project_id=$project_id";
 $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
      while ($row = mysql_fetch_array($result)) {
      $duration=$row['status'];
@@ -150,8 +150,455 @@ $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
 
 
 function GetCountAllAssignedTasks($project_id) {
-  $sql="SELECT COUNT(a.colNoteText, a.task_id, a.project_id) FROM project_tasks a, project_task_assigned_people b WHERE a.project_id =$project_id AND a.task_id = b.task_id AND a.project_id = b.project_id";
+  $sql="SELECT COUNT(a.task_name, a.task_id, a.project_id) FROM project_tasks a, project_task_assigned_people b WHERE a.project_id =$project_id AND a.task_id = b.task_id AND a.project_id = b.project_id";
 }
 
-?>
 
+function draw_project_meeting_calendar($month,$year,$project_id){
+   $running_month=date('F',mktime(0,0,0,$month,1,$year));
+   
+  // echo "Rok:".$year;
+  //echo "Aktualny mesiac:".$running_month;
+
+
+
+  /* draw table */
+  $calendar = "<table cellpadding='0' cellspacing='0' id='month_calendar'>";
+
+ 
+ $previous_month = ($month - 1) > 0 ? $month - 1 : 12;
+ $next_month = ($month % 12) + 1;
+ $previous_year = $previous_month > $month ? $year - 1 : $year;
+ $next_year = $next_month < $month ? $year + 1 : $year;
+
+ /*$prev_month=$month-1;
+ $next_moth=$month+1;*/
+
+// echo "$next_moth";
+
+
+  $calendar.="<tr class='calendar-row'><td class='calendar-day-head' colspan='7'><span style='float:left;'><a  style='font-size:15px !important' href='project_meetings.php?project_id=$project_id&date=$previous_month-$previous_year'>&laquo;</a></span> ".date('F', mktime(0, 0, 0, $month, 10)).",".$year." <span style='float:right;'><a href='project_meetings.php?project_id=$project_id&date=$next_month-$next_year' style='font-size:15px !important'>&raquo;</a></span></td></tr>";
+  /* table headings */
+  $headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+  $calendar.= "<tr class='calendar-row'><td class='calendar-day-head'>".implode("</td><td class='calendar-day-head'>",$headings)."</td></tr>";
+
+  /* days and weeks vars now ... */
+  $running_day = date('w',mktime(0,0,0,$month,1,$year));
+  $days_in_month = date('t',mktime(0,0,0,$month,1,$year));
+  $days_in_this_week = 1;
+  $day_counter = 0;
+  $dates_array = array();
+
+  /* row for week one */
+  $calendar.= "<tr class='calendar-row'>";
+
+  /* print "blank" days until the first of the current week */
+  for($x = 0; $x < $running_day; $x++):
+    $calendar.= "<td class='calendar-day-np'> </td>";
+    $days_in_this_week++;
+  endfor;
+
+  /* keep going with days.... */
+  for($list_day = 1; $list_day <= $days_in_month; $list_day++):
+
+    if($list_day>0 and $list_day<10) {$list_day='0'.$list_day;}
+   
+   $mmonth=date('m',$month);
+
+   $sql="SELECT * from project_meetings where date_of_meeting='".$year."-".$mmonth."-".$list_day."' and project_id=$project_id";
+    //echo $sql;
+    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+          $num = mysql_num_rows($result);
+
+          if ($num>0) // mame nejaky event planovany na tento den
+           {$calendar.= '<td class="calendar-event-day">';} else {$calendar.= '<td class="calendar-day">';}
+
+
+      /* add in the day number */
+      $calendar.= "<div class='add-meeting'><a href='project_meeting_plan.php?day=".$year."-".$month."-".$list_day."&project_id=$project_id' class='link'><span style='font-size:18px; font-weight:bold'>+</span></a></div><div class='day-number'><a href='project_meetings.php?view_day=".$year."-".$month."-".$list_day."'>".$list_day."</a></div>";
+
+      /** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
+     // $calendar.= str_repeat('<p> </p>',2);
+
+    $calendar.= '</td>';
+    if($running_day == 6):
+      $calendar.= '</tr>';
+      if(($day_counter+1) != $days_in_month):
+        $calendar.= "<tr class='calendar-row'>";
+      endif;
+      $running_day = -1;
+      $days_in_this_week = 0;
+    endif;
+    $days_in_this_week++; $running_day++; $day_counter++;
+  endfor;
+
+  /* finish the rest of the days in the week */
+  if($days_in_this_week < 8):
+    for($x = 1; $x <= (8 - $days_in_this_week); $x++):
+      $calendar.= "<td class='calendar-day-np'> </td>";
+    endfor;
+  endif;
+
+  /* final row */
+  $calendar.= '</tr>';
+
+  /* end the table */
+  $calendar.= '</table>';
+
+  /* all done, return result */
+  return $calendar;
+}
+
+
+
+function draw_project_calendar($month,$year,$project_id){
+   $running_month=date('F',mktime(0,0,0,$month,1,$year));
+  // echo "Rok:".$year;
+  //echo "Aktualny mesiac:".$running_month;
+
+
+
+  /* draw table */
+  $calendar = "<table cellpadding='0' cellspacing='0' id='month_calendar'>";
+
+ 
+ $previous_month = ($month - 1) > 0 ? $month - 1 : 12;
+ $next_month = ($month % 12) + 1;
+ $previous_year = $previous_month > $month ? $year - 1 : $year;
+ $next_year = $next_month < $month ? $year + 1 : $year;
+
+ /*$prev_month=$month-1;
+ $next_moth=$month+1;*/
+
+// echo "$next_moth";
+
+
+  $calendar.="<tr class='calendar-row'><td class='calendar-day-head' colspan='7'><span style='float:left;'><a  style='font-size:15px !important' href='project_calendar.php?project_id=$project_id&date=$previous_month-$previous_year'>&laquo;</a></span> ".date('F', mktime(0, 0, 0, $month, 10)).",".$year." <span style='float:right;'><a href='project_calendar.php?project_id=$project_id&date=$next_month-$next_year' style='font-size:15px !important'>&raquo;</a></span></td></tr>";
+  /* table headings */
+  $headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+  $calendar.= "<tr class='calendar-row'><td class='calendar-day-head'>".implode("</td><td class='calendar-day-head'>",$headings)."</td></tr>";
+
+  /* days and weeks vars now ... */
+  $running_day = date('w',mktime(0,0,0,$month,1,$year));
+  $days_in_month = date('t',mktime(0,0,0,$month,1,$year));
+  $days_in_this_week = 1;
+  $day_counter = 0;
+  $dates_array = array();
+
+  /* row for week one */
+  $calendar.= "<tr class='calendar-row'>";
+
+  /* print "blank" days until the first of the current week */
+  for($x = 0; $x < $running_day; $x++):
+    $calendar.= "<td class='calendar-day-np'> </td>";
+    $days_in_this_week++;
+  endfor;
+
+  /* keep going with days.... */
+  for($list_day = 1; $list_day <= $days_in_month; $list_day++):
+
+    if($list_day>0 and $list_day<10) {$list_day='0'.$list_day;}
+    $sql="SELECT * from project_meetings where date_of_meeting='".$year."-".$month."-".$list_day."' and project_id=$project_id";
+    //echo $sql;
+    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+          $num = mysql_num_rows($result);
+
+          if ($num>0) // mame nejaky event planovany na tento den
+           {$calendar.= '<td class="calendar-event-day">';} else {$calendar.= '<td class="calendar-day">';}
+
+
+      /* add in the day number */
+      //$calendar.= "<div class='add-meeting'><a href='project_meeting_plan.php?day=".$year."-".$month."-".$list_day."' class='btn'><span style='font-size:18px; font-weight:bold'>+</span></a></div><div class='day-number'><a href='project_meetings.php?view_day=".$year."-".$month."-".$list_day."'>".$list_day."</a></div>";
+      $calendar.= "<div class='day-number'><a href='project_calendar.php?view_day=".$year."-".$month."-".$list_day."&project_id=$project_id'>".$list_day."</a></div>";
+      /** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
+     // $calendar.= str_repeat('<p> </p>',2);
+
+    $calendar.= '</td>';
+    if($running_day == 6):
+      $calendar.= '</tr>';
+      if(($day_counter+1) != $days_in_month):
+        $calendar.= "<tr class='calendar-row'>";
+      endif;
+      $running_day = -1;
+      $days_in_this_week = 0;
+    endif;
+    $days_in_this_week++; $running_day++; $day_counter++;
+  endfor;
+
+  /* finish the rest of the days in the week */
+  if($days_in_this_week < 8):
+    for($x = 1; $x <= (8 - $days_in_this_week); $x++):
+      $calendar.= "<td class='calendar-day-np'> </td>";
+    endfor;
+  endif;
+
+  /* final row */
+  $calendar.= '</tr>';
+
+  /* end the table */
+  $calendar.= '</table>';
+
+  /* all done, return result */
+  return $calendar;
+}
+
+function ProjectTitle($project_id){
+  echo "<div id='project_title'>";
+             
+
+            $sql = "SELECT project_name, project_descr from projects where id=$project_id";
+            //echo "$sql";
+            $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+            while ($row = mysql_fetch_array($result)) {
+                $project_name        = $row['project_name'];
+                $project_description = $row['project_descr'];
+                
+                //echo "<div id='project_short_details_wrap'>";
+                echo "<span style='float:left;font-weight:bold; font-size:26px; font-family: Helvetica, Arial,sans-serif;margin-left:10px'>$project_name</span>"; //boldovo
+                echo "<span style='float:left;font-style:italic; font-size:12px; font-family: Helvetica, Arial,sans-serif;color:#999;margin-left:15px'>$project_description</span>"; //italikom
+                //echo "</div>";
+                
+            }
+
+           
+           echo "</div>";
+}
+function add_to_stream($action,$project_id,$user_id,$object_id){
+  if($action=='new_comment'){
+  
+     $sql="SELECT MAX(comment_id) as comment_id from project_comments where project_id=$project_id"; //ziskanie max comment id z tabulky
+           echo "$sql"; 
+            $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+     
+            while ($row = mysql_fetch_array($result)) {
+                  $comment_id=$row['comment_id'];
+            }
+     
+            $user_name = GetUserNameById($user_id);
+            $stream_group='comment';
+            $text_streamu = "User <a href='project_user_profile.php?id=$user_id'> ".$user_name."</a> has created a new comment id <span class='link'>$comment_id</span>";
+            $text_streamu=addslashes($text_streamu);
+            $datum=date('Y-m-d H:m:s');
+            $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
+            $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+  
+  } elseif ($action=='remove_comment'){
+
+    $stream_group='comment';
+  $user_name = GetUserNameById($user_id);
+  $text_streamu = "User <a href='project_user_profile.php?id=$user_id'> ".$user_name."</a> has removed comment id <span class='link'>$comment_id</span>";
+  $text_streamu=addslashes($text_streamu);
+  $datum=date('Y-m-d H:m:s');
+  
+  $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
+  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+
+  } elseif ($action=='new_task'){
+
+    //ziskanie max task id z tabulky
+          $sql="SELECT MAX(task_id) as task_id from project_tasks where project_id=$project_id";
+          
+          $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+          while ($row = mysql_fetch_array($result)) {
+                $task_id=$row['task_id'];
+          }
+
+          //pridenie do streamu
+          $user_name = GetUserNameById($user_id);
+          $stream_group='task';
+          $text_streamu = "User <a href='project_user_profile.php?user_id=$user_id'> ".$user_name."</a> has created a new task id <a href='project_task.php?task_id=$task_id&project_id=$project_id'>".$task_id."</a>";
+          $text_streamu=addslashes($text_streamu);
+          $datum=date('Y-m-d H:m:s');
+          $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
+           $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+          
+
+  } elseif ($action=='task_comment'){
+    //ziskanie max task id z tabulky
+        $ask_id=$object_id;
+        $sql="SELECT MAX(id) as task_comment_id from project_task_comments where project_id=$project_id and task_id=$task_id";
+        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+        while ($row = mysql_fetch_array($result)) {
+          $task_comment_id=$row['task_comment_id'];
+        }
+      
+        //pridenie informacie do streamu / logu / wallu
+        $text_streamu = "User <a href='project_user_profile.php?id=$user_id'> ".$user_name."</a> has created a new comment id ".$task_comment_id." of task id = <a href='project_task.php?task_id=$task_id'>".$task_id."</a>";
+        $stream_group='task';
+        $text_streamu=mysql_real_escape_string($text_streamu);
+        $datum = date('Y-m-d H:m:s');
+        $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu', '$datum')";
+        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
+        //project stream
+        
+  } elseif ($action=='new_subtask') {
+
+    //ziskanie max task id z tabulky
+        $sql="SELECT MAX(subtask_id) as subtask_id from project_task_subtasks";
+        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+        while ($row = mysql_fetch_array($result)) {
+          $subtask_id=$row['subtask_id'];
+        }
+          
+        
+        $text_streamu = "User ".$user_name." has created a new subtask id <a href='project_task_subtasks_details.php?subtask_id =$subtask_id'> ".$subtask_id."</a> of task id = <a href='project_task.php?task_id=$task_id'>".$task_id."</a>";
+        $text_streamu=mysql_real_escape_string($text_streamu);
+        $datum=date('Y-m-d H:m:s');
+        $sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu','$datum')";
+        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+         $url = "project_task_subtask_details.php?subtask_id=$subtask_id&project_id=$project_id";
+    
+    header('location:' . $url . '');
+
+  } 
+}
+
+function NrofMessages($user_id){
+  $sql="SELECT COUNT(*) nr_of_msgs from project_mailbox_inbox WHERE receiver_id=$user_id";
+  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+  while ($row = mysql_fetch_array($result)) {
+    $nr_of_msgs=$row['nr_of_msgs'];
+  } return $nr_of_msgs;
+
+}
+
+function TaskName($task_id){
+  $sql="SELECT task_id, task_name from project_tasks where task_id=$task_id";
+   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+    while ($row = mysql_fetch_array($result)) {
+        $task_name=$row['task_name'];
+   }   return $task_name;
+}
+
+function time_elapsed_string($ptime)
+{
+    $etime = time() - $ptime;
+
+    if ($etime < 1)
+    {
+        return '0 seconds';
+    }
+
+    $a = array( 365 * 24 * 60 * 60  =>  'year',
+                 30 * 24 * 60 * 60  =>  'month',
+                      24 * 60 * 60  =>  'day',
+                           60 * 60  =>  'hour',
+                                60  =>  'minute',
+                                 1  =>  'second'
+                );
+    $a_plural = array( 'year'   => 'years',
+                       'month'  => 'months',
+                       'day'    => 'days',
+                       'hour'   => 'hours',
+                       'minute' => 'minutes',
+                       'second' => 'seconds'
+                );
+
+    foreach ($a as $secs => $str)
+    {
+        $d = $etime / $secs;
+        if ($d >= 1)
+        {
+            $r = round($d);
+            return $r . ' ' . ($r > 1 ? $a_plural[$str] : $str) . ' ago';
+        }
+    }
+}
+
+function ago($time)
+{
+   $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+   $lengths = array("60","60","24","7","4.35","12","10");
+
+   $now = time();
+
+       $difference     = $now - $time;
+       $tense         = "ago";
+
+   for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+       $difference /= $lengths[$j];
+   }
+
+   $difference = round($difference);
+
+   if($difference != 1) {
+       $periods[$j].= "s";
+   }
+
+   return "$difference $periods[$j] 'ago' ";
+}
+
+function time_ago( $date )
+{
+    if( empty( $date ) )
+    {
+        return "No date provided";
+    }
+
+    $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+
+    $lengths = array("60","60","24","7","4.35","12","10");
+
+    $now = time();
+
+    $unix_date = strtotime( $date );
+
+    // check validity of date
+
+    if( empty( $unix_date ) )
+    {
+        return "Bad date";
+    }
+
+    // is it future date or past date
+
+    if( $now > $unix_date )
+    {
+        $difference = $now - $unix_date;
+        $tense = "ago";
+    }
+    else
+    {
+        $difference = $unix_date - $now;
+        $tense = "from now";
+    }
+
+    for( $j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++ )
+    {
+        $difference /= $lengths[$j];
+    }
+
+    $difference = round( $difference );
+
+    if( $difference != 1 )
+    {
+        $periods[$j].= "s";
+    }
+
+    return "$difference $periods[$j] {$tense}";
+
+}
+
+function GetNrofFeeds($project_id,$group_id){
+  $sql="SELECT count(*) as nr_feeds from project_conversation_feeds where project_id=$project_id and conv_group_id=$group_id";
+ //  echo $sql;
+   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+    while ($row = mysql_fetch_array($result)) {
+        $nr_feeds=$row['nr_feeds'];
+     } return $nr_feeds;   
+}
+
+function NrOfAttendees($meeting_id){
+  $sql="SELECT count(*) as nr_assigness from project_meetings_atendees where meeting_id=$meeting_id";
+   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+    while ($row = mysql_fetch_array($result)) {
+        $nr_assigness=$row['nr_assigness'];
+     } return $nr_assigness; 
+
+}
+
+function check_email($email) {
+    $atom = '[-a-z0-9!#$%&\'*+/=?^_`{|}~]'; // znaky tvořící uživatelské jméno
+    $domain = '[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])'; // jedna komponenta domény
+    return eregi("^$atom+(\\.$atom+)*@($domain?\\.)+$domain\$", $email);
+}

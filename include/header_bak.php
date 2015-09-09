@@ -1,0 +1,1 @@
+<div id="header"><div class="header_title">miniwrike</div><div class="logged_user"><div class="circle"></div><div class="user">Tomas Misura<span class='header_mailbox'><a href='project_inbox.php?user_id=1' style="text-decoration:none"><i class="fa fa-envelope-o"></i><?php echo " (".NrofMessages($_SESSION['user_id']).")" ?></a></span></div></div></div>

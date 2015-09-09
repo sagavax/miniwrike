@@ -1,17 +1,6 @@
-<?php 
-  $dbname     = "miniwrike"; 
-  $dbserver   = "localhost"; 
-  $dbuser     = "root"; 
-  $dbpass     = ""; 
-
-
-  $db = mysql_connect("$dbserver", "$dbuser", "$dbpass");
-  $errno = mysql_errno();
-  mysql_select_db("$dbname", $db);
-  mysql_query('set character set utf8;');
-  mysql_query("SET NAMES `utf8`");
-
- ?>
+<?php session_start();?>
+<?php include("include/dbconnect.php"); ?>
+<?php include("include/functions.php"); ?>
  
  <?
 
@@ -30,13 +19,18 @@
  <?php 
 
  	if (isset($_POST['update_miting'])) {
- 		$id=$_POST['id'];
- 		$meeting_record=htmlspecialchars($_POST['meeting_record']);
+ 		$project_id=$_POST['project_id'];
+ 		$m_id=$_POST['m_id'];
+ 		$meeting_title=mysql_real_escape_string($_POST['nazov_mitingu']);
+ 		$meeting_record=mysql_real_escape_string($_POST['meeting_record']);
+ 		
  		//echo "$id";
- 		$sql="UPDATE project_meetings SET meeting_log='$meeting_record' WHERE id=$id";
+ 		$sql="UPDATE project_meetings SET meeting_log='$meeting_record', updated=1 WHERE id=$m_id";
  		//echo "$sql";
  		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
- 		header('Location: project_meetings.php');
+ 		$url="project_meetings.php?project_id=$project_id";
+ 		
+ 		header('location:'.$url.'');
  		
 
  		//$id=$_POST['id'];
@@ -46,15 +40,14 @@
  ?>
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk" lang="sk">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<meta name="author" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
 		<title>Miniwrike - simple project task manager</title>
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
 		    
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -64,91 +57,88 @@
 				
 	</head>
 <body>
+		<?php 
 
-        <?php 
-			$project_id = $_GET ['project_id'];
-			$user_id = $_GET['user_id'];
-		
+		            	$project_id = $_GET ['project_id'];
+						$user_id = $_GET['user_id'];
+						$m_id=$_GET['m_id'];
+			    		echo "Project:$project_id";			
+						echo "meeting id:$m_id";		
+
 		?>
-         
 		<div id="main">
 			
+						
 			<!-- header -->
-			
-			<div id="header"><div style="position:relative; top:30%;">miniwrike - simple project manager tool - meeting logger</div></div>
-             <div id="menu">
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="project_details.php">Project details</a></li>
-                    <li><a href="project_tasks.php">Tasks</a></li>
-                    <li><a href="project_comments.php">Comments</a></li>
-					<li><a href="project_meetings.php">Meetings*</a></li>
-					<li><a href="project_calendar.php">Calendar*</a></li>
-                    <li><a href="project_stream.php">Time stream*</a></li>
-					<li><a href="project_docs.php">Docs*</a></li>					
-                </ul>
-            </div>
-			
+				<?php include ("include/header.php"); ?>
+            <!-- header -->
+            
+				<?php 
 
+				$project_id=$_GET['project_id'];
 
-            <div id="project_title"><!-- project title --->
-                <?php
-                //get project name and description
-                $sql="SELECT * from projects where id=2";
-                //echo $sql;
-                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                while ($row = mysql_fetch_array($result)) {
-                    $project_name=$row['project_name'];
-                    $project_description=$row['project_descr'];
+				?>
+           <?php include ("include/menu.php"); ?>
 
-                    echo "<div id='project_short_details_wrap'>";
-                    echo "<span style='font-weight:bold; font-size:26px; font-family: Helvetica, Arial,sans-serif;'>$project_name<br></span>";   //boldovo
-                    echo "<span style='font-style:italic; font-size:12px; font-family: Helvetica, Arial,sans-serif; margin-top:10px; color:#ddd'>$project_description</span>"; //italikom
-                    echo "</div>";
+            <div id="project_title"><!-- project title -->
+					<?php
+					$project_id=$_GET['project_id'];
+					$sql="SELECT * from projects where id=$project_id";
+					$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+						while ($row = mysql_fetch_array($result)) {
+							$project_name=$row['project_name'];
+							$project_description=$row['project_descr'];
 
-                }
+							//echo "<div id='project_short_details_wrap'>";
+							echo "<span style='float:left;font-weight:bold; font-size:26px; font-family: Roboto, Helvetica, Arial,sans-serif;margin-left:10px'>$project_name<br></span>";   //boldovo
+							echo "<span style='float:left;font-style:italic; font-size:12px; font-family: Roboto, Helvetica, Arial,sans-serif;color:#999;margin-left:15px'>$project_description</span>"; //italikom
+							//echo "</div>";
 
-                ?>
-            </div><!-- project title --->
+						}
 
-			<!-- header -->
+						?>
+				</div><!-- project title -->
 			
 			<!--- middle section -->
 			<div id="middle"> <!-- middle section -->
 				<div id="project_meetings_wrap">
 					<?php 
 					  
-						$id=$_GET['m_id'];
+						
 
 
-					  echo "<form action='log_meeting.php' method='post' id='uprav_meeting_form'>";
+					  echo "<form action='project_meeting_log.php' method='post' id='uprav_meeting_form'>";
 							echo "<table id='meeting_logger'>";	
 
-					 $id=1;
-					 $sql="SELECT * from project_meetings WHERE id=$id";
+					 
+					 $sql="SELECT * from project_meetings WHERE id=$m_id";
+					 //echo $sql;
 							 $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
 									while ($row = mysql_fetch_array($result)) {
 									
 									//$id=$row['id'];
+									$meeting_title=$row['meeting_title'];
 									$date_of_meeting=$row['date_of_meeting'];
 									$start_time=$row['start_time'];
 									$end_time=$row['end_time'];
 									$atendees=$row['atendees'];
 									$location=$row['location'];
 									$meeting_type=$row['meeting_type'];
-								 //   $meeting_log=$row['meeting_log'];	
+								   $meeting_log=$row['meeting_log'];	
 
 
 					 
-								echo "<input type='hidden' value='$id' name='id'>";
+								echo "<input type='hidden' value='$m_id' name='m_id'>";
+								echo "<input type='hidden' value=$project_id name='project_id'>";
+								echo "<tr><td>Nazov meetingu:</td><td><input type='text' name='nazov_mitingu' value='$meeting_title' /></td></tr>";
 								echo "<tr><td>Datum meetingu:</td><td><input type='text' name='datum_mitingu' value='$date_of_meeting' /></td></tr>";
 								echo "<tr><td>Zaciatok:</td><td><input type='text' name='start_time' value='$start_time' /></td></tr>";
 								echo "<tr><td>Koniec:</td><td><input type='text' name='end_time' value='$end_time' /></td></tr>";
 								echo "<tr><td>Typ mitingu:</td><td><input type='text' name='meeting_type' value='$meeting_type' /></td></tr>";
 								echo "<tr><td>Miesto konania:</td><td><input type='text' name='location' value='$location' /></td></tr>";
 								echo "<tr><td>Ucastnici</td><td><input type='text' name='atendees' value='$atendees' /></td></tr>";
-								echo "<tr><td>Zaznam</td><td><textarea name='meeting_record'></textarea></tr>";
-								echo "<tr><td colspan='2' style='text-align: right'><button type='submit' name='update_miting'>Uprav meeting</button>";
+								echo "<tr><td>Zaznam</td><td><textarea name='meeting_record'>$meeting_log</textarea></tr>";
+								echo "<tr><td colspan='2' style='text-align: right'><button type='submit' name='update_miting' class='blue-badge'>Save meeting</button>";
 							}
 																				//echo "<tr><td>Text:</td><td><textarea name='text_clanku'>$text_clanku</textarea></td></tr>";
 							echo "</table>";
@@ -158,12 +148,7 @@
 				</div> <!-- wrapper-->
 			</div><!-- middle section -->
 				
-			<div id="footer"><!-- FOOTER -->
-					<ul id="footer-left">
-						<li>Simple miniproject administrator/manager</li>
-						<li>Created by Tomas Misura</li>
-					</ul>		
-			</div> <!-- FOOTER -->
+			<?php include ("include/footer.php"); ?>
 			
 			
 		</div> <!--main wrap -->

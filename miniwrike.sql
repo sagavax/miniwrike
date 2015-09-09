@@ -471,7 +471,7 @@ CREATE TABLE IF NOT EXISTS `project_tasks` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `colNoteText` text COMMENT 'Text ',
+  `task_name` text COMMENT 'Text ',
   `status` varchar(20) NOT NULL,
   `task_priority` varchar(10) NOT NULL,
   `is_completed` int(11) DEFAULT NULL,
@@ -485,7 +485,7 @@ CREATE TABLE IF NOT EXISTS `project_tasks` (
 -- Sťahujem dáta pre tabuľku `project_tasks`
 --
 
-INSERT INTO `project_tasks` (`task_id`, `project_id`, `user_id`, `colNoteText`, `status`, `task_priority`, `is_completed`, `task_created`, `task_finished`, `task_deadline`) VALUES
+INSERT INTO `project_tasks` (`task_id`, `project_id`, `user_id`, `task_name`, `status`, `task_priority`, `is_completed`, `task_created`, `task_finished`, `task_deadline`) VALUES
 (1, 4, 1, 'pridany developersky notepad<br />', 'Done', 'normal', 1, '2010-10-29', '2013-10-28', '0000-00-00'),
 (2, 4, 1, 'spravit paging<br />', 'Done', 'normal', 1, '2010-10-29', '2010-11-03', '2010-11-03'),
 (3, 4, 1, 'ramceky okolo filtrov<br />', 'Done', 'normal', 1, '2010-10-29', '2010-11-03', '2010-11-03'),

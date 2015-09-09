@@ -14,15 +14,14 @@
  
 <?php include("include/functions.php"); ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk" lang="sk">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<meta name="author" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
 		<title>Miniwrike - simple project task manager</title>
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
 		<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>-->
 		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -44,23 +43,10 @@
 		<div id="main">
 						
 			<!-- header -->
-				<div id="header">miniwrike<div class="logged_user"><div class="circle"></div><div class="user">Tomas Misura</div></div></div>
+				<?php include ("include/header.php"); ?>
             <!-- header -->
             
-            <div id="menu">
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="project_details.php?project_id=<?php echo $project_id ?>">Project details</a></li>
-                    <li><a href="project_tasks.php?project_id=<?php echo $project_id ?>">Tasks</a></li>
-                    <li><a href="project_comments.php?project_id=<?php echo $project_id ?>">Comments</a></li>
-					<li><a href="project_meetings.php?project_id=<?php echo $project_id ?>">Meetings*</a></li>
-					<li><a href="project_calendar.php?project_id=<?php echo $project_id ?>">Calendar*</a></li>
-                    <li><a href="project_stream.php?project_id=<?php echo $project_id ?>">Time stream*</a></li>
-					<li><a href="project_docs.php?project_id=<?php echo $project_id ?>">Docs*</a></li>
-					
-					
-                </ul>
-            </div>
+           <?php include ("include/menu.php"); ?>
 			
 			
 			<!-- project title -->
@@ -133,12 +119,7 @@
 
 			</div><!-- middle section -->
 				
-			<div id="footer"><!-- FOOTER -->
-					<ul id="footer-left">
-						<li>Simple miniproject administrator/manager</li>
-						<li>Created by Tomas Misura</li>
-					</ul>		
-			</div> <!-- FOOTER -->
+			<?php include ("include/footer.php"); ?>
 			
 			
 		</div> <!--main wrap -->

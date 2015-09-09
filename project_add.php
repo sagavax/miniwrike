@@ -1,4 +1,6 @@
-<?php ob_start();?>
+<?php ob_start();
+session_start();
+?>
 <?php include("include/dbconnect.php"); ?>
 <?php include("include/functions.php"); ?>
 
@@ -11,38 +13,59 @@
                     $project_descr=$_POST['project_description'];
                     $project_status=$_POST['project_status'];
 					$project_customer=$_POST['project_customer'];
-                    /*if ($project_name=='All') { //ak si zvolim vsetky projekty a
-                              echo "<script language=javascript>alert('Zvol si spravny projekt')</script>";
-                    } else {*/
-
+                    
                     
                     $curr_date=(date('Y-m-d'));
-                    //date=strtotime(date('Y-m-d', strtotime($curr_date)) . " +10 day");
-                    //$end_date= date('Y-m-d', $date);
-                
+
                     $sql = "INSERT INTO projects (project_name,project_code, project_customer,project_descr, established_date, project_status) VALUES ('$project_name','$project_code','$project_customer','$project_descr','$curr_date','$project_status')";
-                    //echo "<span style='position:absolute; top:0px; left:0px'>$sql</span>";
                     $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                    header('Location: index.php');
+
+                    
+                    //Add2Log("new_project",$text_streamu,$datum);
+
+                    // ****************           pridenie do streamu	************************
+
+						
+						$sql="SELECT MAX(id) as project_id from projects"; //ziskanie max comment id z tabulky
+						
+						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+						while ($row = mysql_fetch_array($result)) {
+									$project_id=$row['project_id'];
+						}
+						
+														
+						$user_id=1;
+						$user_name = GetUserNameById($user_id);
+						$project_name=GetProjectName($project_id);
+						$text_streamu = "User <a href='project_user_profile.php?id=$user_id'> ".$user_name."</a> has created a new project id <a href='project_details.php?project_id=$project_id'>".$project_name."</a>";
+						$text_streamu=addslashes($text_streamu);
+						$datum=date('Y-m-d H:m:s');
+						$sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu','$datum')";
+						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+						
+						$url = "project_details.php?project_id=$project_id";
+						header("Location: $url");
+                   
             } 
 			
 			if (isset($_POST['new_customer'])) {//idem zadat noveho zakaznika
 				
-				header('Location: project_customer_add.php');
+					header('Location: project_customer_add.php');
 
 			}
  ?>
 
 <html>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk" lang="sk">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <meta name="author" content="" />
 	<title>Miniwike</title>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
     <link rel='shortcut icon' href='project.ico'>
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
@@ -116,12 +139,7 @@
             </div> <!-- middle -->
             
             <div style="clear:both;"></div>
-			<div id="footer"><!-- FOOTER -->
-					<ul id="footer-left">
-						<li>Simple miniproject administrator/manager</li>
-						<li>Created by Tomas Misura</li>
-					</ul>		
-			</div> <!-- FOOTER -->
+			<?php include ("include/footer.php"); ?>
 		</div>
 </body>
 </html>

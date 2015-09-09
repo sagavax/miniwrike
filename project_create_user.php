@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <?php include("include/dbconnect.php"); ?>
 <?php include("include/functions.php"); ?>
 
@@ -7,14 +8,19 @@
 		$project_id=$_POST['project_id'];
 		
 
-		$project_eng_fullname=$_POST['project_eng_fullname'];
-		$project_eng_email=addslashes($_POST['project_eng_email']);
+		$project_eng_fullname=mysql_real_escape_string($_POST['project_eng_fullname']);
+		$project_eng_email=mysql_real_escape_string($_POST['project_eng_email']);
+
+		check_email($project_eng_email);
+
+
 		$project_eng_phone=$_POST['project_eng_phone'];
-		$project_eng_login=$_POST['project_eng_login'];
+		$project_eng_login=mysql_real_escape_string($_POST['project_eng_email']);
 		$pass_temp=$_POST['project_eng_pass'];
 		$project_eng_pass=md5('$pass_temp');
-		$project_eng_note=addslashes($_POST['project_eng_note']);
-		$created_date=date("Y:m:d H:m:s");
+		$project_eng_note=mysql_real_escape_string($_POST['user_description']);
+		$created_date=date("Y-m-d H:m:s");
+		$supporting_technology =intval($_POST['project_technology']);
 	
 			
 		$sql="INSERT INTO project_users (full_name, login, password, email, phone, created_date) VALUES ('$project_eng_fullname','$project_eng_login','$project_eng_pass','$project_eng_email','$project_eng_phone','$created_date')";
@@ -22,7 +28,7 @@
 		
 		//posli email dotycnemu
 		
-		
+		//if ($project_eng_email<>''){ // ma definovany email tak posli mu spravu aj pre externy emailbox
 		/* $emailTo = 'youremailhere@googlemail.com'; 
         $subject = 'Submitted message from '.$name; 
         $sendCopy = trim($_POST['sendCopy']); 
@@ -45,6 +51,17 @@
           
         // set our boolean completion value to TRUE  
         /* $emailSent = true;  */
+	    //} else {
+        $sql="SELECT MAX(user_id) as new_user_id from project_users";
+        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+         while ($row = mysql_fetch_array($result)) {
+         	$receiver_id=$row['new_user_id'];	
+         }
+
+
+        send_message($sender_id,$receiver_id,$message,$sent_date);
+     
+		
 		
 			
 		//header('Location: project_details.php?project_id=$project_id');
@@ -53,19 +70,19 @@
 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk" lang="sk">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<meta name="author" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
 		<title>Miniwrike - simple project task manager</title>
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<script src="ckeditor/ckeditor.js"></script>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -75,7 +92,9 @@
 
 	<?php 
 				
-				$project_id= $_GET['project_id']; // projetove id			
+				//$project_id= $_GET['project_id']; // projetove id			
+				$project_id=$_SESSION['project_id'];
+				$user_id=$_SESSION['user_id'];
 				echo "project=$project_id";
 				
 			?>
@@ -83,25 +102,12 @@
 	
 
 	<div id="main">
-						
+		   
 			<!-- header -->
-				<div id="header">miniwrike<div class="logged_user"><div class="circle"></div><div class="user">Tomas Misura</div></div></div>
+				<?php include ("include/header.php"); ?>
             <!-- header -->
             
-            <div id="menu">
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="project_details.php?project_id=<?php echo $project_id ?>">Project details</a></li>
-                    <li><a href="project_tasks.php?project_id=<?php echo $project_id ?>">Tasks</a></li>
-                    <li><a href="project_comments.php?project_id=<?php echo $project_id ?>">Comments</a></li>
-					<li><a href="project_meetings.php?project_id=<?php echo $project_id ?>">Meetings*</a></li>
-					<li><a href="project_calendar.php?project_id=<?php echo $project_id ?>">Calendar*</a></li>
-                    <li><a href="project_stream.php?project_id=<?php echo $project_id ?>">Time stream*</a></li>
-					<li><a href="project_docs.php?project_id=<?php echo $project_id ?>">Docs*</a></li>
-					
-					
-                </ul>
-            </div>
+           <?php include ("include/menu.php"); ?>
             <div id="middle"> <!-- middle section -->
             	<div id="project_title"><!-- project title -->
 		            <?php
@@ -123,8 +129,9 @@
 			   </div><!-- project title -->
 	
             	
-            	<form action="project_create_user.php" method="post" name="create_project_user_form">
-            		<table>
+            	<div id="create_user_wrap">
+            		<form action="project_create_user.php" method="post" name="create_project_user_form">
+            		<table class='project_user'> 
             			<input type="hidden" name="project_id" value="<?php echo $project_id ?>">
             			<tr>
             				<td>Full name:</td><td><input name="project_eng_fullname" type="text" value=""></td>
@@ -142,30 +149,39 @@
             				<td>Password:</td><td><input name="project_eng_pass" type="password" value=""></td>
             			</tr>
             			<tr>
-            				<td>Confirm password:</td><td><input name="project_eng_pass_conf" type="password" value=""></td>
+            				<td>Technology</td><td><select name="project_technology">
+            							<?php 
+            								$sql="SELECT * from project_technologies";
+            								 $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+            								 while ($row = mysql_fetch_array($result)) {
+            								 	echo "<option value=".$row['techn_id'].">".$row['technology_descr']."</option>";
+            								 }
+            							?>
+            				</select></td>
             			</tr>
             			<tr>
-            				<td>Note:</td><td><textarea name="project_eng_note"></textarea></td>
+            				<td>Note:</td><td>
+            					<textarea name="user_description" id="user_description"></textarea>
+            					<script type="text/javascript">
+								   		CKEDITOR.replace( 'user_description',
+									    {
+									        customConfig : 'config1.js'
+									    });
+								   </script>
+            					</td>
             			</tr>
             			<tr>
-            				<td colspan="2"><button class="blue-badge" name="create_new_user">Create user</button></td>
+            				<td colspan="2" style="text-align:right"><button class="blue-badge" name="create_new_user" >Create user</button></td>
             			</tr>
             		</table>
             	</form>					
+            	</div>
+            	
             </div><!-- div middle -->
             <div style="clear:both;"></div>
             
 						
-			<!-- FOOTER -->
-			
-			<div id="footer"><!-- FOOTER -->
-
-				<ul id="footer-left">
-					<li>Simple miniproject administrator/manager</li>
-					<li>Created by Tomas Misura</li>
-				</ul>
-
-			</div> <!-- FOOTER -->
+			<?php include ("include/footer.php"); ?>
 			
 		</div><!-- main -->	
 

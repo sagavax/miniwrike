@@ -1,14 +1,13 @@
-<? ob_start(); ?>
+<?php session_start(); ?>
 <?php include("include/dbconnect.php"); ?>
 <?php include("include/functions.php"); ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk" lang="sk">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<meta name="author" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style_test.css" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
@@ -18,15 +17,7 @@
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 		<link rel='shortcut icon' href='project.ico'>
-		<script>
-		  $(function() {
-		    $( "#new_tasks, #in_progress_tasks, #completed_tasks" ).sortable({
-		      connectWith: ".connectedSortable"
-		    }).disableSelection();
-		  });
-		  </script>
-
-		   
+				   
 	</head>
 <body>
 	<?php 
@@ -37,7 +28,7 @@
 	<div id="main">
 						
 			<!-- header -->
-				<div id="header">miniwrike<div class="logged_user"><div class="circle"></div><div class="user">Tomas Misura</div></div></div>
+				<?php include ("include/header.php"); ?>
             <!-- header -->
             
             <div id="menu"><!--menu -->
@@ -88,7 +79,7 @@
 												$id=$row['task_id'];
 												$project_id=$row['project_id'];
 												$user_id=$row['user_id'];
-												$note_text=$row['colNoteText'];
+												$note_text=$row['task_name'];
 												$status=$row['status'];
 												$date_added=$row['colDateCreated'];
 												$flag=$row['colFlag'];
@@ -97,7 +88,7 @@
 												$date_of_completion=$row['colFinished'];	
 		
     	        					
-        		    							echo "<li><div class='task_board_task' id='$id'><a href='project_task_details.php?task_id=$id&project_id=$project_id'>$note_text</a></div></li>";
+        		    							echo "<li><div class='task_board_task' id='$id'><a href='project_task.php?task_id=$id&project_id=$project_id'>$note_text</a></div></li>";
             						 	}
             						?>	
             					</ul>
@@ -119,7 +110,7 @@
 												$id=$row['task_id'];
 												$project_id=$row['project_id'];
 												$user_id=$row['user_id'];
-												$note_text=$row['colNoteText'];
+												$note_text=$row['task_name'];
 												$status=$row['status'];
 												$date_added=$row['colDateCreated'];
 												$flag=$row['colFlag'];
@@ -128,7 +119,7 @@
 												$date_of_completion=$row['colFinished'];	
 		
     	        					
-        		    							echo "<li><div class='task_board_task' id='$id'><a href='project_task_details.php?task_id=$id&project_id=$project_id'>$note_text</a></div></li>";
+        		    							echo "<li><div class='task_board_task' id='$id'><a href='project_task.php?task_id=$id&project_id=$project_id'>$note_text</a></div></li>";
             						 	}
             						?>	
             					</ul>
@@ -150,7 +141,7 @@
 												$id=$row['task_id'];
 												$project_id=$row['project_id'];
 												$user_id=$row['user_id'];
-												$note_text=$row['colNoteText'];
+												$note_text=$row['task_name'];
 												$status=$row['status'];
 												$date_added=$row['colDateCreated'];
 												$flag=$row['colFlag'];
@@ -159,7 +150,7 @@
 												$date_of_completion=$row['colFinished'];	
 		
     	        					
-        		    							echo "<li><div class='task_board_task' id='$id'><a href='project_task_details.php?task_id=$id&project_id=$project_id'>$note_text</a></div></li>";
+        		    							echo "<li><div class='task_board_task' id='$id'><a href='project_task.php?task_id=$id&project_id=$project_id'>$note_text</a></div></li>";
             						 	}
             						?>	
             					</ul>
@@ -174,16 +165,7 @@
             <div style="clear:both;"></div>
             
 						
-			<!-- FOOTER -->
-			
-			<div id="footer"><!-- FOOTER -->
-
-				<ul id="footer-left">
-					<li>Simple miniproject administrator/manager</li>
-					<li>Created by Tomas Misura</li>
-				</ul>
-
-			</div> <!-- FOOTER -->
+			<?php include ("include/footer.php"); ?>
 			
 		</div><!-- main -->	
 

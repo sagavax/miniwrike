@@ -1,0 +1,31 @@
+Mailbox - rozlisit na uvodnej stranke ci som prihlaseny alebo nie - sposobuje to problemy pretoze ak nie som prihlaseny tak dostanem error na funkcii, ktora ziskava pocet sprav
+
+project details - zvacsit select Project status 
+project details - Assigned new people - tlacitko Assign people spravit flat
+
+tasks - add task tlacitko - flat tlacitko
+tasks - eport otvorencyh taskov do excelu
+tasks - filtrovanie  taskov
+tasks details - prerobit attachement
+tasks details - v pripade assignacie alebo zmene assinacie pride email od cloveka, ktory urobi zmenu
+tasks details - oddelit vizual task details dashboard
+tasks details - task assigned to person - zmensin datalist, zvacsit tlacitko
+                        
+comments - prerobit vzhlad
+meetings - zobazit dni kde su naasignovane meetingy
+meetings - add meetings - flat tlacitko
+meetings - po vytvoreni meetingu pride sprava to mailboxu vsetkym pridanym, to iste v odo
+
+
+chat - znena farby pri hover na zoznam komunikacnych grup
+chat - linky na vytvorenych grupach budu zaberat cely <li> 
+chat - feed = opravit delete feed tlacitko
+chat - feed - zobrazit cas poslania 
+chat - feed - ak niekto zacne komunikaciu ten ten to jest prvy prispevok ta sa zobrazi sprava v streame
+
+kalendar - 2 kalendare - celoprojektovy (events, tasks) a dovolenkovy
+
+Links - moznost strukturovaneho zobrazenia (folders)
+workload - moznost assignacie neassignovanych taskov (drag and drop)
+workload - moznost reassignacie tasku (drag & drop)
+
