@@ -12,17 +12,17 @@
 				$task_id=$_POST['task_id'];
 				$user_id = 1;
 				$user_name = GetUserNameById($user_id);
-				$comment=mysql_real_escape_string($_POST['task_comment']);
+				$comment=mysqli_real_escape_string($db, $_POST['task_comment']);
 				$date_added=date('Y-m-d H:i:s');	
 				
 				$sql="INSERT INTO project_task_comments (task_id,project_id, user_id, post_text, date_added) VALUES ($task_id,$project_id, $user_id, '$comment', '$date_added')";
 				echo "$sql";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 						
 				//ziskanie max task id z tabulky
 				$sql="SELECT MAX(id) as task_comment_id from project_task_comments where project_id=$project_id and task_id=$task_id";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-				while ($row = mysql_fetch_array($result)) {
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+				while ($row = mysqli_fetch_array($result)) {
 					$task_comment_id=$row['task_comment_id'];
 				}
 							
@@ -32,7 +32,7 @@
 				$text_streamu=mysql_real_escape_string($text_streamu);
 				$datum = date('Y-m-d H:m:s');
 				$sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu', '$datum')";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
 				//project stream
 				
 				$url = "project_task_details.php?task_id=$task_id&project_id=$project_id";
@@ -45,7 +45,7 @@
 				$project_id = $_POST['project_id'];
 				$user_id = $_POST['user_id'];
 				$user_name = GetUserNameById($user_id);
-				$subtask_name=mysql_real_escape_string($_POST['subtask_name']);
+				$subtask_name=mysqli_real_escape_string($db, $_POST['subtask_name']);
 				
 				$date_added=date('Y-m-d H:m:s');
 				$subtask_deadline=strtotime(date('Y-m-d', strtotime($curr_date)) . " +5 day");
@@ -54,7 +54,7 @@
 
 
 				$sql="INSERT INTO project_task_subtasks (task_id, project_id, user_id, task_description,status, priority, task_created, task_finished, task_deadline) VALUES ($task_id,$project_id, $user_id,'$subtask_name', 'new','normal','$date_added','','$subtask_deadline')";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 				//echo "$project_id";
 				
 							
@@ -63,8 +63,8 @@
 				
 				//ziskanie max task id z tabulky
 				$sql="SELECT MAX(subtask_id) as subtask_id from project_task_subtasks";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-				while ($row = mysql_fetch_array($result)) {
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+				while ($row = mysqli_fetch_array($result)) {
 					$subtask_id=$row['subtask_id'];
 				}
 					
@@ -74,7 +74,7 @@
 				$datum=date('Y-m-d H:m:s');
 				$sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu','$datum')";
 				
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 												
 				//realna url : project_task_subtask_details.php?task_id=57&project_id=12 task_id=257project_id=
 				$url="project_task_subtask_details.php?subtask_id=$subtask_id&project_id=$project_id";
@@ -88,12 +88,12 @@
 			
 			
 				$sql="";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 				
 				
 				$text_streamu = "User ".$user_id." has attached a new file ".$file_name." to task id = ".$task_id;
 				$sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu',date('Y-m-d H:i:s'))";
-				//$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+				//$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 								
 				//header('Location: project_task_details.php?task_id='.$_POST['task_id'].'&project_id='.$_POST['project_id'].''); // presmeruje spat aby sa zbranilo vkladaniu duplicity
 			
@@ -112,7 +112,7 @@
 				
 				$sql="INSERT INTO project_task_assigned_people (task_id, project_id, user_id, email, assigned_by, assigned_date) VALUES ($task_id, $project_id, $user_id,'$user_email',$assigned_by,'$assigned_date')";
 				//echo "$sql";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 				
 				header('Location: project_task_details.php?task_id='.$_POST['task_id'].'&project_id='.$_POST['project_id'].'&user_id='.$_POST['user_id'].''); // presmeruje spat aby sa zbranilo vkladaniu duplicity
 				
@@ -132,7 +132,7 @@
 				} else $date_finished=='';
 				$sql="UPDATE project_tasks SET task_finished='$date_finished',status='$task_status',task_priority='$task_priority' WHERE task_id=$task_id";
 				//echo "$sql";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 				$url="project_task_details.php?task_id=$task_id&project_id=$project_id";
 				echo $url;
 				header('location:'.$url.'');
@@ -152,10 +152,10 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<script type="text/javascript" src="js/facebox.js"></script> -->
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 				
 	</head>
@@ -189,8 +189,8 @@
                 $sql="SELECT * from projects where id=$project_id";
                 //echo "$sql";
                 //echo "project_id=$project_id";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                while ($row = mysql_fetch_array($result)) {
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                while ($row = mysqli_fetch_array($result)) {
                     $project_name=$row['project_name'];
                     $project_description=$row['project_descr'];
 
@@ -211,8 +211,8 @@
 
                             $sql="SELECT *, ABS(DATEDIFF(task_created,  now() ) ) AS duration from project_tasks WHERE task_id=$task_id";
                             //echo "$sql"; TIMESTAMPDIFF(MONTH,'{$start_time_str}','{$end_time_str}') AS m
-                            $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                            while ($row = mysql_fetch_array($result)) {
+                            $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                            while ($row = mysqli_fetch_array($result)) {
                                     $task_description=$row['task_name'];
                                     $status=$row['status'];
 									$task_priority=$row['task_priority'];
@@ -221,7 +221,7 @@
                                     $deadline = $row['task_deadline'];
                                     $priority=$row['priority'];
                                     $duration=$row['duration'];
-                                    $is_completed=$row['is_completed'];
+                                    $is_complete=$row['is_complete'];
 
                                     //$duration1=DATEDIFF($date_created,date('Y-m-d'));
 
@@ -340,12 +340,12 @@
 								
 							// in addition get information from use based on user_id
 								
-							$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+							$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 							$numrows= mysql_num_rows($result);
 								
 							if ($numrows==0) {echo "<span style='font-style:italic; font-size:12px; font-family:'Roboto', Helvetica, Arial,sans-serif;color:#ddd;margin-left:10px; margin-top:10px'>No task comments available</span>";} else {
 								
-								while ($row = mysql_fetch_array($result)) {
+								while ($row = mysqli_fetch_array($result)) {
 									$id=$row['id'];
 									$user_id=$row['user_id'];
 									$date_added=$row['date_added'];
@@ -399,12 +399,12 @@
 
 							// in addition get information from use based on user_id
 
-							$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+							$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 							$numrows= mysql_num_rows($result);
 
 							if ($numrows==0) {echo "<span style='font-style:italic; font-size:12px; font-family:'Roboto', Helvetica, Arial,sans-serif;color:#ddd;margin-left:10px; margin-top:10px'>No subtasks available</span>";} else {
 
-								while ($row = mysql_fetch_array($result)) {
+								while ($row = mysqli_fetch_array($result)) {
 									
 									$subtask_id=$row['subtask_id'];
 									$user_id=$row['user_id'];
@@ -453,12 +453,12 @@
 							<?php
 									$sql="SELECT * from project_task_attachements WHERE task_id=$task_id";
 									//echo "$sql";
-									$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+									$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 									$numrows= mysql_num_rows($result);
 									
 									if ($numrows==0) {echo "<span style='font-style:italic; font-size:12px; font-family:'Roboto', Helvetica, Arial,sans-serif;color:#ddd;margin-left:10px; margin-top:10px'>No attachements available</span>";} else {
 								
-								while ($row = mysql_fetch_array($result)) {
+								while ($row = mysqli_fetch_array($result)) {
 									
 									$id=$row['id'];
 									$user_id=$row['$user_id'];
@@ -520,12 +520,12 @@
                                 //echo "$sql";
                                 // in addition get information from use based on user_id
 
-                                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+                                $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 								$numrows= mysql_num_rows($result);
 
                                 if ($numrows==0) {echo "<span style='font-style:italic; font-size:12px; font-family: Helvetica, Arial,sans-serif;color:#ccc;margin-left:10px; margin-top:10px'>No ppl assigned to this task</span>";} else { //ak existuju nejake poznamky tak ich vypis
 
-                                    while ($row = mysql_fetch_array($result)) {
+                                    while ($row = mysqli_fetch_array($result)) {
                                         $id=$row['id'];
                                         $user_id=$row['user_id'];
                                         $user_name=GetUserNameById($user_id);
@@ -550,8 +550,8 @@
 
 											<?php 
 												$sql="SELECT * from project_task_assigned_people WHERE project_id=$project_id"; //budem vyberat iba z ludi, ktory su do tohto projektu priradeni
-												$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-												while ($row = mysql_fetch_array($result)) {
+												$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+												while ($row = mysqli_fetch_array($result)) {
 													$full_name=$row['full_name'];
 													
 													echo "<option value='$full_name'>";

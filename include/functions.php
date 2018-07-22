@@ -1,47 +1,126 @@
-<?php 
+<?php include ("dbconnect.php"); ?>
+<?php
     function NrofTasks($project_id) {
+      global $db;
       $sql="SELECT count(*) as task_count from project_tasks WHERE project_id='$project_id'";
-      $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-       while ($row = mysql_fetch_array($result)) {
+      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+       while ($row = mysqli_fetch_array($result)) {
         $task_count=$row ['task_count'];
     } return $task_count;
 }
-  
-   function NrofSubTasks($project_id) {
-      $sql="SELECT count(*) as subtask_count from project_task_subtasks WHERE project_id='$project_id'";
-      $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-       while ($row = mysql_fetch_array($result)) {
+
+function CloseAllSubtasks($task_id){
+  $task_id=$_POST['task_id'];
+    $user_id=$_SESSION['user_id'];
+    $project_id=$_SESSION['project_id'];
+
+    global $db;
+  //get all subtasks for the task
+   $sql="SELECT task_id from project_task_subtasks where parent_id=$task_id and task_status in ('new','in progress','pending')";
+   $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+   $subtasks=array();
+   //$subtask_list=array();
+   while ($row = mysqli_fetch_array($result)) {
+    $task_id=$row['task_id']; 
+    //echo $task_id; 
+    array_push($subtasks,$task_id);//vytvorime zoznam nezavretych subtaskov
+   }   
+
+   $subtask_list="";
+
+   if(count($subtasks>0)){ // mam neukoncene subtasky a posupne ich zavrieme
+    foreach ($subtasks as $subtask){
+        $subtask_list=implode(",", $subtasks); 
+      
+       $sql="update project_task_subtasks set task_finished=now(), is_complete=1,task_status='finished'";
+       echo $sql;
+         $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+
+         $sql="update project_task_subtasks set=task_duration=DATEDIFF(task_finished,task_created)";
+         $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    }
+    
+  }
+}
+
+function NrofSubTasks($task_id) {
+     global $db;
+      $sql="SELECT count(*) as subtask_count from project_task_subtasks WHERE parent_id=$task_id";
+      //echo $sql."<br>";
+      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+       while ($row = mysqli_fetch_array($result)) {
         $subtask_count=$row ['subtask_count'];
     } return $subtask_count;
 }
+
+function TotalNrProjectSubtasks($project_id){
+  global $db;
+  $sql="SELECT count(*) as subtasks_count from project_task_subtasks WHERE project_id=$project_id";
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
+        $subtasks_count=$row ['subtasks_count'];
+    } return $subtasks_count;
+}
+
+function CurrSubTaskDuration($subtask_id){
+  global $db;
+  $sql="SELECT DATEDIFF(now(), task_created) as temp_subtask_duration from project_task_subtasks where task_id=$subtask_id";
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+  while ($row = mysqli_fetch_array($result)) {
+    $temp_subtask_duration=$row ['temp_subtask_duration'];
+} return  $temp_subtask_duration;
+}
+
+function CurrTaskDuration($task_id){
+  global $db;
+  $sql="SELECT DATEDIFF(now(), task_created) as temp_task_duration from project_tasks where task_id=$task_id";
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+  while ($row = mysqli_fetch_array($result)) {
+    $temp_task_duration=$row ['temp_task_duration'];
+} return  $temp_task_duration;
+}
+
+    function NrofTaskComments($task_id){
+      global $db;
+      $sql="SELECT count(*) as task_comments_count from project_task_comments where task_id=$task_id";
+      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+       while ($row = mysqli_fetch_array($result)) {
+        $task_comments_count=$row ['task_comments_count'];
+    } return $task_comments_count;
+    }
+
      function NrofComments($project_id) {
+       global $db;
       $sql="SELECT count(*) as comment_count from project_comments WHERE project_id='$project_id'";
-      $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-       while ($row = mysql_fetch_array($result)) {
+      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+       while ($row = mysqli_fetch_array($result)) {
         $comment_count=$row ['comment_count'];
     } return $comment_count;
-   } 
+   }
 
     function NrofAssignedppl($project_id) {
+      global $db;
       $sql="SELECT count(*) as ppl_count from project_assigned_people WHERE project_id='$project_id'";
-      $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-       while ($row = mysql_fetch_array($result)) {
+      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+       while ($row = mysqli_fetch_array($result)) {
         $ppl_count=$row ['ppl_count'];
     } return $ppl_count;
   }
     function NrofProjMeetings($project_id) {
+      global $db;
       $sql="SELECT count(*) as meeting_count from project_meetings WHERE project_id=$project_id";
-      $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-       while ($row = mysql_fetch_array($result)) {
+      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+       while ($row = mysqli_fetch_array($result)) {
         $meeting_count=$row['meeting_count'];
     } return $meeting_count;
-   } 
+   }
 
-   function ProjectDuration ($project_id) {
+   /*function ProjectDuration ($project_id) {
+    global $db;
     $sql="SELECT project_status, established_date, finished_date from projects where id=$project_id";
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-    while ($row = mysql_fetch_array($result)) {
-       $project_status=$row['project_status']; 
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
+       $project_status=$row['project_status'];
        $established_date=$row['established_date'];
        $finished_date=$row['finished_date'];
 
@@ -51,99 +130,124 @@
 
     } return $duration;
 
+   }*/
+  
+   function ProjectDuration ($project_id){
+    global $db;
+    $sql="SELECT project_status, established_date, finished_date from projects where id=$project_id";
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
+      if($row['finished_date']==""){ //project nie je ukonceny
+       $sql="SELECT DATEDIFF(now(), established_date) as curr_proj_duration from projects where finished_date is NULL";
+      } else { //project je ukonceny
+        $sql="SELECT DATEDIFF(finished_date, established_date) as curr_proj_duration from projects";
+      }
+      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+       while ($row = mysqli_fetch_array($result)) {
+          $duration=$row['curr_proj_duration'];
+       } return $duration;
+     }  
    }
 
+
    function GetProjectName($project_id) {
+     global $db;
     $sql="SELECT project_name from projects where id=$project_id";
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-    while ($row = mysql_fetch_array($result)) {
-       $project_name=$row['project_name']; 
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
+       $project_name=$row['project_name'];
    }return $project_name;
 
-  } 
-  
+  }
+
   function NumberofDocs($project_id) {
+    global $db;
     $sql="SELECT count(*) as doc_count from project_task_attachements where project_id=$project_id";
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-    while ($row = mysql_fetch_array($result)) {
-       $doc_count=$row['doc_count']; 
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
+       $doc_count=$row['doc_count'];
    }return $doc_count;
 
-  } 
-  
+  }
+
     function GetCustomerName($customer_id) {
+      global $db;
     $sql="SELECT customer_name from project_customers where id=$customer_id";
     //echo "$sql";
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-      while ($row = mysql_fetch_array($result)) {
-         $customer_name=$row['customer_name']; 
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+      while ($row = mysqli_fetch_array($result)) {
+         $customer_name=$row['customer_name'];
     }return $customer_name;
 
   }
 
   function GetUserIdbyname($user_name) {
-
+    global $db;
     $sql="SELECT user_id from project_users WHERE full_name='$user_name'";
-   
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-     while ($row = mysql_fetch_array($result)) {
-         $user_id=$row['user_id']; 
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+     while ($row = mysqli_fetch_array($result)) {
+         $user_id=$row['user_id'];
     }return $user_id;
 
   }
-  
+
   function GetUserNameById($user_id) {
+  global $db;
   $sql="SELECT full_name from project_users WHERE user_id=$user_id";
-  
-  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-     while ($row = mysql_fetch_array($result)) {
-         $full_name=$row['full_name']; 
-    }return $full_name;
+  //echo $sql;
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+     while ($row = mysqli_fetch_array($result)) {
+         $full_name=$row['full_name'];
+    } return $full_name;
 
   }
-  
+
   function GetUserEmailbyname($user_name) {
+  global $db;
 	$sql="SELECT email from project_users WHERE full_name='$user_name'";
-	
-  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-     while ($row = mysql_fetch_array($result)) {
-         $email=$row['email']; 
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+     while ($row = mysqli_fetch_array($result)) {
+         $email=$row['email'];
     }return $email;
 
-  
+
   }
 
   function GetProjectNameById($project_id) {
+  global $db;
   $sql="SELECT project_name from projects WHERE id=$project_id";
-  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-     while ($row = mysql_fetch_array($result)) {
-         $project_name=$row['project_name']; 
-    }return $project_name;    
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+     while ($row = mysqli_fetch_array($result)) {
+         $project_name=$row['project_name'];
+    }return $project_name;
   }
 
  function GetTaskName($task_id) {
+ global $db;
  $sql="SELECT task_name from project_tasks WHERE task_id=$task_id";
-  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-     while ($row = mysql_fetch_array($result)) {
+ //echo $sql;
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+     while ($row = mysqli_fetch_array($result)) {
      $task_name=$row['task_name'];
  } return $task_name;
 
 }
 
  function GetTaskStatus($task_id) {
-  $sql="SELECT status from project_tasks WHERE task_id=$task_id";
-  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-     while ($row = mysql_fetch_array($result)) {
-     $task_status=$row['status'];
+  global $db;
+  $sql="SELECT task_status from project_tasks WHERE task_id=$task_id";
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+     while ($row = mysqli_fetch_array($result)) {
+     $task_status=$row['task_status'];
  } return $task_status;
 
 }
 
 function GetPPlProjectDuration($user_id,$project_id) {
-
+global $db;
 $sql="SELECT  ABS(DATEDIFF(assigned_date, now() ) ) AS duration from project_assigned_people WHERE user_id=$user_id and project_id=$project_id";
-$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-     while ($row = mysql_fetch_array($result)) {
+$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+     while ($row = mysqli_fetch_array($result)) {
      $duration=$row['status'];
  } return $duration;
 }
@@ -156,7 +260,7 @@ function GetCountAllAssignedTasks($project_id) {
 
 function draw_project_meeting_calendar($month,$year,$project_id){
    $running_month=date('F',mktime(0,0,0,$month,1,$year));
-   
+
   // echo "Rok:".$year;
   //echo "Aktualny mesiac:".$running_month;
 
@@ -165,7 +269,7 @@ function draw_project_meeting_calendar($month,$year,$project_id){
   /* draw table */
   $calendar = "<table cellpadding='0' cellspacing='0' id='month_calendar'>";
 
- 
+
  $previous_month = ($month - 1) > 0 ? $month - 1 : 12;
  $next_month = ($month % 12) + 1;
  $previous_year = $previous_month > $month ? $year - 1 : $year;
@@ -202,13 +306,13 @@ function draw_project_meeting_calendar($month,$year,$project_id){
   for($list_day = 1; $list_day <= $days_in_month; $list_day++):
 
     if($list_day>0 and $list_day<10) {$list_day='0'.$list_day;}
-   
+
    $mmonth=date('m',$month);
 
    $sql="SELECT * from project_meetings where date_of_meeting='".$year."-".$mmonth."-".$list_day."' and project_id=$project_id";
-    //echo $sql;
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-          $num = mysql_num_rows($result);
+   global $db;
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+          $num = mysqli_num_rows($result);
 
           if ($num>0) // mame nejaky event planovany na tento den
            {$calendar.= '<td class="calendar-event-day">';} else {$calendar.= '<td class="calendar-day">';}
@@ -261,7 +365,7 @@ function draw_project_calendar($month,$year,$project_id){
   /* draw table */
   $calendar = "<table cellpadding='0' cellspacing='0' id='month_calendar'>";
 
- 
+
  $previous_month = ($month - 1) > 0 ? $month - 1 : 12;
  $next_month = ($month % 12) + 1;
  $previous_year = $previous_month > $month ? $year - 1 : $year;
@@ -298,10 +402,10 @@ function draw_project_calendar($month,$year,$project_id){
   for($list_day = 1; $list_day <= $days_in_month; $list_day++):
 
     if($list_day>0 and $list_day<10) {$list_day='0'.$list_day;}
+    global $db;
     $sql="SELECT * from project_meetings where date_of_meeting='".$year."-".$month."-".$list_day."' and project_id=$project_id";
-    //echo $sql;
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-          $num = mysql_num_rows($result);
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+          $num = mysqli_num_rows($result);
 
           if ($num>0) // mame nejaky event planovany na tento den
            {$calendar.= '<td class="calendar-event-day">';} else {$calendar.= '<td class="calendar-day">';}
@@ -344,44 +448,44 @@ function draw_project_calendar($month,$year,$project_id){
 
 function ProjectTitle($project_id){
   echo "<div id='project_title'>";
-             
 
+            global $db;
             $sql = "SELECT project_name, project_descr from projects where id=$project_id";
             //echo "$sql";
-            $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
-            while ($row = mysql_fetch_array($result)) {
+            $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error($db));
+            while ($row = mysqli_fetch_array($result)) {
                 $project_name        = $row['project_name'];
                 $project_description = $row['project_descr'];
-                
+
                 //echo "<div id='project_short_details_wrap'>";
                 echo "<span style='float:left;font-weight:bold; font-size:26px; font-family: Helvetica, Arial,sans-serif;margin-left:10px'>$project_name</span>"; //boldovo
                 echo "<span style='float:left;font-style:italic; font-size:12px; font-family: Helvetica, Arial,sans-serif;color:#999;margin-left:15px'>$project_description</span>"; //italikom
                 //echo "</div>";
-                
+
             }
 
-           
+
            echo "</div>";
 }
 function add_to_stream($action,$project_id,$user_id,$object_id){
   if($action=='new_comment'){
-  
+
      $sql="SELECT MAX(comment_id) as comment_id from project_comments where project_id=$project_id"; //ziskanie max comment id z tabulky
-           echo "$sql"; 
-            $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-     
-            while ($row = mysql_fetch_array($result)) {
+          global $db;
+            $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+
+            while ($row = mysqli_fetch_array($result)) {
                   $comment_id=$row['comment_id'];
             }
-     
+
             $user_name = GetUserNameById($user_id);
             $stream_group='comment';
             $text_streamu = "User <a href='project_user_profile.php?id=$user_id'> ".$user_name."</a> has created a new comment id <span class='link'>$comment_id</span>";
             $text_streamu=addslashes($text_streamu);
             $datum=date('Y-m-d H:m:s');
             $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
-            $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-  
+            $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+
   } elseif ($action=='remove_comment'){
 
     $stream_group='comment';
@@ -389,17 +493,20 @@ function add_to_stream($action,$project_id,$user_id,$object_id){
   $text_streamu = "User <a href='project_user_profile.php?id=$user_id'> ".$user_name."</a> has removed comment id <span class='link'>$comment_id</span>";
   $text_streamu=addslashes($text_streamu);
   $datum=date('Y-m-d H:m:s');
-  
+
+  global $db;
   $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
-  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
 
   } elseif ($action=='new_task'){
 
     //ziskanie max task id z tabulky
+          global $db;
           $sql="SELECT MAX(task_id) as task_id from project_tasks where project_id=$project_id";
-          
-          $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-          while ($row = mysql_fetch_array($result)) {
+
+          $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+          while ($row = mysqli_fetch_array($result)) {
                 $task_id=$row['task_id'];
           }
 
@@ -409,54 +516,59 @@ function add_to_stream($action,$project_id,$user_id,$object_id){
           $text_streamu = "User <a href='project_user_profile.php?user_id=$user_id'> ".$user_name."</a> has created a new task id <a href='project_task.php?task_id=$task_id&project_id=$project_id'>".$task_id."</a>";
           $text_streamu=addslashes($text_streamu);
           $datum=date('Y-m-d H:m:s');
+          global $db;
           $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
-           $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-          
+           $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+
 
   } elseif ($action=='task_comment'){
     //ziskanie max task id z tabulky
+        global $db;
         $ask_id=$object_id;
         $sql="SELECT MAX(id) as task_comment_id from project_task_comments where project_id=$project_id and task_id=$task_id";
-        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-        while ($row = mysql_fetch_array($result)) {
+        $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+        while ($row = mysqli_fetch_array($result)) {
           $task_comment_id=$row['task_comment_id'];
         }
-      
+
         //pridenie informacie do streamu / logu / wallu
+        global $db;
         $text_streamu = "User <a href='project_user_profile.php?id=$user_id'> ".$user_name."</a> has created a new comment id ".$task_comment_id." of task id = <a href='project_task.php?task_id=$task_id'>".$task_id."</a>";
         $stream_group='task';
         $text_streamu=mysql_real_escape_string($text_streamu);
         $datum = date('Y-m-d H:m:s');
         $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu', '$datum')";
-        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
+        $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
         //project stream
-        
+
   } elseif ($action=='new_subtask') {
 
     //ziskanie max task id z tabulky
+        global $db;
         $sql="SELECT MAX(subtask_id) as subtask_id from project_task_subtasks";
-        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-        while ($row = mysql_fetch_array($result)) {
+        $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+        while ($row = mysqli_fetch_array($result)) {
           $subtask_id=$row['subtask_id'];
         }
-          
-        
+
+        global $db;
         $text_streamu = "User ".$user_name." has created a new subtask id <a href='project_task_subtasks_details.php?subtask_id =$subtask_id'> ".$subtask_id."</a> of task id = <a href='project_task.php?task_id=$task_id'>".$task_id."</a>";
         $text_streamu=mysql_real_escape_string($text_streamu);
         $datum=date('Y-m-d H:m:s');
         $sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu','$datum')";
-        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+        $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
          $url = "project_task_subtask_details.php?subtask_id=$subtask_id&project_id=$project_id";
-    
+
     header('location:' . $url . '');
 
-  } 
+  }
 }
 
 function NrofMessages($user_id){
-  $sql="SELECT COUNT(*) nr_of_msgs from project_mailbox_inbox WHERE receiver_id=$user_id";
-  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-  while ($row = mysql_fetch_array($result)) {
+  global $db;
+  $sql="SELECT COUNT(*) nr_of_msgs from project_mailbox WHERE receiver_id=1";
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+  while ($row = mysqli_fetch_array($result)) {
     $nr_of_msgs=$row['nr_of_msgs'];
   } return $nr_of_msgs;
 
@@ -464,8 +576,9 @@ function NrofMessages($user_id){
 
 function TaskName($task_id){
   $sql="SELECT task_id, task_name from project_tasks where task_id=$task_id";
-   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-    while ($row = mysql_fetch_array($result)) {
+  global $db;
+   $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
         $task_name=$row['task_name'];
    }   return $task_name;
 }
@@ -581,21 +694,36 @@ function time_ago( $date )
 
 function GetNrofFeeds($project_id,$group_id){
   $sql="SELECT count(*) as nr_feeds from project_conversation_feeds where project_id=$project_id and conv_group_id=$group_id";
- //  echo $sql;
-   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-    while ($row = mysql_fetch_array($result)) {
+  global $db;
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
         $nr_feeds=$row['nr_feeds'];
-     } return $nr_feeds;   
+     } return $nr_feeds;
 }
+
+function GetCovGroupName($con_group_id){
+  $sql="SELECT group_title from project_conversation_group where group_id=$con_group_id";
+  //echo $sql;
+  global $db;
+  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
+      $group_name = $row['group_title'];
+    } return $group_name;
+}
+
 
 function NrOfAttendees($meeting_id){
   $sql="SELECT count(*) as nr_assigness from project_meetings_atendees where meeting_id=$meeting_id";
-   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-    while ($row = mysql_fetch_array($result)) {
+  global $db;
+   $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error($db));
+    while ($row = mysqli_fetch_array($result)) {
         $nr_assigness=$row['nr_assigness'];
-     } return $nr_assigness; 
+     } return $nr_assigness;
 
 }
+
+
+
 
 function check_email($email) {
     $atom = '[-a-z0-9!#$%&\'*+/=?^_`{|}~]'; // znaky tvořící uživatelské jméno

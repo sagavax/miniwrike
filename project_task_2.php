@@ -14,21 +14,21 @@ if (isset($_POST['add_task_comment'])) { //pridanie komentu
     $task_id    = $_POST['task_id'];
     $user_id    = 1;
     $user_name  = GetUserNameById($user_id);
-    $comment    = mysql_real_escape_string($_POST['task_comment']);
+    $comment    = mysqli_real_escape_string($db, $_POST['task_comment']);
     $date_added = date('Y-m-d H:i:s');
     
     
     $sql = "INSERT INTO project_task_comments (task_id,project_id, user_id, post_text, date_added) VALUES ($task_id,$project_id, $user_id, '$comment', '$date_added')";
 
-    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
 
      mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('added_comment',now(),'$sql')");
 
    
     //add to stream
     $sql="SELECT MAX(id) as task_comment_id from project_task_comments where project_id=$project_id and task_id=$task_id";
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-    while ($row = mysql_fetch_array($result)) {
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+    while ($row = mysqli_fetch_array($result)) {
     $task_comment_id=$row['task_comment_id'];
         }
       
@@ -38,7 +38,7 @@ if (isset($_POST['add_task_comment'])) { //pridanie komentu
         $text_streamu=mysql_real_escape_string($text_streamu);
         $datum = date('Y-m-d H:m:s');
         $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu', '$datum')";
-        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
+        $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
     
     
         $url = "project_task.php?task_id=$task_id&project_id=$project_id";
@@ -52,7 +52,7 @@ if (isset($_POST['add_task_subtask'])) { //pridanie subtasku
     $project_id   = $_POST['project_id'];
     $user_id      = $_POST['user_id'];
     $user_name    = GetUserNameById($user_id);
-    $subtask_name = mysql_real_escape_string($_POST['subtask_name']);
+    $subtask_name = mysqli_real_escape_string($db, $_POST['subtask_name']);
     
     $date_added       = date('Y-m-d H:m:s');
     $subtask_deadline = strtotime(date('Y-m-d', strtotime($curr_date)) . " +5 day");
@@ -60,7 +60,7 @@ if (isset($_POST['add_task_subtask'])) { //pridanie subtasku
     
     
     $sql1 = "INSERT INTO project_task_subtasks (task_id, project_id, user_id, subtask_description,subtask_status, subtask_priority, subtask_created, subtask_finished, subtask_deadline) VALUES ($task_id,$project_id, $user_id,'$subtask_name', 'new','normal','$date_added','','$subtask_deadline')";
-    $result = mysql_query($sql1) or die("MySQL ERROR: " . mysql_error());
+    $result = mysql_query($sql1) or die("MySQL ERROR: " . mysqli_error());
  	
  	mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('create_subtask',now(),'$sql1')");
   
@@ -77,11 +77,11 @@ if (isset($_POST['upload_file'])) { // uploadujem file
     
     
     $sql = "";
-    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
     
     $text_streamu = "User " . $user_id . " has attached a new file " . $file_name . " to task id = " . $task_id;
     $sql          = "INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu',date('Y-m-d H:i:s'))";
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
     header('Location: project_task.php?task_id='.$_POST['task_id'].'&project_id='.$_POST['project_id'].''); // presmeruje spat aby sa zbranilo vkladaniu duplicity
     
 }
@@ -103,10 +103,10 @@ if (isset($_POST['assign_the_task'])) { //priradim userovi task, od tej doby sa 
     
     $sql="SELECT count(*) as nr_ppl from project_task_assigned_people where user_id=$user_id and task_id=$task_id";
 
-    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
     
     mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('check_nr_assigned_ppl',now(),'$sql')");
-    while ($row = mysql_fetch_array($result)) {
+    while ($row = mysqli_fetch_array($result)) {
           $nr_ppl=$row['nr_ppl'];
         }
    
@@ -119,7 +119,7 @@ if (isset($_POST['assign_the_task'])) { //priradim userovi task, od tej doby sa 
 
     $sql = "INSERT INTO project_task_assigned_people (task_id, project_id, user_id, assignee_id, email, assigned_by, assigned_date) VALUES ($task_id, $project_id, $user_id,$assignee_id,'$user_email',$assigned_by,'$assigned_date')";
     //echo "$sql";
-    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
     
     mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('assign_task',now(),'$sql')");
 
@@ -133,7 +133,7 @@ if (isset($_POST['assign_the_task'])) { //priradim userovi task, od tej doby sa 
     
    mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('add_to_stream',now(),'$sql')");
 
-    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
     $url = "project_task.php?task_id=$task_id&project_id=$project_id&user_id=$user_id";
     header('location:' . $url . ''); // presmeruje spat aby sa zbranilo vkladaniu duplicity*/
  }   
@@ -151,7 +151,7 @@ if(isset($_POST['unassign_task'])){
 
     $sql="DELETE from project_task_assigned_people where task_id=$task_id and user_id=$user_id and id=$assigment_id;";
 	    
-    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
   
     mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('unassigned_user',now(),'$sql')");
   
@@ -163,10 +163,10 @@ if(isset($_POST['unassign_task'])){
 if (isset($_POST['edit_task_details'])) { //kliknem na update button
     $task_id       = $_POST['task_id'];
     $project_id    = $_POST['project_id'];
-    $task_status   = mysql_real_escape_string($_POST['task_status']);
-    $task_priority = mysql_real_escape_string($_POST['task_priority']);
+    $task_status   = mysqli_real_escape_string($db, $_POST['task_status']);
+    $task_priority = mysqli_real_escape_string($db, $_POST['task_priority']);
     $task_deadline = $_POST['task_deadline'];
-    $task_description=trim(mysql_real_escape_string($_POST['task_description']));
+    $task_description=trim(mysqli_real_escape_string($db, $_POST['task_description']));
 
     $user_id = 1;
     if ($task_status == 'finished') {
@@ -186,7 +186,7 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
     $sql = "UPDATE project_tasks SET task_description='$task_description',task_finished='$date_finished',status='$task_status',task_priority='$task_priority',task_deadline='$task_deadline' WHERE task_id=$task_id";
     echo $sql;
     
-    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
    
     mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('edit_task',now(),'$sql')");
     
@@ -196,7 +196,7 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
     $stream_group = 'task';
     $sql          = "INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
     
-    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
     
     
 	$url = "project_task.php?task_id=$task_id";
@@ -216,11 +216,11 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 	   	<script src="ckeditor/ckeditor.js"></script>
          <script src="http://code.highcharts.com/highcharts.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 				
 	</head>
@@ -243,8 +243,8 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
          $sql="SELECT * from projects where id=$project_id";
          //echo "$sql";
          //echo "project_id=$project_id";
-         $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-         while ($row = mysql_fetch_array($result)) {
+         $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+         while ($row = mysqli_fetch_array($result)) {
              $project_name=$row['project_name'];
              $project_description=$row['project_descr'];
          
@@ -268,15 +268,15 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
       <?php
          $sql = "SELECT * from project_tasks WHERE task_id=$task_id";
          			//echo "$sql"; TIMESTAMPDIFF(MONTH,'{$start_time_str}','{$end_time_str}') AS m
-         $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
-         while ($row = mysql_fetch_array($result)) {
+         $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
+         while ($row = mysqli_fetch_array($result)) {
              $task_name        = $row['task_name'];
              $status           = $row['status'];
              $task_priority    = $row['task_priority'];
              $date_created     = $row['task_created'];
              $date_finished    = $row['task_finished'];
              $deadline         = $row['task_deadline'];
-             $is_completed     = $row['is_completed'];
+             $is_complete     = $row['is_complete'];
              $task_description = $row['task_description'];
              
           				    
@@ -287,15 +287,15 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
                  $date_finished = 'N/A';
             
             	$sql="SELECT ABS(DATEDIFF(task_created,now() )) AS DiffDate from project_tasks where task_id=$task_id";
-             $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
-         	while ($row = mysql_fetch_array($result)) {	
+             $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
+         	while ($row = mysqli_fetch_array($result)) {	
          		$duration=$row['DiffDate'];
                  }	
              } elseif ($date_finished<>'0000-00-00'){
              
              $sql="SELECT ABS(DATEDIFF(task_created,task_finished)) AS DiffDate from project_tasks where task_id=$task_id";
-             $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
-         	while ($row = mysql_fetch_array($result)) {	
+             $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
+         	while ($row = mysqli_fetch_array($result)) {	
          		$duration=$row['DiffDate'];
               }	
              
@@ -396,7 +396,7 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
                   				
                   // in addition get information from use based on user_id
                   	
-                  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+                  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
                   
                   mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('list_of_all_comments',now(),'$sql')");
                   
@@ -404,7 +404,7 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
                   	
                   if ($numrows==0) {echo "<div style='font-style:italic; font-size:12px; font-family:'Roboto', Helvetica, Arial,sans-serif;color:#ddd;margin-left:10px; margin-top:10px'>No task comments available</div>";} else {
                   	
-                  	while ($row = mysql_fetch_array($result)) {
+                  	while ($row = mysqli_fetch_array($result)) {
                   		$id=$row['id'];
                   		$user_id=$row['user_id'];
                         $user_name=GetUserNameById($user_id);
@@ -453,7 +453,7 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
                <?php
                   //get all subtasks
                   $sql="SELECT * from project_task_subtasks WHERE task_id=$task_id";
-                     $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+                     $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
                   $numrows= mysql_num_rows($result);
                   
                   mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('list_of_all_subtasks',now(),'$sql')");
@@ -461,7 +461,7 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
                   
                   if ($numrows==0) {echo "<span style='font-style:italic; font-size:12px; font-family:'Roboto', Helvetica, Arial,sans-serif;color:#ddd;margin-left:10px; margin-top:10px'>No subtasks available</span>";} else {
                   
-                  	while ($row = mysql_fetch_array($result)) {
+                  	while ($row = mysqli_fetch_array($result)) {
                   		
                   		$subtask_id=$row['subtask_id'];
                   		$user_id=$row['user_id'];
@@ -516,12 +516,12 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
             <?php
                $sql="SELECT * from project_task_attachements WHERE task_id=$task_id";
                //echo "$sql";
-               $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+               $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
                $numrows= mysql_num_rows($result);
                
                if ($numrows==0) {echo "<span style='font-style:italic; font-size:12px; font-family:'Roboto', Helvetica, Arial,sans-serif;color:#ddd;margin-left:10px; margin-top:10px'>No attachements available</span>";} else {
                
-               while ($row = mysql_fetch_array($result)) {
+               while ($row = mysqli_fetch_array($result)) {
                
                $id=$row['id'];
                $user_id=$row['$user_id'];
@@ -564,12 +564,12 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
                //echo "$sql";
                // in addition get information from use based on user_id
                
-               $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+               $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
                $numrows= mysql_num_rows($result);
                
                if ($numrows==0) {echo "<span style='font-style:italic; font-size:12px; font-family: Helvetica, Arial,sans-serif;color:#ccc;margin-left:10px; margin-top:10px'>No ppl assigned to this task</span>";} else { //ak existuju nejake poznamky tak ich vypis
                
-                   while ($row = mysql_fetch_array($result)) {
+                   while ($row = mysqli_fetch_array($result)) {
                        $id=$row['id'];
                        $user_id=$row['user_id'];
                        $user_name=GetUserNameById($user_id);
@@ -619,8 +619,8 @@ if (isset($_POST['edit_task_details'])) { //kliknem na update button
                      <datalist id="users">
                         <?php 
                            $sql="SELECT * from project_task_assigned_people WHERE project_id=$project_id"; //budem vyberat iba z ludi, ktory su do tohto projektu priradeni
-                           $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                           while ($row = mysql_fetch_array($result)) {
+                           $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                           while ($row = mysqli_fetch_array($result)) {
                            	$full_name=$row['full_name'];
                            	
                            	echo "<option value='$full_name'>";

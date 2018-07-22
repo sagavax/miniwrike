@@ -22,7 +22,7 @@
                 
                     $sql = "INSERT INTO projects (project_name,project_code, project_descr, established_date, project_status) VALUES ('$project_name','$project_code', '$project_descr',now(),'$project_status')";
                     //echo "<span style='position:absolute; top:0px; left:0px'>$sql</span>";
-                    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+                    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
                     header('Location: projects.php');
             } 
  ?>
@@ -39,7 +39,7 @@
 	<title>Miniwike</title>
     <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
     <link rel='shortcut icon' href='project.ico'>
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
 function show_project_tasks(str)
@@ -85,11 +85,11 @@ xmlhttp.send();
                  
                     <?php
                     $sql="SELECT DISTINCT * FROM projects ORDER BY id DESC";
-                    $result = mysql_query($sql);
+                    $result = mysqli_query($db, $sql);
                     
                     $alternate = "2"; 
                     
-                    while ($row = mysql_fetch_array($result)) {
+                    while ($row = mysqli_fetch_array($result)) {
                     		$id=$row['id'];
                             $project_name=$row['project_name'];
                             $project_code = $row['project_code'];

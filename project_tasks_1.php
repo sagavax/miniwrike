@@ -18,12 +18,12 @@
                     $date=strtotime(date('Y-m-d H:i:s', strtotime($curr_date)) . " +5 day");
                     $end_date= date('Y-m-d H:i:s', $date);
                   								
-                    $sql = "INSERT INTO project_tasks (project_id, user_id, task_name, status,task_priority, is_completed,task_created, task_finished, task_deadline) VALUES ($project_id,$user_id,'$note_text','New','Normal','0','$curr_date','','$end_date')";
+                    $sql = "INSERT INTO project_tasks (project_id, user_id, task_name, status,task_priority, is_complete,task_created, task_finished, task_deadline) VALUES ($project_id,$user_id,'$note_text','New','Normal','0','$curr_date','','$end_date')";
 
-					$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+					$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 					
-					$sql = "INSERT INTO project_tasks_new (project_id, user_id, task_name, status,task_priority, is_completed,task_created, task_finished, task_deadline) VALUES ($project_id,$user_id,'$note_text','New','Normal','0','$curr_date','','$end_date')";
-				    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+					$sql = "INSERT INTO project_tasks_new (project_id, user_id, task_name, status,task_priority, is_complete,task_created, task_finished, task_deadline) VALUES ($project_id,$user_id,'$note_text','New','Normal','0','$curr_date','','$end_date')";
+				    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
 
 					mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('added_task',now(),'".$sql."')");
@@ -46,27 +46,27 @@
   		 if (isset($_POST['mark_complete'])){
   		 	$task_id=intval($_POST['task_id']);
   		 	$sql="UPDATE project_tasks SET status='finished' WHERE task_id=$task_id";
-			$result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+			$result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
 
 	      //pridat do streamu
 
 			$project_id=$_SESSION['project_id'];
 			$user_id=$_SESSION['user_id'];
-			$text_streamu = "The task id <a href='project_task.php?task_id=$task_id'> " . $task_id . "</a> has been set as completed";
+			$text_streamu = "The task id <a href='project_task.php?task_id=$task_id'> " . $task_id . "</a> has been set as complete";
 		    $text_streamu = mysql_real_escape_string($text_streamu);
 		    $datum        = date('Y-m-d H:m:s');
 		    $stream_group = 'task';
 		    $user_id=1;
 		    $sql          = "INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
 	    	
-	    	$result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());	
+	    	$result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());	
 	    	$url="project_tasks.php?project_id=$project_id";
     		header('location:' . $url . ''); // presmeruje spat aby sa zbranilo vkladaniu duplicity
 	  	 }
 
 	  	if(isset($_POST['cancel_task'])){
 	  		$task_id=intval($_POST['task_id']);
-	  		$status=mysql_real_escape_string($_POST['status']);
+	  		$status=mysqli_real_escape_string($db, $_POST['status']);
 	  		if($status=='finished'){
 	  			echo "<script>
 	  			alert('This task is already finished, cannot be cancelled !';)
@@ -78,7 +78,7 @@
 	  		$sql="UPDATE project_tasks SET status='cancelled' WHERE task_id=$task_id";
 	  		mysql_query("INSERT INTO project_statement_log (action,date_added,statement) VALUES ('cancell_task',now(),'$sql')");
 			
-			$result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+			$result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
 
 			$project_id=$_SESSION['project_id'];
             $user_id=$_SESSION['user_id'];
@@ -89,7 +89,7 @@
 		    $stream_group = 'task';
 		    $sql          = "INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
 		    
-		    $result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+		    $result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
 		    $url="project_tasks.php?project_id=$project_id";
 		    header('location:' . $url . ''); // presmeruje spat aby sa zbranilo vkladaniu duplicity
 	  	} 
@@ -106,9 +106,9 @@
 		<title>Miniwrike - simple project task manager - tasks</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>-->
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>-->
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -134,8 +134,8 @@
 					<?php
 					$project_id=$_GET['project_id'];
 					$sql="SELECT * from projects where id=$project_id";
-					$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+					$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 							$project_name=$row['project_name'];
 							$project_description=$row['project_descr'];
 
@@ -176,8 +176,8 @@
 						echo "<table id='project_tasks'>";
 						$sql="SELECT * FROM project_tasks WHERE project_id =$project_id  and status<>'cancelled' ORDER BY task_id DESC";
 						
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 								$id=$row['task_id'];
 								$project_id=$row['project_id'];
 								$user_id=$row['user_id'];

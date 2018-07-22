@@ -23,8 +23,8 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -53,8 +53,8 @@
                 //get project name and description
                 $sql="SELECT * from projects where id=2";
                 //echo $sql;
-                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                while ($row = mysql_fetch_array($result)) {
+                $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                while ($row = mysqli_fetch_array($result)) {
                     
                     $project_name=$row['project_name'];
                     $project_description=$row['project_descr'];
@@ -78,8 +78,8 @@
 					echo "<table id='project_meeting_viewer'>";		
 						$sql="SELECT * from project_meetings WHERE id=$id";
 						//echo "$sql";	
-							$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-								while ($row = mysql_fetch_array($result)) {
+							$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+								while ($row = mysqli_fetch_array($result)) {
 								$i++;
 								$id=$row['id'];
 								$project_id=$row['project_id'];

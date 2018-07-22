@@ -9,17 +9,14 @@
 		$project_id=$_SESSION['project_id'];
 		$receiver_id=intval($_POST['receiver_id']);
 		$sent_date=date('Y-m-d H:i:s');
-		$subject=mysql_real_escape_string($_POST['subject']);
-		$message=mysql_real_escape_string($_POST['message']);
+		$subject=mysqli_real_escape_string($db, $_POST['subject']);
+		$message=mysqli_real_escape_string($db, $_POST['message']);
 
 		$sql="INSERT INTO project_mailbox_inbox (project_id,sender_id,receiver_id,subject,message,sent_date,read_date,is_deleted) VALUES ($project_id,$sender_id,$receiver_id,'$subject','$message','$sent_date','$read_date',0)"; //put into mailbox
-		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		//echo $sql;	
-		//send_message($sender_id,$receiver_id,$subject,$message,date);
-
-
+		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		
 		$sql1="INSERT INTO project_mailbox_outbox(project_id,receiver_id,sender_id,subject,message,sent_date) VALUES ($project_id,$receiver_id,$sender_id,'$subject','$message','$sent_date')"; // instert into sent messages
-		$result1=mysql_query($sql1) or die("MySQL ERROR: ".mysql_error());
+		$result1=mysql_query($sql1) or die("MySQL ERROR: ".mysqli_error());
 		
 		$url="project_inbox.php?user_id=".$_SESSION['user_id'];
      	header('location:'.$url.'');
@@ -36,9 +33,9 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 		   
@@ -63,8 +60,8 @@
 		               	$project_id=$_SESSION['project_id'];
 						$user_id=$_SESSION['user_id'];
 		                $sql="SELECT * from projects where id=$project_id";
-		                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		                while ($row = mysql_fetch_array($result)) {
+		                $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		                while ($row = mysqli_fetch_array($result)) {
 		                    $project_name=$row['project_name'];
 		                    $project_description=$row['project_descr'];
 
@@ -95,8 +92,8 @@
 	            									<?php 
 	            									echo "<select name='receiver_id'>'";
 	            									$sql="SELECT * from project_users";
-	            									$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-	            									while ($row = mysql_fetch_array($result)) {
+	            									$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+	            									while ($row = mysqli_fetch_array($result)) {
 	            										$user_id=$row['user_id'];
 	            										echo "<option value=$user_id>".GetUserNameById($user_id)."</option>";
 	            									}
@@ -127,15 +124,7 @@
             
 						
 			<!-- FOOTER -->
-			
-			<div id="footer"><!-- FOOTER -->
-
-				<ul id="footer-left">
-					<li>Simple miniproject administrator/manager</li>
-					<li>Created by Tomas Misura</li>
-				</ul>
-
-			</div> <!-- FOOTER -->
+			<?php include ("include/footer.php"); ?>
 			
 		</div><!-- main -->	
 

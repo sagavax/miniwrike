@@ -8,23 +8,23 @@
 		$project_id=$_POST['project_id'];
 		
 
-		$project_eng_fullname=mysql_real_escape_string($_POST['project_eng_fullname']);
-		$project_eng_email=mysql_real_escape_string($_POST['project_eng_email']);
+		$project_eng_fullname=mysqli_real_escape_string($db, $_POST['project_eng_fullname']);
+		$project_eng_email=mysqli_real_escape_string($db, $_POST['project_eng_email']);
 
 		check_email($project_eng_email);
 
 
 		$project_eng_phone=$_POST['project_eng_phone'];
-		$project_eng_login=mysql_real_escape_string($_POST['project_eng_email']);
+		$project_eng_login=mysqli_real_escape_string($db, $_POST['project_eng_email']);
 		$pass_temp=$_POST['project_eng_pass'];
 		$project_eng_pass=md5('$pass_temp');
-		$project_eng_note=mysql_real_escape_string($_POST['user_description']);
+		$project_eng_note=mysqli_real_escape_string($db, $_POST['user_description']);
 		$created_date=date("Y-m-d H:m:s");
 		$supporting_technology =intval($_POST['project_technology']);
 	
 			
 		$sql="INSERT INTO project_users (full_name, login, password, email, phone, created_date) VALUES ('$project_eng_fullname','$project_eng_login','$project_eng_pass','$project_eng_email','$project_eng_phone','$created_date')";
-		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 		
 		//posli email dotycnemu
 		
@@ -53,8 +53,8 @@
         /* $emailSent = true;  */
 	    //} else {
         $sql="SELECT MAX(user_id) as new_user_id from project_users";
-        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-         while ($row = mysql_fetch_array($result)) {
+        $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+         while ($row = mysqli_fetch_array($result)) {
          	$receiver_id=$row['new_user_id'];	
          }
 
@@ -79,9 +79,9 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
 		<script src="ckeditor/ckeditor.js"></script>
 		<link rel='shortcut icon' href='project.ico'>
 		
@@ -113,8 +113,8 @@
 		            <?php
 
 		                $sql="SELECT * from projects where id=$project_id";
-		                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		                while ($row = mysql_fetch_array($result)) {
+		                $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		                while ($row = mysqli_fetch_array($result)) {
 		                    $project_name=$row['project_name'];
 		                    $project_description=$row['project_descr'];
 
@@ -152,8 +152,8 @@
             				<td>Technology</td><td><select name="project_technology">
             							<?php 
             								$sql="SELECT * from project_technologies";
-            								 $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-            								 while ($row = mysql_fetch_array($result)) {
+            								 $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+            								 while ($row = mysqli_fetch_array($result)) {
             								 	echo "<option value=".$row['techn_id'].">".$row['technology_descr']."</option>";
             								 }
             							?>

@@ -10,8 +10,8 @@
             <title>Miniwrike - simple project task manager</title>
             <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
             <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-            <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'> 
+            <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'> 
             <link rel='shortcut icon' href='project.ico'>
          </head>
          <body>
@@ -37,8 +37,8 @@
 		               	$project_id=$_SESSION['project_id'];
 $user_id=$_SESSION['user_id'];
 		                $sql="SELECT * from projects where id=$project_id";
-		                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		                while ($row = mysql_fetch_array($result)) {
+		                $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		                while ($row = mysqli_fetch_array($result)) {
 		                    $project_name=$row['project_name'];
 		                    $project_description=$row['project_descr'];
 
@@ -59,8 +59,8 @@ $user_id=$_SESSION['user_id'];
                         echo "<table id='project_meeting_viewer'>";		
                         	$sql="SELECT * from project_meetings WHERE id=$id";
                         	//echo "$sql";	
-                        		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                        			while ($row = mysql_fetch_array($result)) {
+                        		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                        			while ($row = mysqli_fetch_array($result)) {
                         			$i++;
                         			$id=$row['id'];
                         			$project_id=$row['project_id'];
@@ -83,13 +83,13 @@ $user_id=$_SESSION['user_id'];
                         			echo "<tr><td class='bold'>Ucastnici</td><td><div id='meeting_atendees'>";
                            
                                  $sql="SELECT * from project_meetings_atendees WHERE project_id=$project_id and meeting_id=$id";
-                                 $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
+                                 $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
                                              $nr_attendees =mysql_num_rows($result);
                                               if ($nr_attendees==0) {
                                                 echo "<span style='font-size:12px; color:#999'>No people have been assigned to this meeting</span>";
                                               } else {
                                                 echo "<ul id='meeting_atendees_list'>";   
-                                                while ($row = mysql_fetch_array($result)) {
+                                                while ($row = mysqli_fetch_array($result)) {
                                                    $user_id=$row['user_id'];
                                                    $user_name=GetUserNameById($user_id); //ziskam meno
                                             $assigment_id=$row['id'];

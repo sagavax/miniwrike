@@ -12,8 +12,8 @@
     <title>Miniwrike - links</title>
     <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
     <link rel='shortcut icon' href='project.ico'>
 
 </head>
@@ -38,8 +38,8 @@
                <?php
                   $project_id=$_GET['project_id'];
                   $sql="SELECT * from projects where id=$project_id";
-                  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                  	while ($row = mysql_fetch_array($result)) {
+                  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                  	while ($row = mysqli_fetch_array($result)) {
                   		$project_name=$row['project_name'];
                   		$project_description=$row['project_descr'];
                   
@@ -60,7 +60,7 @@
                 <table id="link_maintable">
 
                     <?php
-                     $sql="SELECT * from project_links WHERE project_id=$project_id" ; $result=mysql_query($sql) or die( "MySQL ERROR: ".mysql_error()); while ($row=mysql_fetch_array($result)) { $project_id=$row[ 'project_id']; $link_id=$row[ 'link_id']; $link_name=$row[ 'link_name']; $link_url=$row[ 'link_url']; $created_date=$row[ 'created_date']; $added_by=$row[ 'added_by']; $added_by=GetUserNamebyId($added_by); echo "<tr>"; if($link_url<>''){ echo "
+                     $sql="SELECT * from project_links WHERE project_id=$project_id" ; $result=mysqli_query($db, $sql) or die( "MySQL ERROR: ".mysqli_error()); while ($row=mysqli_fetch_array($result)) { $project_id=$row[ 'project_id']; $link_id=$row[ 'link_id']; $link_name=$row[ 'link_name']; $link_url=$row[ 'link_url']; $created_date=$row[ 'created_date']; $added_by=$row[ 'added_by']; $added_by=GetUserNamebyId($added_by); echo "<tr>"; if($link_url<>''){ echo "
                     <td><a href=$link_url class='link'>$link_name</a>
                     </td>"; } else { echo "
                     <td>$link_name</td>"; } echo "

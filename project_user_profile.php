@@ -9,11 +9,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		
 		<title>Miniwrike - simple project task manager</title>
-		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
+		<link href="css/style.css?<?php echo time(); ?>" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -42,8 +42,8 @@
 	            			<?php 
 
 	            		$sql="SELECT *  FROM project_users WHERE user_id=$user_id";
-	            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-	            		while ($row = mysql_fetch_array($result)) {
+	            		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+	            		while ($row = mysqli_fetch_array($result)) {
 	            			$full_name=$row['full_name'];
 	            			$login=$row['login'];
 	            			$email=$row['email'];
@@ -82,18 +82,19 @@
 	            	<ul>
 	            	<?php 
 
-	            		$sql="SELECT a.assigned_date,a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE b.project_status not in ('Completed','Cancelled') and a.user_id=$user_id and a.project_id = b.id";
+	            		$sql="SELECT a.assigned_date,a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE b.project_status not in ('complete','cancelled') and a.user_id=$user_id and a.project_id = b.id";
 	            		//echo "$sql";
-	            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-	            		while ($row = mysql_fetch_array($result)) {
+	            		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+	            		while ($row = mysqli_fetch_array($result)) {
 	            			$project_id=$row['project_id'];
 	            			$project_name=GetProjectNameById($project_id);
 	            			$assigned_date=$row['assigned_date'];
-	            			$project_status=$row['project_status'];
+							$project_status=$row['project_status'];
+							$duration=ProjectDuration($project_id);
 
 	            			///$duration
 
-	            			echo "<li><div class='user_details_project_wrap'><div class='user_details_project_name'><a href='project_details.php?project_id=$project_id'>$project_name</a></div><div class='user_details_project_duration'>duration</div><div class='user_details_project_status'>$project_status</div><div class='user_details_project_ass_date'>$assigned_date</div></div></li>";
+	            			echo "<li><div class='user_details_project_wrap'><div class='user_details_project_name'><a href='project_details.php?project_id=$project_id'>$project_name</a></div><div class='user_details_project_duration'>$duration days</div><div class='user_details_project_status'>$project_status</div><div class='user_details_project_ass_date'>$assigned_date</div></div></li>";
 	            		}	
 
 	            	?>
@@ -102,25 +103,25 @@
 	            	<h3>List of the past projects:</h3>
 	            	<ul>
 	            		<?php 
-		            		//$sql="SELECT SELECT a.assigned_date, a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE a.user_id =$user_id AND b.project_status='Completed' AND a.project_id = b.id";
+		            		//$sql="SELECT SELECT a.assigned_date, a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE a.user_id =$user_id AND b.project_status='complete' AND a.project_id = b.id";
 		            		
-		            		$sql="SELECT a.assigned_date, a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE a.user_id =$user_id AND b.project_status in ('Completed','Cancelled') AND a.project_id = b.id";
+		            		$sql="SELECT a.assigned_date, a.user_id, a.project_id, b.project_name, b.project_status FROM project_assigned_people a, projects b WHERE a.user_id =$user_id AND b.project_status in ('complete','Cancelled') AND a.project_id = b.id";
 
 
 		            		///echo "$sql";
-		            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-		            		while ($row = mysql_fetch_array($result)) {
+		            		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+		            		while ($row = mysqli_fetch_array($result)) {
 	            			$project_id=$row['project_id'];
 	            			$project_name=GetProjectNameById($project_id);
 	            			$assigned_date=$row['assigned_date'];
 	            			$project_status=$row['project_status'];
-
+							$duration=ProjectDuration($project_id);	
 	            			///$duration
 
 	            			echo "<li>
 	            					<div class='user_details_project_wrap'>
 	            						<div class='user_details_project_name'><a href='project_details.php?project_id=$project_id'>$project_name</a></div>
-	            						<div class='user_details_project_duration'>duration</div>
+	            						<div class='user_details_project_duration'>$duration days</div>
 	            						<div class='user_details_project_status'>$project_status</div>
 	            						<div class='user_details_project_ass_date'>$assigned_date</div>
 	            					</div>
@@ -140,18 +141,20 @@
 	            	 <ul>
 		           		<?php 
 			           		$sql="SELECT * from project_task_assigned_people WHERE user_id=$user_id";
-		            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-		            		while ($row = mysql_fetch_array($result)) {
+							  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+		            		while ($row = mysqli_fetch_array($result)) {
 	            				$task_id=$row['task_id'];
-	            				$project_id=$row['project_id'];
+								$project_id=$row['project_id'];
+								$duration=CurrTaskDuration($task_id);
 	            				$task_name=GetTaskName($task_id);
 	            				$task_status=GetTaskStatus($task_id);
 	            				$assigned_date=$row['assigned_date'];
 
 	            				echo "<li>
-	            					<div class='user_details_task_wrap'>
+									<div class='user_details_task_wrap'>
+									    <div class='user_details_task_id'>$task_id</div> 
 	            						<div class='user_details_task_name'><a href='project_task.php?task_id=$task_id&project_id=$project_id'>$task_name</a></div>
-	            						<div class='user_details_task_duration'>duration</div>
+	            						<div class='user_details_task_duration'>$duration</div>
 	            						<div class='user_details_task_status'>$task_status</div>
 	            						<div class='user_details_task_ass_date'>$assigned_date</div>
 	            					</div>
@@ -170,8 +173,8 @@
 	            		<ul>
 		           		<?php 
 			           		$sql="SELECT a.meeting_id, a.project_id, b.id,b.meeting_title, b.date_of_meeting, b.start_time, b.end_time, c.project_name from project_meetings_atendees a, project_meetings b, projects c where a.user_id=$user_id and a.meeting_id=b.id and a.project_id=c.id";
-		            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-		            		while ($row = mysql_fetch_array($result)) {
+		            		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+		            		while ($row = mysqli_fetch_array($result)) {
 	            				$meeting_id=$row['meeting_id']; //id mitingu
 	            				$meeting_title=$row['meeting_title'];
 	            				$start_time=$row['start_time'];
@@ -205,13 +208,14 @@
 
 	            		<ul>
 		           		<?php 
-			           		$sql="SELECT a.uploaded_by, a.Uploaded_date, b.project_name,c.full_name from project_documents a, projects b, project_users c where a.uploaded_by=$user_id and a.project_id=b.id and a.Uploaded_by=c.user_id";
-		            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-		            		$num=mysql_num_rows($result);
+						    $sql="SELECT a.uploaded_by, a.Uploaded_date, b.project_name,c.full_name from project_documents a, projects b, project_users c where a.uploaded_by=$user_id and a.project_id=b.id and a.Uploaded_by=c.user_id";
+							  
+		            		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+		            		$num=mysqli_num_rows($result);
 		            		if ($num==0) {
-		            			echo "<div></div>";
+		            			echo "<div>This user has not uploaded any documents yet</div>";
 		            		}
-		            		while ($row = mysql_fetch_array($result)) {
+		            		while ($row = mysqli_fetch_array($result)) {
 		            			echo "<li>
 	            					<div class='user_details_docs'>
 	            						<div class='user_details_project'><a href='project_details.php?project_id=$project_id'>".$row['project_name']."</a></div>

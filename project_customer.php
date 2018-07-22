@@ -21,7 +21,7 @@
 		$created_by=$_POST['user_id'];
 		$sql="INSERT INTO project_customers (customer_name, customer_description,customer_added,created_by) VALUES ('$customer_name','$customer_description','$customer_added',$created_by)";
 		//echo "$sql";
-		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 		header('Location: project_add.php');
 
 		// echo AddToHistoryLog('');
@@ -39,8 +39,8 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>-->
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>-->
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -50,9 +50,7 @@
 		
 
 			 <?php 
-				$action = $_GET['action']
-				
-
+				$action = $_GET['action'];
 				$project_id=$_GET['project_id'];
 				$user_id=$_GET['user_id'];
 				$user_id=1;
@@ -75,10 +73,7 @@
             <!-- project title -->
 			
 			<div id="middle"> <!-- middle section -->
-					<?php $action = $_GET['action'];
-
-	 				switch ($action) { 
-	 					case 'new': ?>
+					<?php $action = $_GET['action']; ?>
 
 					<div id="new_customer_wrap">
 						 <form accept-charset="utf-8" method="post" action="project_customer_add.php">
@@ -97,25 +92,7 @@
 					    </form>	
 				</div><!-- add new customer wrap -->
 			</div><!-- middle section -->
-		<?php break;
-
-			case 'edit':
-
-		?>
-
-		<?php break;
-
-			case 'delete':
-
-		?>
-
-		<?php break;
-
-			case 'view_all':
-
-		?>
-
-
+		
 			<?php include ("include/footer.php"); ?>
 			
 			

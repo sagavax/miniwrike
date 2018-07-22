@@ -21,12 +21,12 @@
    	
    	$sql="UPDATE project_meetings SET meeting_title='$meeting_title',date_of_meeting='$datum_mitingu', start_time='$start_time', end_time='$end_time', meeting_type='$meeting_type', location='$location',atendees='$atendees' WHERE id=$meeting_id";
    	echo "$sql";
-   	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+   	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
    
         $sql="SELECT MAX(id) as meeting_id from project_meetings"; //ziskanie max comment id z tabulky
    				
-   				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-   				while ($row = mysql_fetch_array($result)) {
+   				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+   				while ($row = mysqli_fetch_array($result)) {
    							$meeting_id=$row['meeting_id'];
    				}
    				
@@ -36,7 +36,7 @@
     $text_streamu=addslashes($text_streamu);
     $datum=date('Y-m-d H:m:s');
     $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('stream_group',$project_id,$user_id,'$text_streamu','$datum')";
-       $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+       $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
    
     $url="project_meetings.php?project_id=$project_id";
      header('location:'.$url.'');
@@ -50,8 +50,8 @@
     //skontrolovat ci uz clovek je assignovany na project
     $sql="SELECT count(*) as assigne_status from project_meetings_atendees where meeting_id=$meeting_id and user_id=$atendee_id";
     //echo $sql;
-    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-    while ($row = mysql_fetch_array($result)) {
+    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+    while ($row = mysqli_fetch_array($result)) {
                 $assigne_status=$row['assigne_status'];
      }
     
@@ -67,17 +67,17 @@
    	$assigned_date=date('Y-m-d H:i:s');
    	//var_dump($_POST);
    	$sql="INSERT INTO project_meetings_atendees(project_id,meeting_id, user_id, assigned_date) VALUES ($project_id,$meeting_id,$atendee_id,'$assigned_date')";
-   
-   	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+      echo $sql;
+   	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
    	//echo $sql;
    		//pridat do streamu
    	$stream_group="meeting";
    	$text_streamu="User <a href='project_user_profile.php?user_id=$user_id' class='link'>".$attendee_name."</a> has been assigned as atendee for the meeting id: <a href='project_meetings.php?m_id=$meeting_id' class='link'>".$meeting_id."</a>";
-   	$text_streamu=mysql_real_escape_string($text_streamu);
+   	$text_streamu=mysqli_real_escape_string($con,$text_streamu);
     $datum=date('Y-m-d H:m:s');
     $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
    
-       $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+       $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
        $url="project_meeting_edit.php?m_id=$meeting_id&project_id=$project_id";
        header('location:'.$url.'');
     }
@@ -93,7 +93,7 @@
     
     $sql="DELETE from project_meetings_atendees WHERE id=$assigment_id and meeting_id=$meeting_id";
    // echo $sql;
-   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+   $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
 
    //pridate do streamu
@@ -105,7 +105,7 @@
     $datum=date('Y-m-d H:m:s');
     $sql="INSERT INTO project_stream (stream_group,project_id,user_id,text_of_stream, date_added) VALUES ('$stream_group',$project_id,$user_id,'$text_streamu','$datum')";
    echo $sql;
-       $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+       $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
        $url="project_meeting_edit.php?m_id=$meeting_id&project_id=$project_id";
        header('location:'.$url.'');
 
@@ -119,11 +119,11 @@
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
       <title>Miniwrike - simple project task manager</title>
-      <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
+      <link href="css/style.css?<?php echo time();?>" rel="stylesheet" type="text/css" />
       <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-      <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-      <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+      <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
       <link rel='shortcut icon' href='project.ico'>
    </head>
    <body>
@@ -146,8 +146,8 @@
                <?php
                   $project_id=$_GET['project_id'];
                   $sql="SELECT * from projects where id=$project_id";
-                  $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                  	while ($row = mysql_fetch_array($result)) {
+                  $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                  	while ($row = mysqli_fetch_array($result)) {
                   		$project_name=$row['project_name'];
                   		$project_description=$row['project_descr'];
                   
@@ -173,8 +173,8 @@
                   
                   $sql="SELECT * from project_meetings WHERE id=$id;";
                    //echo $sql;
-                   $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                  $row = mysql_fetch_array($result);											
+                   $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                  $row = mysqli_fetch_array($result);											
                   		//$id=$row['id'];
                   		$meeting_title=$row['meeting_title'];
                   		$date_of_meeting=$row['date_of_meeting'];
@@ -193,8 +193,8 @@
                   echo "<tr><td>Ucastnici:</td><td><select name='attendee'>";
                   							$sql="SELECT * from project_assigned_people where project_id=$project_id";
                   
-                  							$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                  							while ($row=mysql_fetch_array($result)) {
+                  							$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                  							while ($row=mysqli_fetch_array($result)) {
                   								$user_id=$row['user_id'];
                   								echo "<option value=$user_id>".GetUserNameById($user_id)."</option>";
                   							}
@@ -206,13 +206,13 @@
                   echo "<div id='meeting_atendees'>";
                   
                   	$sql="SELECT * from project_meetings_atendees WHERE project_id=$project_id and meeting_id=$id";
-                  	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-                  					$nr_attendees =mysql_num_rows($result);
+                  	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+                  					$nr_attendees =mysqli_num_rows($result);
                   					 if ($nr_attendees==0) {
                   					 	echo "<span style='font-size:12px; color:#999'>No people have been assigned to this meeting</span>";
                   					 } else {
                   						echo "<ul id='meeting_atendees_list'>";	
-                  						while ($row = mysql_fetch_array($result)) {
+                  						while ($row = mysqli_fetch_array($result)) {
                   							$user_id=$row['user_id'];
                   							$user_name=GetUserNameById($user_id); //ziskam meno
                                 $assigment_id=$row['id'];
@@ -225,6 +225,27 @@
                   					
                   	echo "</div>";
                   echo "</td><tr>";
+                  echo "<tr>";
+                  echo "<td>Meeting agenda:</td><td><div id='meeting_agenda'>";
+                         
+                              $agenda="";
+                              $sql="select * from project_meeting_agenda where meeting_id=$id";
+                              $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+                              $any_agenda=mysqli_num_rows($result);
+
+                              if($any_agenda==0){
+                                    echo "<p>there is no agenda for this meeting yet ! Add new point</p><form action='' method='post'><button name='add_agenda_point' type='submit' class='blue-badge'><i class='fa fa-plus'></i></button></form>";
+                              } else {
+                              
+                              while ($row = mysqli_fetch_array($result)) {
+                                    $agenda.="<p>".$row['agenda_point']."</p>";
+                              }      
+                             }
+                       echo $agenda;
+                  
+                  echo "</div></td>";
+                  echo "</tr>";
+                  echo "<tr><td colspan='2'><a href='project_meetings.php?project_id=$project_id'><< Back</a></td></tr>";
                   echo "<tr><td colspan='2'><button type='submit' name='uprav_miting' class='blue-badge'>Update meeting</button>";
                   
                   //echo "<tr><td>Text:</td><td><textarea name='text_clanku'>$text_clanku</textarea></td></tr>";

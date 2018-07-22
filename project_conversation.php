@@ -7,18 +7,18 @@
    	$user_id=1;
    	$user_name=GetUserNameById($user_id);
    	$project_name=GetProjectName($project_id);
-   	$group_title=mysql_real_escape_string($_POST['group_title']);
+   	$group_title=mysqli_real_escape_string($db, $_POST['group_title']);
    	$date_created=date('Y-m-s H:i:s');
    	
    	$sql="INSERT INTO project_conversation_group (project_id,created_by,group_title,created_date) VALUES ($project_id,$user_id,'$group_title','$date_created')";
    		
    	//echo $sql;
-   	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+   	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
    
    	$sql="SELECT max(group_id) as group_id from project_conversation_group WHERE project_id=$project_id";
-   	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+   	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
    	
-   	while ($row = mysql_fetch_array($result)) {
+   	while ($row = mysqli_fetch_array($result)) {
    		$conv_group_id=$row['group_id'];
    	} 
    
@@ -29,7 +29,7 @@
    				$text_streamu=addslashes($text_streamu);
    				$datum=date('Y-m-d H:i:s');
    				$sql="INSERT INTO project_stream (project_id,stream_group,user_id,text_of_stream, date_added) VALUES ($project_id,'$stream_group',$user_id,'$text_streamu','$datum')";
-                      $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+                      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
             //echo $sql; */
             $url="project_conversation.php?project_id=$project_id&user_id=$user_id&conv_group_id=$conv_group_id";
             //echo $url;
@@ -43,7 +43,7 @@
    	-----------------------------------------------------------*/
      
      if(isset($_POST['add_feed'])) { // chatujem
-     	$chat_comment=mysql_real_escape_string($_POST['chat_comment']);
+     	$chat_comment=mysqli_real_escape_string($db, $_POST['chat_comment']);
      	$conv_group_id=intval($_POST['conv_group_id']);
    		$project_id=$_POST['project_id'];
      	
@@ -65,14 +65,14 @@
    
      	$sql="INSERT INTO project_conversation_feeds (project_id,user_id,conv_group_id,conversation_text,date_created) VALUES ($project_id,$user_id,$conv_group_id,'$chat_comment','$date_added')";
      	//echo $sql;
-     	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+     	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
    
    
    
    	$sql="SELECT max(id) as feed_id from project_conversation_feeds WHERE project_id=$project_id";
-   	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+   	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
    	
-   	while ($row = mysql_fetch_array($result)) {
+   	while ($row = mysqli_fetch_array($result)) {
    		$feed_id=$row['feed_id'];
    	} 
    
@@ -84,7 +84,7 @@
    				$text_streamu=addslashes($text_streamu);
    				$datum=date('Y-m-d H:i:s');
    				$sql="INSERT INTO project_stream (project_id,stream_group,user_id,text_of_stream, date_added) VALUES ($project_id,'$stream_group',$user_id,'$text_streamu','$datum')";
-                      $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+                      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
    
      	$url="project_conversation.php?project_id=$project_id&user_id=1&conv_group_id=$conv_group_id";
      	header('location:'.$url.'');
@@ -98,12 +98,12 @@
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
       <title>Miniwrike - simple project task manager</title>
-      <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
+      <link href="css/style.css?<?php echo time(); ?>" rel="stylesheet" type="text/css" />
       <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-      <script src="ckeditor/ckeditor.js"></script>
-      <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-      <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+      <!-- <script src="ckeditor/ckeditor.js"></script>-->
+      <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
       <link rel='shortcut icon' href='project.ico'>
    </head>
    <body>
@@ -119,12 +119,13 @@
          
          ?>	
       <div id="main">
-         <script type="text/javascript">	
+        <!-- <script type="text/javascript">	
             $( document ).ready( function() {
             	$( 'textarea#chat_editor' ).ckeditor();
             	} );
             
-         </script>	
+         </script>	 -->
+         
          <!-- header -->
          <?php include ("include/header.php"); ?>
          <!-- header -->
@@ -135,8 +136,8 @@
             <!-- project title -->
             <?php
                $sql="SELECT * from projects where id=$project_id";
-               $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-               	while ($row = mysql_fetch_array($result)) {
+               $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+               	while ($row = mysqli_fetch_array($result)) {
                		$project_name=$row['project_name'];
                		$project_description=$row['project_descr'];
                
@@ -164,12 +165,12 @@
                   <ul>
                      <?php
                         $sql="SELECT group_id,group_title from project_conversation_group WHERE project_id=$project_id";
-                        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                        while ($row = mysql_fetch_array($result)) {
+                        $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                        while ($row = mysqli_fetch_array($result)) {
                         $group_id=$row['group_id'];
                         $group_title=$row['group_title'];
                         $feeds=GetNrofFeeds($project_id,$group_id);
-                        echo "<li><a href='project_conversation.php?project_id=$project_id&conv_group_id=$group_id'><div class='conv_group_name'>$group_title</div></a><div class='conv_grop_feed_count'>$feeds</div><div style='float:right;margin-right:10px'><a href='project_conv_group_delete.php?conv_group_id=$conv_group_id' class='link'>x</a></div></li>";
+                        echo "<li><div class='conv_group_name'><a href='project_conversation.php?project_id=$project_id&conv_group_id=$group_id'>$group_title</a></div><div class='conv_grop_feed_count'>$feeds</div><div class='conv_group_remove'><a href='project_conv_group_delete.php?conv_group_id=$conv_group_id' class='link'>x</a></div></li>";
                         }
                         echo "<div style='clear:both'></div>";
                         ?>
@@ -186,9 +187,13 @@
                      <!--feeds -->		
                      <?php		
                         $sql="SELECT * from project_conversation_feeds where project_id=$project_id and conv_group_id=$conv_group_id";
-                        //echo $sql;
-                        $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                        while ($row = mysql_fetch_array($result)) {
+                        
+                        $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                        $num_rows=mysqli_num_rows($result);
+                        if($num_rows==0){
+                          echo "<span style='font-size:14px; font-family: 'Roboto',sans-serif;color:#666;margin-left:10px; margin-top:20px;float:left;width:100%'>No conversation in conversation group <b>".GetCovGroupName($conv_group_id)."</b></span>";
+                        } else {
+                        while ($row = mysqli_fetch_array($result)) {
                         	$id=$row['id'];
                         	$user_id=$row['user_id'];
                         	$conversation_text=$row['conversation_text'];
@@ -199,7 +204,7 @@
                           echo "<div feed_id=$id class='feed'><div class='feed_user_name link' ><a href='project_user_profile.php?=$user_id'>$user_name</a></div><div class='feed_text'>$conversation_text</div><div class='feed_time'>".time_ago($date_created)."</div><div class='feed_del'><a href='project_conversation.php?feed_id=$id' class='link'><i class='fa fa-times'></i></a></div><div style='clear:both'></div></div>";	
                          // echo "<div style='clear:both'></div>";
                         } /*end while */
-                        
+                      }  
                         ?>
                   </div>
                   <!--feeds -->
@@ -218,11 +223,11 @@
                   }else { $conv_group_id=$_GET['conv_group_id'];
                   }	
                   ?>
-               <form action="project_conversation.php" method="post">
+               <form action="" method="post">
                   <input type="hidden" name="project_id" value="<?php echo $project_id?>">
                   <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                   <input type="hidden" name="conv_group_id" value="<?php echo $conv_group_id; ?>">
-                  <textarea class="ckeditor" name="chat_comment" id="chat_editor"></textarea>
+                  <textarea name="chat_comment" id="chat_editor"></textarea>
                   <button name="add_feed" type="submit">Send</button>
                </form>
             </div>

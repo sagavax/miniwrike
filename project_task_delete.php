@@ -19,7 +19,7 @@
 	//$sql="DELETE FROM tbldev_notepad WHERE NoteID = '".$q."'";
         $sql="DELETE FROM project_tasks WHERE NoteID = $id";
         echo "$sql";
-	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 	echo "<br /><div class='msgbox'><b>The note has been deleted successfuly.</b></div>";
 	
 ?>

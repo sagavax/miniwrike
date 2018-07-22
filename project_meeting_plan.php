@@ -37,12 +37,12 @@
  		
  		$sql="INSERT INTO project_meetings (meeting_title,date_of_meeting, start_time, end_time,project_id, meeting_type, location,atendees, meeting_log, created_date) VALUES ('$meeting_title','$datum_mitingu','$start_time','$end_time',$project_id,'$meeting_type','$location','$atendees','', '$datum')";
  		//echo "$sql";
- 		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+ 		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
        $sql="SELECT MAX(id) as meeting_id from project_meetings"; //ziskanie max comment id z tabulky
 						
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 									$meeting_id=$row['meeting_id'];
 						}
 						
@@ -52,7 +52,7 @@
 	  $text_streamu=addslashes($text_streamu);
 	  $datum=date('Y-m-d H:m:s');
 	  $sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu','$datum')";
-      $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+      $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
 	  //$url="project_meetings.php?project_id=$project_id";
 	  $url="project_meeting_edit.php?m_id=$meeting_id&project_id=$project_id";
@@ -71,9 +71,9 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -101,8 +101,8 @@
 
 						$sql = "SELECT project_name, project_descr from projects where id=$project_id";
 						//echo "$sql";
-						$result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+						$result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 						    $project_name        = $row['project_name'];
 						    $project_description = $row['project_descr'];
 						    

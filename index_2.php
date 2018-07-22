@@ -22,8 +22,8 @@
 	<title>Miniwike</title>
     <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
     <link rel='shortcut icon' href='project.ico'>
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         function startTime()
@@ -91,12 +91,12 @@
                   <th>Project name</th><th>Project description</th><th>Customer</th><th># of tasks</th><th>Established</th><th>Status</th><th></th>
                  
                     <?php
-                    $sql="SELECT * FROM projects where project_status not in ('Cancelled','Completed')  ORDER BY id DESC";
-                    $result = mysql_query($sql);
+                    $sql="SELECT * FROM projects where project_status not in ('Cancelled','complete')  ORDER BY id DESC";
+                    $result = mysqli_query($db, $sql);
                     
                     $alternate = "2"; 
                     
-                    while ($row = mysql_fetch_array($result)) {
+                    while ($row = mysqli_fetch_array($result)) {
                     		$id=$row['id'];
                             $project_name=$row['project_name'];
                             //$project_code = $row['project_code'];

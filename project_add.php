@@ -18,7 +18,7 @@ session_start();
                     $curr_date=(date('Y-m-d'));
 
                     $sql = "INSERT INTO projects (project_name,project_code, project_customer,project_descr, established_date, project_status) VALUES ('$project_name','$project_code','$project_customer','$project_descr','$curr_date','$project_status')";
-                    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+                    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
                     
                     //Add2Log("new_project",$text_streamu,$datum);
@@ -28,8 +28,8 @@ session_start();
 						
 						$sql="SELECT MAX(id) as project_id from projects"; //ziskanie max comment id z tabulky
 						
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 									$project_id=$row['project_id'];
 						}
 						
@@ -41,7 +41,7 @@ session_start();
 						$text_streamu=addslashes($text_streamu);
 						$datum=date('Y-m-d H:m:s');
 						$sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu','$datum')";
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 						
 						$url = "project_details.php?project_id=$project_id";
 						header("Location: $url");
@@ -67,7 +67,7 @@ session_start();
 	<title>Miniwike</title>
     <link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
     <link rel='shortcut icon' href='project.ico'>
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
     </head>
 <body>
@@ -101,8 +101,8 @@ session_start();
 								<td>Customer:</td><td><select name="project_customer"> <!--meno zakaznika -->
 									<?php
 											$sql="SELECT id, customer_name from project_customers";
-											$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-											while ($row = mysql_fetch_array($result)) {
+											$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+											while ($row = mysqli_fetch_array($result)) {
 												$id=$row['id'];
 												$customer_name=$row['customer_name'];
 												echo "<option value='$id'>$customer_name</option>";
@@ -122,11 +122,8 @@ session_start();
 							<tr>
 								<td>Status:</td><td><select name="project_status">
 														<option value="New">New</option>
-														<option value="Pending">Pending</option>
-														<option value="finished">Finished</option>
-														<option value="Canceled">Canceled</option>
-														<option value="Postponed">Postponed</option>
-														</select></td>
+													</select>
+								</td>
 							</tr>
 							
 							<tr>

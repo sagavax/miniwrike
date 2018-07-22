@@ -13,16 +13,13 @@ body {
 
 	#main {
 	    background: #fff;
-	    width: 1000px;
-	    margin-left: auto;
-	    margin-right: auto;
-	    margin-top: 20px;
+	    width: 100%;
 	    border: 0px solid #D5D5D5;
 	    /*box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);*/
 	}
 
 		input {
-	    width: 400px;
+	    width: 900px;
 	    outline: 0;
 	    border: 1px solid #D5D5D5;
 	    color: #333;
@@ -30,13 +27,14 @@ body {
 	    font-weight: bold;
 	    padding: 6px;
 	    border-radius: 2px;
-	    height: 15px;
+	    height: 25px;
+		background: #fff;
 	}
 
 	input[type="file"] {
 		height:20px;
 	}
-	
+
 	textarea {
 	    padding: 4px;
 	    width: 850px;
@@ -58,7 +56,7 @@ body {
 	.link {
 	    color: #00acee !important;
 	    font-weight: normal;
-	    
+
 	}
 	.login_wrap {
 		  position: relative;
@@ -80,8 +78,16 @@ body {
   		height:40px;
   		margin: 0 0 10px;
 	}
+ 
+    .project_name {
+		float:left;font-weight:bold; font-size:26px; font-family:'Roboto', Helvetica, Arial,sans-serif;margin-left:10px
+	}
 
-	
+	.project_description {
+		float:left;font-style:italic; font-size:12px; font-family:'Roboto',Helvetica, Arial,sans-serif;color:#999;margin-left:15px
+	}
+
+
 	tr {
 	    padding: 5px;
 	}
@@ -89,7 +95,8 @@ body {
 	    padding: 5px;
 	}
 	#header {
-	    width: 100%;
+		float:left;
+		width: 100%;
 	    border-bottom: 1px #ccc solid;
 	    height: 50px;
 	    line-height: 50px;
@@ -112,8 +119,8 @@ body {
 
 	@media screen and (max-width:1200px) {
 		#header {
-		
-			
+
+
 		}
 
 	}
@@ -129,14 +136,14 @@ body {
 	    float: left;
 	    margin-left: 5px
 	}
-	
+
 	.header_nav_bar {
 		float:right;
 		list-style: none;
 		width:370px;
 		height:50px;
 		margin:0px;
-		
+
 	}
 
    .header_nav_bar li {
@@ -167,7 +174,7 @@ body {
 
 	.header_mailbox {float: left;}
 	.header_mailbox a {color:#fff;}
-	
+
 	.logged_user {
 	    width: 50%;
 	    height: 50px;
@@ -201,7 +208,7 @@ body {
 	    margin-left: 15px;
 	    margin-top: 7px;
 	    background-position: center;
-	   
+
 	}
 
 	#information {
@@ -234,7 +241,7 @@ body {
 		background: red;
 		text-align: center;
 		line-height: 30px;
-		
+
 		border-radius: 10px
 	}
 
@@ -250,7 +257,7 @@ body {
 		text-align: center;
 		line-height: 50px;
 		font-size: 20px;
-		
+
 	}
 
 	.red_badge a {text-decoration: none; color:#fff;}
@@ -265,7 +272,7 @@ body {
 		line-height: 50px;
 		font-size: 20px;
 	}
-	
+
 	.inbox_wrap {background: #ddd;width:100%;border: 0px #666 solid;padding:0px;float:left; margin-top:10px; padding-top: 5px; padding-bottom:5px;min-height: 300px}
 	.inbox_menu {margin-left: 5px;border: 1px #666 solid;background: #fff }
 	.inbox_menu ul {padding: 0;margin-left:5px ;list-style: none;width:92%;}
@@ -276,7 +283,7 @@ body {
 	.inbox_menu {float: left;width: 15%;margin-top: 10px}
 	.inbox_filter {width: 100%; text-align: right; border: 0px #666 solid; height: 40px;line-height: 40px;}
 	/* width and height can be anything, as long as they're equal */
-	
+
 	#new_mail {border-collapse: collapse;float:right;margin-right: 10px}
 	#new_mail input {width:590px;height: 25px;  border: 1px solid #666;}
 	#new_mail textarea {width:600px; border: 1px solid #666;}
@@ -312,7 +319,7 @@ body {
 	    text-align: center;
 	    margin-left: 3px
 	}
-	
+
 
 
 	.small_button {
@@ -324,13 +331,14 @@ body {
 	.right {
 	    float: right;
 	}
-	
+
 
 
 	.menu {
 	    background-color: #34495e;
 	    width: 100%;
-	    height: 40px
+		height: 40px;
+		float:left;
 	}
 	.menu ul {
 	    margin-left: 30px;
@@ -361,7 +369,7 @@ body {
 	.menu li a:hover {
 		background: #3f8abf;
    	}
-	
+
 	#middle {
 	    width: 99%;
 	    border-bottom: 0px #ccc solid;
@@ -378,7 +386,8 @@ body {
 	    color: #666;
 	}
 	#footer {
-	    width: 100%;
+	   padding-top: 10px;
+		width: 100%;
 	    border-top: 1px #ccc solid;
 	    height: 100px;
 	    background: #174a69;
@@ -392,7 +401,8 @@ body {
 	    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#174a69', endColorstr='#0e2e42', GradientType=0);
 	    background: linear-gradient(top, #174a69 0%, #0e2e42 100%);
 	    color: #fff;
-	    text-shadow: 1px 1px 0px #040E14;
+		text-shadow: 1px 1px 0px #040E14;
+		margin-top:10px;
 	}
 	#footer-left {
 	    list-style-type: none;
@@ -400,12 +410,35 @@ body {
 	#add_task,
 	{
 	    height: 60px;
-	    text-align: left
+		text-align: left;
+		
 	}
 	#add_project {
-	    height: 35px;
-	    line-height: 35px;
-	    margin-top: 15px
+		width:100%;
+		height:45px;
+	    line-height: 45px;
+		margin-top: 15px;
+		float:left;
+	}
+
+   #add_project form {
+	 width:100%; float:left;   
+	 height: 35px;
+	 line-height: 35px;
+	}
+
+	#add_project span {
+		
+	}
+	
+	#add_project form div {
+		float:right;
+		width: 120px;
+	}
+
+	#projects_filter div {
+		margin-right:5px;
+		width: 120px;
 	}
 	#main_nav {
 	    width: 100%;
@@ -419,6 +452,11 @@ body {
 	    margin-top: 10px;
 	    padding-bottom: 10px
 	}
+	
+	#add_task {
+		width:100%;
+	}
+
 	#add_task input,
 	#add_project_comment input {
 	    font-family: 'Roboto', Helvetica, sans-serif;
@@ -430,11 +468,16 @@ body {
 	    font-size: 14px;
 	    height: 20px;
 	}
+
+	#add_task table tr td {
+		padding:0;
+	}
+
 	#project_calendar {
 	    margin-top: 15px;
 
 	}
-	
+
 	#cal_nav_bar {
 		height: 40px;
 		line-height: 40px;
@@ -500,7 +543,7 @@ body {
 	    font-weight: bold;
 	    float: right;
 	    /*margin:-5px -5px 0 0*/
-	    
+
 	    margin-top: 0px;
 	    margin-right: 0px;
 	    width: 20px;
@@ -532,7 +575,7 @@ body {
 	#add_new_customer td {
 	    padding: 4px
 	}
-	
+
 	#add_new_customer button
 	 {
 	    padding: 10px;
@@ -553,7 +596,7 @@ body {
 	    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 	    margin-left: 3px
 	}
-	
+
 	#add_new_customer button:hover
  {
 	    border: 1px solid #363d4c;
@@ -567,7 +610,7 @@ body {
 	    filter: progid: DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#4b546a, endColorstr=#2c354b);
 	}
 	/*#project_details button, #add_project button,*/
-	
+
 	#view_customer input {
 	    width: 850px;
 	    outline: 0;
@@ -592,7 +635,7 @@ body {
 	    border: 1px #ddd solid
 	}
 	/*tabulka na prezeranie komentarov*/
-	
+
 	#comment_view tr td {
 	    padding: 5px;
 	}
@@ -602,8 +645,8 @@ body {
 	    height: 60px;
 	    border-top:1px #ddd solid;
 	    border-left:1px #ddd solid;
-	    border-right:1px #ddd solid; 
-	    
+	    border-right:1px #ddd solid;
+
 	}
 	.comment_post:hover {
 	    background: #ecf8ff;
@@ -612,17 +655,17 @@ body {
 	.comment_post:last-child {
 		border-bottom:1px #ddd solid;
 	    border-left:1px #ddd solid;
-	    border-right:1px #ddd solid; 
-	    
+	    border-right:1px #ddd solid;
+
 	}
 	.comment_body {
 	    float: left;
 	    height: 50px;
-	    line-height: 20px;
+	    line-height: 25px;
 	    font-size: 14px;
 	    width: 670px;
 	    padding: 5px;
-	    
+
 	}
 
 	.comment_body a {
@@ -648,12 +691,12 @@ body {
 
 	.comment_user_picture img {
 		margin: 10px auto;
-		
+
 	}
 
 	.commented_by {
 		float: left;
-		line-height:60px; 
+		line-height:60px;
 		height:60px;
 		width:120px;
 		text-indent: 10px
@@ -683,7 +726,7 @@ body {
 		text-indent: 5px;
 		text-align: center;
 	}
-	
+
 	#task_commnets_wrap {
 	    width: 100%;
 	    min-height: 50px
@@ -702,15 +745,15 @@ body {
 	#task_commnets_wrap li {
 		height:50px;
 		line-height: 50px;
-		border-bottom: 1px #666 solid;
-		border-left: 1px #666 solid;
-		border-right: 1px #666 solid;
+		border-bottom: 1px #d1d1d1 solid;
+		border-left: 1px #d1d1d1 solid;
+		border-right: 1px #d1d1d1 solid;
 	}
 
 	#task_commnets_wrap li:first-child {
-	     border-top: 1px #666 solid;
-		border-left: 1px #666 solid;
-		border-right: 1px #666 solid;
+	     border-top: 1px #d1d1d1 solid;
+		border-left: 1px #d1d1d1 solid;
+		border-right: 1px #d1d1d1 solid;
 	}
 
 	#task_comments_wrap li:last-child {
@@ -722,7 +765,7 @@ body {
 	#task_commnets_wrap li:hover {
 		background: #ddd;
 	}
-    
+
     #task_commnets_wrap input {
     	width: 930px;
     }
@@ -749,7 +792,7 @@ body {
 	    color: #666;
 	    font-family: 'Roboto', sans-serif;
 	     font-size: 15px;
-	    
+
 	}
 	#project_details input {
 	    padding-left: 5px;
@@ -770,8 +813,8 @@ body {
 	 	padding-top: 5px;
 	    padding-bottom: 5px;
 	 	width: 410px;
-	 }  	
-	  
+	 }
+
 	 .project_user {
 		border-collapse: collapse;
 		margin-top: 10px;
@@ -784,9 +827,9 @@ body {
 
 	.project_user select {
 		height:30px; padding:6px;
-		color:#666; 
+		color:#666;
 		font-family: 'Roboto', sans-serif;
-	} 
+	}
 
 	.project_user input {
 		height: 25px;
@@ -833,13 +876,16 @@ body {
 	    min-height: 30px;
 	    line-height: 30px;
 	    box-shadow: 0 5px 5px -5px rgba(0, 0, 0, .3);
-	    border:
+	    
 	}
+
+	#project_header,
+	#project_details_dashboard,
 	#project_task_details_comments,
 	#project_task_details_attachements,
 	#project_task_details_basic_info,
 	#project_task_details_quick_notes,
-	
+	#project_task_timelines,
 	#project_assigned_ppl,
 	#project_task_subtasks,
 	#project_task_assigned_person,
@@ -848,11 +894,18 @@ body {
 	#new_customer_wrap,
 	#customer_contacts {
 	    width: 100%;
-	    border: 0px #ddd solid;
+	    border: 1px #ddd solid;
 	    margin-top: 35px;
-	    min-height: 50px
-
+	    min-height: 50px;
+      box-sizing: border-box;
+			padding:2px;
+			background: #F8F8F8;
 	}
+
+  	#project_task_details_comments textarea {
+		width:950px;height:100px; background: #ddd;
+	}
+
 	#project_task_details_upload_form {
 		margin-top: 15px;
 	}
@@ -872,7 +925,7 @@ body {
 	}
 	#project_task_assigned_person input {
 	    margin-left: 0px;
-	    width: 920px;
+	    width: 90%px;
 	    padding:6px;
 	    height: 22px;
 	    margin-top: 10px
@@ -882,19 +935,26 @@ body {
 	}
 	#project_title {
 	    width: 100%;
-	    /*border: 1px #ddd solid; */
+	    float:left;
 	    margin-top: 3px;
 	    height: 50px;
 	    line-height: 30px;
 	    padding-top: 10px;
-	    padding-bottom: 10px
+		padding-bottom: 10px;
+		
 	}
+
+	#project_header {
+		float: left;
+		width:100%;
+	}
+
 	#project_task_title {
 	    line-height: 50px;
 	    color: #666;
 	    font-size: 15px;
 	}
-	
+
 	.status_badge {
 		border:2px #3f8abf solid;border-radius:5px; text-align:center;background: #fff;height:20px;line-height: 20px;width:80px;margin:12px auto;
 	}
@@ -903,21 +963,24 @@ body {
 	    padding-bottom: 10px
 	}
 	/*  TASK DASBOARD */
-	
+
 	#project_task_details_comments h3,
 	#project_task_details_dashboard h3,
 	#project_details_dashboard h3,
 	#project_task_subtasks h3,
-	#project_details_dashboard_charts h3 {
+	#project_details_dashboard_charts h3,
+	#project_task_timelines h3 {
 	    float: left;
 	    margin-left: 10px;
 	    width: 100%
 	}
+
 	#project_task_details_dashboard input {
 	    width: 100px; height: 15px;padding:5px; text-align: center;
 	}
+
 	/* PROEJCT TASK BOARD **** */
-	
+
 	#project_task_board {
 	    width: 100%;
 	    min-height: 700px;
@@ -926,9 +989,11 @@ body {
 	    margin-top: 10px;
 	    padding-bottom: 10px
 	}
+	
 	#task_board_columns_wrap {
 	    margin: 10px auto;
 	}
+	
 	.task_board_column {
 	    background: #e3e3e3;
 	    width: 320px;
@@ -939,6 +1004,7 @@ body {
 	    margin-left: 5px;
 	    margin-top: 10px;
 	}
+	
 	.task_board_header {
 	    background: #fff;
 	    float: left;
@@ -978,7 +1044,7 @@ body {
 	    color: #00acee !important;
 	}
 	/*  PROJECT_DETAILS_DASHBOARD_ */
-	
+
 	.info_box {
 	    height: 100px;
 	    width: 200px;
@@ -1005,8 +1071,8 @@ body {
 	    width: 100%;
 	    text-align: center;
 	    float: left;
-	    font-size: 18px;
-	    color: #666;
+	    font-size: 36px;
+		color: #2196F3;
 	    font-weight: bold;
 	}
 
@@ -1019,7 +1085,7 @@ body {
 		height:32px;
 		text-align: center;
 	}
-	
+
 
 
 	#project_details_dashboard {
@@ -1029,19 +1095,20 @@ body {
 	    height: 400px
 	}
 	/*  PROJECT_DETAILS_DASHBOARD_ */
-	
+
 	.task_description {
 		height:250px; width:100%; border:0px #d5d5d5 solid;float:left;margin-top:15px
 	}
 
 	.task_description textarea {
 		height:181px;
-		background: #FFFFCC;
-		width:970px;
+		/*background: #FFFFCC;*/
+		background: #fff;
+		width:98%;
 		float:left;
 		margin-top: 5px;
 		margin-left: 5px;
-		border:1px #666 solid;
+		border:1px #d1d1d1 solid;
 	}
 
 	#project_assigned_ppl {
@@ -1053,19 +1120,19 @@ body {
 	    line-height: 50px;
 	    border: 0px #999 solid
 	}
-	
+
 	.project_assigned_ppl_post {
 	    width: 100%;
 	    border: 0px #ccc solid;
 	    height: 50px;
 	    line-height: 50px;
 	    border: 1px #ccc solid;
-	   
+
 	}
 
 	.create_new_user {
 		float:right;
-		margin-right:10px
+		margin-right:5px
 	}
 
 	.project_assigne_pp_post form {
@@ -1120,15 +1187,15 @@ body {
 	    margin: 0px;
 	    padding: 0px;
 	}
-	
-	
+
+
 	.project_assigned_ppl_post_body {
 	    height: 28px;
 	    width: 100%;
 	    line-height: 28px
 	}
 	.project_assigned_ppl_duration {
-	    width: 50px;
+	    width: 100px;
 	    padding-left: 10px;
 	    padding-right: 10px;
 	    float: left;
@@ -1142,14 +1209,14 @@ body {
 	}
 	.project_assigned_ppl_button {
 	    float: right;
-	    margin-right: 5px;
-	    height:50px; width:30px;
+	    height:50px; width:50px;
 	    text-align: center;
 	}
 	/* ********* PROJECT_DETAILS_SUBTASK INPUT ************************* */
+
 	
 	#project_task_subtasks input {
-	    width: 920px;
+	    width: 92%;
 	    outline: 0;
 	    border: 1px solid #D5D5D5;
 	    color: #666;
@@ -1164,9 +1231,22 @@ body {
 	    width: 30px;
 	    height: 30px
 	}
+
+	.task_subtask_add_subtask_wrap {
+		width: 100%;
+		float:left;
+	}
+
+	.task_subtask_add_subtask_wrap form {
+		width:100%;
+	}
+	
+	.task_subtask_add_subtask_wrap table {
+		width:100%;
+	}
 	/* ********* PROJECT_DETAILS_SUBTASK INPUT ************************* */
 	/* ********* PROJECT_DETAILS_LIST_OF_FILES INPUT ************************* */
-	
+
 	#project_task_details_filelist {
 	    width: 100%;
 	    height: 60px;
@@ -1174,9 +1254,9 @@ body {
 	}
 	/* ********* PROJECT_DETAILS_LIST_OF_FILES INPUT ************************* */
 	/* ********* PROJECT_TASK_DETAILS_COMMENTS ************************* */
-	
+
 	#project_task_details_comments input {
-	    width: 920px;
+	    width: 92%;
 	    outline: 0;
 	    border: 1px solid #D5D5D5;
 	    color: #666;
@@ -1184,6 +1264,10 @@ body {
 	    font-size: 13px;
 	    padding: 6px;
 	    border-radius: 2px;
+	}
+
+	#project_task_details_comments table {
+		width:100%;
 	}
 	#project_task_details_comments button {
 	    margin-left: 10px;
@@ -1193,7 +1277,7 @@ body {
 	}
 	/* ********* PROJECT_TASK_DETAILS_COMMENTS ************************* */
 	/* ********* PROJECT_TASK_QUICK_NOTES ************************* */
-	
+
 	#project_task_details_quick_notes input {
 	    width: 850px;
 	    outline: 0;
@@ -1211,7 +1295,7 @@ body {
 	}
 	/* ********* PROJECT_TASK_QUICK_NOTES ************************* */
 	/* ********* TASK POST ************************* */
-	
+
 	.project_task_post_wrap {
 	    height: 50px;
 	    line-height: 50px;
@@ -1246,23 +1330,30 @@ body {
 	}
 	/* ********* TASK COMMENTS ************************* */
 	/* ********* SUBTASKS ************************* */
-	
+
 	.project_subtask_post {
 	    min-height: 50px;
 	    line-height: 50px;
-	    border: 0px #ccc solid;
-	    border:0px #666 solid;
+	   /* border: 0px #ccc solid;*/
+	    /*border:0px #d1d1d1 solid;*/
 	}
 	.project_subtask_post:hover {
 		background: #eaebec;
 	}
 	.subtask_title {
 		float:left;
-		width: 500px;
-		margin-left: 5px;
+		width: 450px;
+		text-indent: 5px;
 		font-weight:bold;
 		height: 50px;
 		line-height: 50px
+	}
+
+    #close_all_subtasks {
+		width:100%;
+		height: 40px;
+		line-height: 40px;
+		float: left;
 	}
 
 	.subtask_title a {
@@ -1283,7 +1374,7 @@ body {
 	    float: left;
 	}
 
-	.subtask_priority 
+	.subtask_priority
 	{
 		display: table;
 		float:left;
@@ -1294,7 +1385,7 @@ body {
 
 	}
 
-	
+
 	.subtask_duration {
 	    float: left;
 	   font-weight: bold;
@@ -1305,19 +1396,19 @@ body {
 		float:right;
 		margin-right: 5px
 	}
- 
+
     .subtask_status {
     	float:left;
     	width:120px;
     	text-align: center;
     	height: 50px;
     	line-height: 50px;
-    	
+
     }
 
 	#task_subtasks_wrap {
 	    width: 100%;
-	    
+        float:left; 
 	}
 	#task_subtasks_wrap ul {
 	    width: 970px;
@@ -1332,24 +1423,24 @@ body {
 	#task_subtasks_wrap li {
 		height: 50px;
 		line-height: 50px;
-		border-bottom: 1px #666 solid;
-		  border-left: 1px #666 solid;
-       border-right: 1px #666 solid
+		border-bottom: 1px #d1d1d1 solid;
+		  border-left: 1px #d1d1d1 solid;
+       border-right: 1px #d1d1d1 solid
 	}
 
 	#task_subtasks_wrap li:first-child {
-		  border-top: 1px #666 solid;
-	    border-left: 1px #666 solid;
-       border-right: 1px #666 solid;
-	
-	}	
+		  border-top: 1px #d1d1d1 solid;
+	    border-left: 1px #d1d1d1 solid;
+       border-right: 1px #d1d1d1 solid;
+
+	}
 
 	#task_subtasks_wrap li:last-child{
 
-	    border-left: 1px #666 solid;
-       border-right: 1px #666 solid;
-       border-bottom: 1px #666 solid  
-	
+	    border-left: 1px #d1d1d1 solid;
+       border-right: 1px #d1d1d1 solid;
+       border-bottom: 1px #d1d1d1 solid
+
 	}
 
 	#task_subtasks_wrap li:hover {
@@ -1360,12 +1451,12 @@ body {
 	.filter_wrap {
 		  background: #ecf8ff;
 		margin-top: 10px;
-		float:left; 
+		float:left;
 		width:100%;
 		height:45px;
 		line-height: 45px;
-		border:1px #666 solid; 
-		
+		border:1px #666 solid;
+
 
 	}
 
@@ -1374,7 +1465,7 @@ body {
 	}
 
 
-	.filter_wrap select{ 
+	.filter_wrap select{
 		width:100px;
 		height:30px;
 		  font-size: 12px;
@@ -1395,7 +1486,7 @@ body {
 	}
 
 	/* ********* SUBTASKS ************************* */
-	
+
 	#project_statistics_wrap {
 	    margin-top: 20px;
 	    border: 1px #ddd solid;
@@ -1403,7 +1494,7 @@ body {
 	    height: 400px
 	}
 	/* ********* PROJECT STREAM ************************* */
-	
+
 	#project_stream_wrap {
 	    width: 100%;
 	    padding: 0px;
@@ -1446,7 +1537,7 @@ body {
 	}
 	/* ********* PROJECT STREAM ************************* */
 	/* ********* PROJECT MEETING ************************* */
-	
+
 	#add_meeting {
 	    height: 45px;
 	    width: 100%;
@@ -1455,7 +1546,7 @@ body {
 	    text-align: right
 	}
 	/*#project_meetings_wrap {margin-top:10px;width:100%;min-height: 620px;border:1px #ddd solid; padding:5px}*/
-	
+
 	#project_meetings_list {
 	    margin-top: 20px;
 	    width: 100%;
@@ -1464,15 +1555,17 @@ body {
 	}
 	#project_meetings_list table {
 	    width: 100%;
-	    border-collapse: collapse;
+		border-collapse: collapse;
+		
 	}
 	#project_meetings_list tr td {
 	    padding-top: 10px;
-	    padding-bottom: 10px;
+		padding-bottom: 10px;
+		background: #f8f8f8
 	}
-	
+
 	#project_meetings_list tr {
-		border:1px #eaebec solid;
+		border:1px #d1d1d1 solid;
 		height:40px;
 	}
 
@@ -1497,7 +1590,7 @@ body {
 	    padding-left: 5px;
 	    font-weight:normal;
 	    font-size: 13px;
-	    color:#666; 
+	    color:#666;
 	}
 	#project_meeting_viewer textarea {
 	    width: 600px;
@@ -1529,6 +1622,16 @@ body {
 	    min-height: 100px;
 	    padding: 5px
 	}
+
+	#meeting_agenda {
+		width:100%;
+		border:1px #d1d1d1 solid;
+	}
+
+	#meeting_agenda p {
+		width:100%;
+	}
+
 	#project_meeting_planner {
 	    border-collapse: collapse;
 	}
@@ -1560,7 +1663,7 @@ body {
 	    font-size: 1em
 	}
 	/* ********* PROJECT STREAM ************************* */
-	
+
 	#project_attachemets_wrap {
 	    margin-top: 10px;
 	    width: 100%;
@@ -1586,10 +1689,10 @@ body {
 	    padding-right: 5px;
 	    padding-top: 10px;
 	    padding-bottom: 10px;
-	    
+
 	}
 	#project_tasks tr {
-	  border:1px #C7CCD9 solid;	
+	  border:1px #C7CCD9 solid;
 	}
 
 	#project_tasks tr:hover {
@@ -1602,6 +1705,11 @@ body {
 	    color: #2f2f2f;
 	    font-size: 14px
 	}
+
+	.form_project_tasks {
+		width:100%
+	}
+
 	#projects {
 	    position: relative;
 	    float: left;
@@ -1617,7 +1725,7 @@ body {
 	}
 
 	#projects_new {
-	    position: relative;
+	    margin-top:30px;
 	    float: left;
 	    border-collapse: collapse;
 	    font-size: 12px;
@@ -1649,7 +1757,7 @@ body {
 	    border: 1px #ddd solid;
 	}
 	/*.odd {background:#F3F3F3}*/
-	
+
 	.odd {
 	    background: #ecf8ff
 	}
@@ -1707,7 +1815,7 @@ body {
 	    margin-left: 0px;
 	    height: 500px;
 	    /* border:1px #ccc dashed;*/
-	    
+
 	    width: 98%;
 	    padding: 5px;
 	    min-height: 500px;
@@ -1727,11 +1835,15 @@ body {
 	#project_user_basic_info,
 	#project_user_uploaded_docs,
 	#project_user_planned_absence {
-	   
-	    width: 100%;
+
+		float:left;
+		width: 100%;
 	    border: 0px #ccc solid;
 	    min-height: 160px;
-	    margin-top: 35px;
+		margin-top: 35px;
+		background: #d1d1d1;
+		box-sizing: border-box;
+		padding:5px;
 	}
 	#project_user_meetings h3,
 	#project_user_basic_info h3,
@@ -1749,7 +1861,7 @@ body {
 	#project_user_uploaded_docs ul,
 	#project_user_planned_absence ul {
 	    list-style: none;
-	    margin-left: 10px;
+	    margin-left: 0px;
 	    padding: 0;
 	}
 	#project_user_project_list li,#project_user_task_list li,#project_user_meetings li {
@@ -1766,34 +1878,41 @@ body {
 	}
 
     #project_user_project_list li:first-child,#project_user_task_list li:first-child,#project_user_meetings li:first-child {
-    border-top: 1px #ccc solid;	
+    border-top: 1px #ccc solid;
     border-left: 1px #ccc solid;
     border-right: 1px #ccc solid;
-    } 
+    }
     #project_user_project_list li:last-child, #project_user_task_list li:last-child,#project_user_meetings li:last-child {
     	border-bottom: 1px #ccc solid;
     	border-left: 1px #ccc solid;
     border-right: 1px #ccc solid;
     }
 
-	 
+
 	#project_user_task_list li a {
 	    color: #2793e6 !important;
 	    font-weight: bold;
 	}
 	/* project users assigned task*/
+
+	.user_details_task_id {
+		height: 50px;
+		width:20px;
+		float: left;
+		text-indent: 2px;
+	}
 	
 	.user_details_task_wrap {
 	    height: 50px;
 	    width: 100%;
 	    border: 0px #ccc solid
-	}	
-
+	}
+ 
 
 	.user_details_task_duration {
 	    float: left;
 	    margin-left: 0px;
-	    width: 120px;
+	    width: 80px;
 	    text-align:center;
 	}
 	.user_details_task_status,.user_details_task_ass_date {
@@ -1803,12 +1922,13 @@ body {
 	   color:#666;
 	}
 	.user_details_task_ass_date {
-	   
-	   width: 120px;
+
+	   width: 135px;
 
 	}
 	.user_details_task_status {
-	    float: left;
+		width:80px;
+		text-align: center;
 	}
 	.user_details_project_wrap {
 	    height: 50px;
@@ -1821,9 +1941,13 @@ body {
 	    line-height: 50px;
 	    float: left;
 	    margin-left: 10px;
-	    width: 600px;
+	    width: 650px;
 	    font-weight:bold;
 	}
+
+  .user_details_project_name {
+	  width:600px;
+  }
 
 	.user_details_project_name a {
 		font-size: 14px
@@ -1831,9 +1955,9 @@ body {
 
 	.user_details_task_name {
 		 white-space: nowrap;
-  overflow: hidden;
+        overflow: hidden;
 		text-overflow: ellipsis;
-	
+
 	}
 
 	.user_details_meeting_title {
@@ -1860,9 +1984,9 @@ body {
 	    float: left;
 	    margin-left: 0px;
 	    width: 120px;
-	   
+
 	}
-	
+
 	.user_details_project_ass_date {
 	    float: left;
 	    width: 120px;
@@ -1903,7 +2027,7 @@ body {
 	    border: 1px solid #AAAADD;
 	    text-decoration: none;
 	    /* no underline */
-	    
+
 	    color: #000099;
 	}
 	.pagination a:hover,
@@ -1935,7 +2059,7 @@ body {
 	    width: 100%;
 	    height: 30px;
 	    /* border: 1px #666 solid */
-	    
+
 	    ;
 	    border-radius: 5px;
 	    font-family: 'Roboto', "Helvetica Neue", sans-serif
@@ -1955,14 +2079,17 @@ body {
 	    height: 50px;
 	    border: 0px #ccc solid;
 	    margin-top: 15px;
-	    text-align: right;
+		text-align: right;
+		float:left;
 	}
 	#add_group button, #add_contact button {
 	    margin-right: 5px;
 	    margin-top: 5px
 	}
 	#add_group input {
-	    margin-right: 5px;
+		/*margin-right: 5px;*/
+		float: left;
+		margin-left: 0px;
 	    margin-top: 5px;
 	    border: 1px #999 solid;
 	    height:25px;
@@ -1975,7 +2102,8 @@ body {
 	    width: 100%;
 	    margin-top: 10px;
 	    border: 0px #999 solid;
-	    min-height: 300px;
+		min-height: 300px;
+		float: left;
 	}
 	#conv_group_list {
 	    width: 200px;
@@ -1985,12 +2113,25 @@ body {
 	}
 
     .conv_group_name {
-       float:left;margin-left:10px;width:100px;
+       float:left;margin-left:10px;width:130px;
     }
 
     .conv_grop_feed_count {
     	float:left;width:20px;margin-left:20px;background: #666; color:#fff;text-align: center;
     }
+
+    .conv_group_remove {
+	 width:	20px;
+	 height:40px;
+	 line-height: 40px;
+	 float:right;
+	 text-align: center;
+	}
+	
+	.conv_group_remove a:hover {
+		font-weight: bold;
+	}
+
 
 	#conv_group_list ul {
 	    padding: 0;
@@ -2001,7 +2142,7 @@ body {
 	}
 	#conv_group_list ul li {
 	    border: 1px #999 solid;
-	    width: 195px;
+	    width: 200px;
 	    padding: 0px;
 	    display: inline-block;
 	    height: 40px;
@@ -2011,14 +2152,16 @@ body {
 	#conv_group_list li:hover{
 		background: #f5f8fa
 	}
+
+
 	/*#conv_group_list ul li {width:195px;padding:0px;margin: 0px;float: left; position: relative;}*/
-	
+
 	#conv_group_list ul li a {
 	    font-size: 14px;
 	    display: block;
 	}
 	/*#conv_group_list ul li a {display: block;font-size: 14px; border-radius: 2px;border:1px #999 solid;text-align: center;padding-top: 10px;padding-bottom: 10px}*/
-	
+
 	#conv_group_chat_wrap {
 	    width: 770px;
 	    float: left;
@@ -2029,20 +2172,25 @@ body {
 	}
 	#add_comment {
 	    width: 99%;
-	    height: 300px;
-	    border: 0px #ddd solid;
-	    float: left;
-	    margin-left: 5px;
+	    height: 120px;
+		border: 1px #ddd solid;
+		padding:3px;
 	    margin-top: 15px;
 	    float: left;
-	    text-align: right
+		box-sizing: border-box;
 	}
+
+	#add_comment form {
+		height:100%;
+		width:100%;
+	}
+
 	#add_comment textarea {
-	    height: 100px;
+	    height: 100%;
 	    border: 1px #666 solid;
-	    width: 755px;
+	    width: 90%;
 	    font-size: 13px;
-	    float: right;
+	    float: left;
 	    margin-right: 5px
 	}
 	#add_comment input {
@@ -2050,12 +2198,11 @@ body {
 	    height: 22px;
 	    float: left;
 	    margin-left: 5px;
-	    margin-top: 5px;
 	    border: 1px #999 solid;
 	}
 	#add_comment button {
 	    width: 65px;
-	    float: right;
+	    float: left;
 	    margin-top: 5px;
 	    margin-right: 10px;
 	    text-align: center;
@@ -2063,17 +2210,17 @@ body {
 	.chat {
 	    width: 99%;
 	    min-height: 5px;
-	    border: 1px #999 solid;
+	    border: 0px #999 solid;
 	    float: left;
 	    margin-left: 5px;
-	    
-	    
+
+
 	}
 	.feed {
-	    
+
 	    width: 100%;
 	    min-height: 40px;
-	    
+
 	    border-bottom: 1px #999 solid;
 	    background: #fff;
 	    /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), -1px 0 0 rgba(0, 0, 0, 0.03), 1px 0 0 rgba(0, 0, 0, 0.03), 0 1px 0 rgba(0, 0, 0, 0.12);*/
@@ -2151,7 +2298,7 @@ body {
 	    font-weight: normal;
 	    font-size: 1.2em
 	}
-	
+
 	#project_contacts{
 		width:100%;
 		border-collapse: collapse;
@@ -2161,7 +2308,7 @@ body {
 #project_contacts tr {
 	border:1px #666 solid;
 	height:50px;
-}	
+}
 #project_contacts tr:hover {
 	background: #efefef;
 }
@@ -2185,7 +2332,7 @@ body {
 
 	.task_list_workload {display:inline-block;list-style: none;width: 100%;height: 100%;position:relative;margin: 0;padding:0;}
 	.task_id {margin-left: 3px;margin-top:3px;float:left;min-height:25px; border:1px #666 solid;padding:3px; width:192px;}
-	
+
 	.task_id:hover {background: #FAFAFA}
 
 
@@ -2216,7 +2363,7 @@ body {
 
 	.white-badge:hover {
 		background: #fff;
-		border:1px #666 solid !important; 
+		border:1px #666 solid !important;
 	}
 
 	.blue-badge {
@@ -2250,7 +2397,7 @@ body {
 	}
 
 	.msg_box {
-		
+
 		margin:auto;
 		width:400px;
 		height: 50px;
@@ -2280,4 +2427,52 @@ body {
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+}
+
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }

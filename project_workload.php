@@ -11,10 +11,10 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<script src="./js/jquery.sortable.min.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -51,8 +51,8 @@
 		               	$project_id=$_SESSION['project_id'];
 						$user_id=$_SESSION['user_id'];
 		                $sql="SELECT * from projects where id=$project_id";
-		                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		                while ($row = mysql_fetch_array($result)) {
+		                $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		                while ($row = mysqli_fetch_array($result)) {
 		                    $project_name=$row['project_name'];
 		                    $project_description=$row['project_descr'];
 
@@ -74,19 +74,19 @@
 
             		$sql="SELECT * from project_assigned_people WHERE project_id=$project_id";
 
-            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-            		$nr_of_rec=mysql_num_rows($result);
+            		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+            		$nr_of_rec=mysqli_num_rows($result);
             		if($nr_of_rec==0){
             			echo "<tr><td colspan='2'><span style='font-style:italic;color:#555'>No people have assigned tasks</span></td></tr>";
             		} else {
-		                while ($row = mysql_fetch_array($result)) {
+		                while ($row = mysqli_fetch_array($result)) {
 		                	$user_id=$row['user_id'];
 		             $user_name = GetUserNameById($user_id);
 		             echo "<tr><td style='width:15%'>$user_name</td><td style='width:85%'>";
 		             	echo "<ul class='connected task_list_workload' id=$user_id>";
 		             	$sql1="SELECT task_id from project_task_assigned_people where user_id=$user_id and project_id=$project_id";
-		             	$result1=mysql_query($sql1) or die("MySQL ERROR: ".mysql_error());
-		             		 while ($row1 = mysql_fetch_array($result1)) {
+		             	$result1=mysqli_query($db,$sql1) or die("MySQL ERROR: ".mysqli_error());
+		             		 while ($row1 = mysqli_fetch_array($result1)) {
 		                	$task_id=$row1['task_id'];
 		                	$task=$task_id.'; ';
 		                	echo "<li class='task_id'><a href='project_task.php?task_id=$task_id'>".TaskName($task_id)."</a><span style='float:right;margin-rigth:5px'><a href='#' class='link'><i class='fa fa-times'></i></a></span></li>"; 	
@@ -101,8 +101,8 @@
 		            echo "<tr><td>Unassigned tasks:</td><td>";
 		            		echo "<ul class='connected task_list_workload' id=$user_id'>";
 		            		$sql2="SELECT task_id FROM project_tasks WHERE project_id=$project_id and task_id NOT IN (SELECT task_id FROM project_task_assigned_people where project_id=$project_id)";
-		             		$result2=mysql_query($sql2) or die("MySQL ERROR: ".mysql_error());
-		             		while ($row2 = mysql_fetch_array($result2)) {
+		             		$result2=mysqli_query($db, $sql2) or die("MySQL ERROR: ".mysqli_error());
+		             		while ($row2 = mysqli_fetch_array($result2)) {
 		             		$task_id1=$row2['task_id'];
 		             		$task1=$task_id1.'; ';
 		                	echo "<li class='task_id' id='$task_id'><a href='project_task.php?task_id=$task_id1'>".TaskName($task_id1)."</a><span style='float:right;margin-rigth:5px'><a href='#' class='link'><i class='fa fa-times'></i></a></span></li>"; 	

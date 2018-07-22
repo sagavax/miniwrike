@@ -23,9 +23,9 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>-->
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>-->
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -57,8 +57,8 @@
 			<div id="middle"> <!-- middle section -->
 					<?php 
 						$sql="SELECT * from project_customers WHERE id=$customer_id";
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-      					while ($row = mysql_fetch_array($result)) {
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+      					while ($row = mysqli_fetch_array($result)) {
       						$customer_name=$row['customer_name'];
       						$customer_description=$row['customer_description'];
       						$customer_url=$row['customer_url'];
@@ -86,8 +86,8 @@
 					<ul>
 					<?php
 						$sql="SELECT * from project_customer_contacts WHERE customer_id=$customer_id";
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); 
-      					while ($row = mysql_fetch_array($result)) {
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); 
+      					while ($row = mysqli_fetch_array($result)) {
       						$full_name=$row['full_name'];
       						$email_address=$row['email_address'];
       						$tel_numer=$row['tel_numer'];

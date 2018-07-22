@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS `projects` (
 --
 
 INSERT INTO `projects` (`id`, `project_name`, `project_code`, `project_customer`, `project_descr`, `established_date`, `finished_date`, `project_status`) VALUES
-(1, 'gojiberries', 'goji', '3', 'eshop Gojiberrie.sk', '2012-07-04', '2013-11-09', 'Completed'),
-(2, 'miniproject', 'miniproject', '3', 'project_description', '0000-00-00', '0000-00-00', 'Completed'),
+(1, 'gojiberries', 'goji', '3', 'eshop Gojiberrie.sk', '2012-07-04', '2013-11-09', 'complete'),
+(2, 'miniproject', 'miniproject', '3', 'project_description', '0000-00-00', '0000-00-00', 'complete'),
 (3, 'PPM manager', 'ppm_manager', '3', 'simple team management tool for the game PowerPlay manager', '0000-00-00', '0000-00-00', 'pending'),
 (4, 'ServerIS', 'server_is', '3', 'Information system for my HP work - integration tool with enterprise server list, notepad, password management and CRM', '0000-00-00', '0000-00-00', 'pending'),
 (5, 'modlitba.sk', 'modlitba_sk', '3', 'new portal modlitba.sk', '0000-00-00', '0000-00-00', 'pending'),
@@ -474,7 +474,7 @@ CREATE TABLE IF NOT EXISTS `project_tasks` (
   `task_name` text COMMENT 'Text ',
   `status` varchar(20) NOT NULL,
   `task_priority` varchar(10) NOT NULL,
-  `is_completed` int(11) DEFAULT NULL,
+  `is_complete` int(11) DEFAULT NULL,
   `task_created` date NOT NULL COMMENT 'Datum kedy bolo vytvorene',
   `task_finished` date NOT NULL COMMENT 'darum ukoncenia tasku',
   `task_deadline` date NOT NULL COMMENT 'datum ked ma byt task spraveny',
@@ -485,7 +485,7 @@ CREATE TABLE IF NOT EXISTS `project_tasks` (
 -- Sťahujem dáta pre tabuľku `project_tasks`
 --
 
-INSERT INTO `project_tasks` (`task_id`, `project_id`, `user_id`, `task_name`, `status`, `task_priority`, `is_completed`, `task_created`, `task_finished`, `task_deadline`) VALUES
+INSERT INTO `project_tasks` (`task_id`, `project_id`, `user_id`, `task_name`, `status`, `task_priority`, `is_complete`, `task_created`, `task_finished`, `task_deadline`) VALUES
 (1, 4, 1, 'pridany developersky notepad<br />', 'Done', 'normal', 1, '2010-10-29', '2013-10-28', '0000-00-00'),
 (2, 4, 1, 'spravit paging<br />', 'Done', 'normal', 1, '2010-10-29', '2010-11-03', '2010-11-03'),
 (3, 4, 1, 'ramceky okolo filtrov<br />', 'Done', 'normal', 1, '2010-10-29', '2010-11-03', '2010-11-03'),
@@ -513,7 +513,7 @@ INSERT INTO `project_tasks` (`task_id`, `project_id`, `user_id`, `task_name`, `s
 (71, 4, 1, 'password manager - zistovat "silu" hesla', 'New', 'normal', 0, '2010-12-29', '0000-00-00', '2011-01-03'),
 (66, 4, 1, 'zmazat pomocou AJAXu zaznam a zaroven zmazenie riadku tabulky pomocou javascriptu', 'New', 'normal', 0, '2010-12-29', '0000-00-00', '2011-01-03'),
 (67, 4, 1, 'v developerskych poznamka - zvazit moznost automatickeho vytvarania takov...', 'New', 'normal', 0, '2010-12-29', '0000-00-00', '2011-01-03'),
-(69, 4, 1, 'v taskoch bude pri kazdom tasku tlacitko "Mark as completed"', 'New', 'normal', 0, '2010-12-29', '0000-00-00', '2011-01-03'),
+(69, 4, 1, 'v taskoch bude pri kazdom tasku tlacitko "Mark as complete"', 'New', 'normal', 0, '2010-12-29', '0000-00-00', '2011-01-03'),
 (70, 4, 1, 'pri mazani dev notes sa vysvieti cely riadok tabulky na cerveno a zmaze sa...', 'New', 'normal', 0, '2010-12-29', '0000-00-00', '2011-01-03'),
 (72, 4, 1, 'v developer notes bude namiesto combo boxu check box', 'New', 'normal', 0, '2010-12-30', '0000-00-00', '2011-01-04'),
 (73, 4, 1, 'v deleloperskom notepad rozlisit medzi obycajnou poznamkou a taskom', 'Done', 'normal', 1, '2010-12-30', '2011-01-04', '2011-01-04'),
@@ -583,7 +583,7 @@ INSERT INTO `project_tasks` (`task_id`, `project_id`, `user_id`, `task_name`, `s
 (177, 12, 1, 'task, subtask - following', 'New', 'normal', 0, '2013-10-03', '0000-00-00', '2013-10-08'),
 (178, 12, 1, 'taks and subtask will be in one table ->  task id, parent_task_id, project_id... if task is parent so parent_task_id=0', 'New', 'normal', 0, '2013-10-03', '0000-00-00', '2013-10-08'),
 (179, 12, 1, 'task details - fix adding of subtasks', 'New', 'normal', 0, '2013-10-03', '0000-00-00', '2013-10-08'),
-(180, 12, 1, 'task details - task mark as completed', 'New', 'normal', 0, '2013-10-03', '0000-00-00', '2013-10-08'),
+(180, 12, 1, 'task details - task mark as complete', 'New', 'normal', 0, '2013-10-03', '0000-00-00', '2013-10-08'),
 (181, 2, 1, 'task details - style input boxes', 'New', 'normal', 0, '2013-10-03', '0000-00-00', '2013-10-08'),
 (182, 12, 1, 'project details - project statistics', 'New', 'normal', 0, '2013-10-03', '0000-00-00', '2013-10-08'),
 (183, 2, 1, 'project details - fix add ppl to project', 'New', 'normal', 0, '2013-10-03', '0000-00-00', '2013-10-08'),
@@ -833,7 +833,7 @@ INSERT INTO `project_task_subtasks` (`subtask_id`, `task_id`, `project_id`, `use
 (41, 226, 17, 1, 'vytvorit tabulku pre fotogaleriu', 'new', 'normal', '2013-11-06 11:11:15', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (42, 252, 12, 1, 'add option to modify status', 'new', 'normal', '2013-11-12 15:11:32', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (43, 252, 12, 1, 'add option to modify planned deadline', 'new', 'normal', '2013-11-12 15:11:29', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(44, 252, 12, 1, 'add option to modify mark as completed.', 'new', 'normal', '2013-11-12 15:11:51', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(44, 252, 12, 1, 'add option to modify mark as complete.', 'new', 'normal', '2013-11-12 15:11:51', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 

@@ -13,9 +13,9 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -38,8 +38,8 @@
 
 						$sql = "SELECT project_name, project_descr from projects where id=$project_id";
 						//echo "$sql";
-						$result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+						$result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 						    $project_name        = $row['project_name'];
 						    $project_description = $row['project_descr'];
 						    
@@ -70,9 +70,9 @@
 
             if ($action=='view') {
             		$sql="SELECT * from project_comments WHERE comment_id=$comment_id";
-            		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+            		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 					
-					while ($row = mysql_fetch_array($result)) {
+					while ($row = mysqli_fetch_array($result)) {
 						$comment=$row['comment'];
 						$date_added=$row['date_added'];
 						$user_id=$row['user_id'];
@@ -93,7 +93,7 @@
 					
 					$sql="DELETE from project_comments WHERE comment_id=$comment_id";
 			
-					$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+					$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
 						
 						 // ****************           pridenie do streamu	************************

@@ -12,14 +12,14 @@
 						//$task_id=1;
 						//$project_id = 1;
 						$user_id = 1;
-						$comment=mysql_real_escape_string($_POST['comment']);
+						$comment=mysqli_real_escape_string($db, $_POST['comment']);
 						$date_added=(date('Y-m-d'));	
 						$sql="INSERT INTO project_comments (project_id, user_id, comment, date_added) VALUES ($project_id, $user_id, '$comment', '$date_added')";
 						
 						//print_r($_POST);
 
 
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 						
 					
 						// ****************           pridenie do streamu	************************
@@ -27,8 +27,8 @@
 						
 						$sql="SELECT MAX(comment_id) as comment_id from project_comments where project_id=$project_id"; //ziskanie max comment id z tabulky
 						
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 									$comment_id=$row['comment_id'];
 						}
 						
@@ -38,7 +38,7 @@
 						$text_streamu=addslashes($text_streamu);
 						$datum=date('Y-m-d H:m:s');
 						$sql="INSERT INTO project_stream (project_id,user_id,text_of_stream, date_added) VALUES ($project_id,$user_id,'$text_streamu','$datum')";
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 						$project_id=$_POST['project_cislo'];
 						
 						
@@ -61,10 +61,10 @@
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
 		    
-		<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<script type="text/javascript" src="js/facebox.js"></script> -->
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
 		<link rel='shortcut icon' href='project.ico'>
 				
 	</head>
@@ -108,8 +108,8 @@
 
                 $sql="SELECT * from projects where id=$project_id";
                	//echo "$sql";
-				$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-                while ($row = mysql_fetch_array($result)) {
+				$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+                while ($row = mysqli_fetch_array($result)) {
                     $project_name=$row['project_name'];
                     $project_description=$row['project_descr'];
 
@@ -152,8 +152,8 @@
 				
 					<?php 
 						$sql="SELECT * from project_comments where project_id=$project_id ORDER BY comment_id DESC";
-						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 							$comment_id=$row['comment_id'];
 							$user_id=$row['user_id'];
 							$project_id=$row['project_id'];

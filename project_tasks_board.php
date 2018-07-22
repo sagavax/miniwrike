@@ -11,10 +11,10 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style_test.css" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 		<link rel='shortcut icon' href='project.ico'>
 				   
@@ -51,8 +51,8 @@
 		               <?php
 
 		                $sql="SELECT * from projects where id=$project_id";
-		                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		                while ($row = mysql_fetch_array($result)) {
+		                $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		                while ($row = mysqli_fetch_array($result)) {
 		                    $project_name=$row['project_name'];
 		                    $project_description=$row['project_descr'];
 		                    
@@ -74,8 +74,8 @@
 
 					            		$sql="SELECT * FROM project_tasks WHERE project_id=$project_id and status='New' ORDER BY task_id DESC";
 										
-										$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-										while ($row = mysql_fetch_array($result)) {
+										$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+										while ($row = mysqli_fetch_array($result)) {
 												$id=$row['task_id'];
 												$project_id=$row['project_id'];
 												$user_id=$row['user_id'];
@@ -105,8 +105,8 @@
 
 					            		$sql="SELECT * FROM project_tasks WHERE project_id=$project_id and status='In progress' or status='Pending' ORDER BY task_id DESC";
 										
-										$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-										while ($row = mysql_fetch_array($result)) {
+										$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+										while ($row = mysqli_fetch_array($result)) {
 												$id=$row['task_id'];
 												$project_id=$row['project_id'];
 												$user_id=$row['user_id'];
@@ -128,16 +128,16 @@
             			</div>
 						
             			<div class="task_board_column">
-            				<div class="task_board_header">Completed:</div>
+            				<div class="task_board_header">complete:</div>
             				<div class="task_board_tasklist">
-            					<ul id="completed_tasks" class="connectedSortable">
+            					<ul id="complete_tasks" class="connectedSortable">
 					            	<?php
 					            			
 
-					            		$sql="SELECT * FROM project_tasks WHERE project_id=$project_id and status='Completed' or status='Pending' ORDER BY task_id DESC";
+					            		$sql="SELECT * FROM project_tasks WHERE project_id=$project_id and status='complete' or status='Pending' ORDER BY task_id DESC";
 										
-										$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-										while ($row = mysql_fetch_array($result)) {
+										$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+										while ($row = mysqli_fetch_array($result)) {
 												$id=$row['task_id'];
 												$project_id=$row['project_id'];
 												$user_id=$row['user_id'];

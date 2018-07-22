@@ -4,24 +4,24 @@
 
 <?php
 	if(isset($_POST['add_new_link'])){
-		$link_name=mysql_real_escape_string($_POST['link_name']);
-		$link_url=mysql_real_escape_string($_POST['link_url']);
-		$link_decription=mysql_real_escape_string($_POST['link_decription']);
+		$link_name=mysqli_real_escape_string($db, $_POST['link_name']);
+		$link_url=mysqli_real_escape_string($db, $_POST['link_url']);
+		$link_decription=mysqli_real_escape_string($db, $_POST['link_decription']);
 		$date_added=date("Y-m-d H:i:s");
 		$user_id=intval($_POST['user_id']);
 		$project_id=intval($_POST['project_id']);
 		$stream_group="links";
 
 		$sql="INSERT INTO project_links (project_id,link_name,link_url,link_description,created_date,added_by) VALUES ($project_id,'$link_name','$link_url','$link_decription','$date_added',$user_id)";
-		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
 		//pridat do streamu / logu
 
 		$sql="SELECT max(link_id) as link from project_links where project_id=$project_id";
-		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		$row = mysql_fetch_array($result);
+		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		$row = mysqli_fetch_array($result);
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		    $link_id=$row['link_id'];
 		 }
 		    
@@ -35,7 +35,7 @@
 		
 		$sql="INSERT INTO project_stream (project_id,stream_group,user_id,text_of_stream, date_added) VALUES ($project_id,'$stream_group',$user_id,'$text_streamu', '$datum')";
 					//echo $sql;
-		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
 		$url="project_links.php?project_id=$project_id";
 		header('location:'.$url.'');
@@ -47,16 +47,16 @@
 		$link_id=intval($_POST['link_id']);
 		$project_id=intval($_POST['project_id']);
 		$user_id=intval($_POST['user_id']);
-		$link_name=mysql_real_escape_string($_POST['link_name']);
-		$link_url=mysql_real_escape_string($_POST['link_url']);
-		$link_description=mysql_real_escape_string($_POST['link_description']);
+		$link_name=mysqli_real_escape_string($db, $_POST['link_name']);
+		$link_url=mysqli_real_escape_string($db, $_POST['link_url']);
+		$link_description=mysqli_real_escape_string($db, $_POST['link_description']);
 		$stream_group='links';
 
 		//echo $user_id;
 
 		$sql="UPDATE project_links SET link_name='$link_name',link_url='$link_url',link_description='$link_description' WHERE link_id=$link_id";
 		//echo $sql;
-		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
 		//pridat do streamu / logu
 		$user_name=GetUserNameById($user_id);
@@ -67,7 +67,7 @@
 		$datum = date('Y-m-d H:m:s');
 		$sql="INSERT INTO project_stream (project_id,stream_group,user_id,text_of_stream, date_added) VALUES ($project_id,'$stream_group',$user_id,'$text_streamu', '$datum')";
 					echo $sql;
-		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 		
 		$url="project_links.php?project_id=$project_id";
 		header('location:'.$url.'');
@@ -86,8 +86,8 @@
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/style1.css" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -142,8 +142,8 @@
 					$link_id=$_GET['link_id'];
 
 					$sql="SELECT * from project_links WHERE link_id=$link_id";
-					$result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
-					$row = mysql_fetch_array($result);
+					$result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
+					$row = mysqli_fetch_array($result);
 					$link_name=$row['link_name'];
 					$link_url=$row['link_url'];
 					$link_description=$row['link_description'];
@@ -163,8 +163,8 @@
 					$link_id=$_GET['link_id'];
 
 					$sql="SELECT * from project_links WHERE link_id=$link_id";
-					$result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
-					$row = mysql_fetch_array($result);
+					$result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
+					$row = mysqli_fetch_array($result);
 					$link_name=$row['link_name'];
 					$link_url=$row['link_url'];
 					$link_decription=$row['link_decription'];
@@ -191,7 +191,7 @@
 					$stream_group="links";
 
 					$sql="DELETE from project_links WHERE link_id=$link_id";
-					$result = mysql_query($sql) or die("MySQL ERROR: " . mysql_error());
+					$result = mysqli_query($db, $sql) or die("MySQL ERROR: " . mysqli_error());
 
 					//pridanie do streamu / logu / wallu
 					$user_name=GetUserNameById($user_id);
@@ -202,7 +202,7 @@
 					$datum = date('Y-m-d H:m:s');
 					$sql="INSERT INTO project_stream (project_id,stream_group,user_id,text_of_stream, date_added) VALUES ($project_id,'$stream_group',$user_id,'$text_streamu', '$datum')";
 					//echo $sql;
-					$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+					$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 
 					$url="project_links.php?project_id=$project_id";
 					header('location:'.$url.'');

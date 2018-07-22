@@ -19,9 +19,9 @@
 		<title>Miniwrike - simple project task manager</title>
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,700italic,400italic' rel='stylesheet'>
 		<link rel='shortcut icon' href='project.ico'>
 		
 
@@ -47,8 +47,8 @@
 		               	$project_id=$_SESSION['project_id'];
 						$user_id=$_SESSION['user_id'];
 		                $sql="SELECT * from projects where id=$project_id";
-		                $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		                while ($row = mysql_fetch_array($result)) {
+		                $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		                while ($row = mysqli_fetch_array($result)) {
 		                    $project_name=$row['project_name'];
 		                    $project_description=$row['project_descr'];
 
@@ -80,10 +80,10 @@
             							$folder=$_GET['folder'];
             							 }
             					if($folder=='inbox'){
-            						$sql="SELECT sender_id,sent_date,subject,message,read_date from project_mailbox_inbox WHERE receiver_id=".$_SESSION['user_id']." ORDER BY sent_date DESC";
-            						    $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());	
+            						$sql="SELECT sender_id,sent_date,subject,message,read_date from project_mailbox WHERE receiver_id=".$_SESSION['user_id']." ORDER BY sent_date DESC";
+            						    $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());	
 		            					
-            						    while ($row = mysql_fetch_array($result)) {
+            						    while ($row = mysqli_fetch_array($result)) {
 		            							$sender_name=GetUserNameById($row['sender_id']);
 		            							$subject=substr($row['subject'],0,30);
 		            							$sent_date=$row['sent_date'];
@@ -104,8 +104,8 @@
 
 		            					} elseif ($folder=='sent'){
 		            						$sql="SELECT * from project_mailbox_outbox WHERE sender_id=".$_SESSION['user_id']." ORDER BY sent_date DESC";
-		            						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-		            						while ($row = mysql_fetch_array($result)) {
+		            						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+		            						while ($row = mysqli_fetch_array($result)) {
 		            							$receiver_name=GetUserNameById($row['receiver_id']);
 		            							$subject=substr($row['subject'],0,30);
 		            							$sent_date=$row['sent_date'];
@@ -118,7 +118,7 @@
 
             					} elseif ($folder=='trash') {
             						$sql="SELECT * from project_mailbox_inbox WHERE receiver_id=".$_SESSION['user_id']." and is_deleted=1";
-            						$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+            						$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
             						$num=mysql_num_rows($result);
             							if($num==0){
             								echo "No messages in trash";

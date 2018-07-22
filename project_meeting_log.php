@@ -21,13 +21,13 @@
  	if (isset($_POST['update_miting'])) {
  		$project_id=$_POST['project_id'];
  		$m_id=$_POST['m_id'];
- 		$meeting_title=mysql_real_escape_string($_POST['nazov_mitingu']);
- 		$meeting_record=mysql_real_escape_string($_POST['meeting_record']);
+ 		$meeting_title=mysqli_real_escape_string($db, $_POST['nazov_mitingu']);
+ 		$meeting_record=mysqli_real_escape_string($db, $_POST['meeting_record']);
  		
  		//echo "$id";
  		$sql="UPDATE project_meetings SET meeting_log='$meeting_record', updated=1 WHERE id=$m_id";
  		//echo "$sql";
- 		$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+ 		$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
  		$url="project_meetings.php?project_id=$project_id";
  		
  		header('location:'.$url.'');
@@ -50,9 +50,9 @@
 		<link href="css/style.css?v1.0" rel="stylesheet" type="text/css" />
 		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
 		    
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<script type="text/javascript" src="js/facebox.js"></script>
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 		<link rel='shortcut icon' href='project.ico'>
 				
 	</head>
@@ -84,8 +84,8 @@
 					<?php
 					$project_id=$_GET['project_id'];
 					$sql="SELECT * from projects where id=$project_id";
-					$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-						while ($row = mysql_fetch_array($result)) {
+					$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+						while ($row = mysqli_fetch_array($result)) {
 							$project_name=$row['project_name'];
 							$project_description=$row['project_descr'];
 
@@ -113,8 +113,8 @@
 					 
 					 $sql="SELECT * from project_meetings WHERE id=$m_id";
 					 //echo $sql;
-							 $result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
-									while ($row = mysql_fetch_array($result)) {
+							 $result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
+									while ($row = mysqli_fetch_array($result)) {
 									
 									//$id=$row['id'];
 									$meeting_title=$row['meeting_title'];

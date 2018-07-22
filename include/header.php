@@ -43,7 +43,8 @@
 			<li><a href="project_user_profile.php?user_id=<?php echo $_SESSION['user_id'] ?>"><?php echo GetUserNameByid($_SESSION['user_id']) ?></a></li>
 			<li class="">
 				<?php 
-					$msg_count = NrofMessages($_SESSION['user_id']);
+          //echo $_SESSION['user_id'];
+          $msg_count = NrofMessages($_SESSION['user_id']);
 					echo "<a href='project_inbox.php?user_id=1' class='small-blue-badge'>$msg_count</a>";
 			    ?> 
 			</li>

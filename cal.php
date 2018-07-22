@@ -64,15 +64,15 @@ $aryDates=createDateRangeArray($strDateFrom,$strDateTo);
 foreach($aryDates as $date){
 	//echo "$date<br>";2,7,3
 	//$sql="INSERT INTO project_team_av_calendar (project_id,date,user_id,avail_flag) VALUES (12,'$date',1,'A')";
-	//$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+	//$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 	//$sql="INSERT INTO project_team_av_calendar (project_id,date,user_id,avail_flag) VALUES (12,'$date',7,'A')";
-	//$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+	//$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 	/*$sql="INSERT INTO project_team_av_calendar (project_id,date,user_id,avail_flag) VALUES (12,'$date',7,'A')";
-	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error()); */
+	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error()); */
 	$sql="INSERT INTO project_team_av_calendar (project_id,date,user_id,avail_flag) VALUES (12,'$date',2,'A')";
-	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 	$sql="INSERT INTO project_team_av_calendar (project_id,date,user_id,avail_flag) VALUES (12,'$date',3,'A')";
-	$result=mysql_query($sql) or die("MySQL ERROR: ".mysql_error());
+	$result=mysqli_query($db, $sql) or die("MySQL ERROR: ".mysqli_error());
 }
 
 echo "done!";
