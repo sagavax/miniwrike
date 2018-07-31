@@ -12,5 +12,6 @@
 						<li><a href="project_links.php?project_id=<?php echo $_SESSION['project_id'] ?>">Links</a></li>
 						<li><a href="project_workload.php?project_id=<?php echo $_SESSION['project_id'] ?>">Workload*</a></li>
 						<li><a href="project_contacts.php?project_id=<?php echo $_SESSION['project_id'] ?>">Contacts*</a></li>
+						<li><a href="project_proposals.php?project_id=<?php echo $_SESSION['project_id'] ?>">Proposals*</a></li>
 					 </ul>
 				</div>

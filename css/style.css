@@ -325,7 +325,7 @@ body {
 	.small_button {
 	    padding: 3px;
 	    border: 1px solid #999;
-	    border-c: 2px
+	    border-radius: 2px
 	}
 
 	.right {
@@ -2475,4 +2475,12 @@ body {
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.project_title {
+	float:left;font-weight:bold; font-size:26px; font-family: Helvetica, Arial,sans-serif;margin-left:10px
+}
+
+.project_description {
+	float:left;font-style:italic; font-size:12px; font-family: Helvetica, Arial,sans-serif;color:#999;margin-left:15px
 }

@@ -44,8 +44,8 @@
 		                    $project_description=$row['project_descr'];
 
 		                   
-		                    echo "<span style='float:left;font-weight:bold; font-size:26px; font-family: Helvetica, Arial,sans-serif;margin-left:10px'>$project_name<br></span>";   //boldovo
-		                    echo "<span style='float:left;font-style:italic; font-size:12px; font-family: Helvetica, Arial,sans-serif;color:#ddd;margin-left:15px'>$project_description</span>"; //italikom
+		                   echo "<span class='project_title'>$project_name</span>";   //boldovo
+		                    echo "<span class='project_describtion'>$project_description</span>"; //italikom
 		                    
 
 		                }
