@@ -30,12 +30,7 @@
 }
 
 #main #projects_grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* This would display the children elements in  three equal columns with equal width */
-    gap: 5px; /* To set a gap between  thegrid items */
-}
-#main #projects_grid .project {
-
+    display: flex;
 }
 
 

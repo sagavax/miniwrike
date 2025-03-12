@@ -1517,6 +1517,7 @@ hr {
 
 @media only screen and (max-width:768px) {
     #main #projects_grid {
+        display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
@@ -1529,5 +1530,23 @@ hr {
     }
     .menu {
         height: 100px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #projects_grid {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+@media only screen and (min-width: 1111px) {
+    #main #projects_grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    #main #projects_grid .project {
+        width: 25%;
     }
 }

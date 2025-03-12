@@ -15,8 +15,8 @@ project_name.addEventListener("keyup", function(){
 
 projects.addEventListener("click", function(event){
   var project_id = event.target.closest(".project").getAttribute("project-id");
-  //localStorage.setItem('project_id',project_id);
-  window.location.href="project.php?project_id=" + project_id;
+  localStorage.setItem('project_id',project_id);
+  window.location.href="project.php";
 })
 
 

@@ -2,9 +2,8 @@
   date_default_timezone_set('Europe/Bratislava');
 
 
- //$db = mysqli_connect("localhost", "minecraft_db", "ZAAMcSL", "minecraft_db", 3312);
+ //$link = mysqli_connect("mariadb101.websupport.sk", "minecraft_db", "eTIZAAMcSL", "minecraft_db", 3312);
  $db = mysqli_connect("mariadb105.r6.websupport.sk", "miniwrike", "Ul0XB&a@%d","miniwrike",3315);
- //$db = mysqli_connect("mariadb105.r6.websupport.sk ", "minecraft_db", "Us6^*qb1H-", "minecraft_db", 3315);
 
 
 
