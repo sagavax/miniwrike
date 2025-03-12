@@ -1,0 +1,1 @@
+SELECT a.task_id, a.user_id, LEFT(b.first_name,1) as first_name, LEFT(b.last_name,1) as last_name from project_tasks a, project_users b WHERE a.task_id = 424 and a.user_id = b.user_id

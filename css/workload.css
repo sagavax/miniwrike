@@ -1,0 +1,240 @@
+fincahtml, * {
+    box-sizing: border-box;
+}
+
+.task_list_workload {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.task_id {
+    background: aliceblue;
+    position: relative;
+    min-height: 50px;
+    border: 1px #666 solid;
+    padding: 10px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break:break-all ;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.task_id:hover {
+    background: #FAFAFA
+}
+
+.task_id span {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.leftbutton {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    margin-left: 0px;
+    border-right: 0px
+}
+
+.project_workload {
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    background: aliceblue;
+}
+
+#workload {
+    border-collapse: collapse;
+    border: 1px #d1d2d3 solid;
+    width: 100%;
+    margin-top: 30px;
+}
+
+
+.assigned_tasks {
+    display: flex;
+    min-height: 200px;
+}
+
+
+.workload_tasks{
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+}
+
+
+
+
+.unassigned_tasks, .assigned_tasks, .inactive_tasks {
+    margin-top:20px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 10px;
+    /*border: 1px #666 solid;
+    border-radius: 6px;*/
+  background: aliceblue;
+
+ }
+
+.inactive_tasks {
+    background: #FF6961;
+}
+
+.assigned_tasks ul, .inactive_tasks ul, .unassigned_tasks ul{
+    align-items: center;
+    min-height: 200px;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    
+}
+
+ .unassigned_tasks ul {
+    min-height: 100px;
+ }
+
+.unassigned_tasks ul li {
+    margin:5px;
+}
+
+
+.inactive_tasks ul li {
+    background: white;
+}
+
+
+.inactive_tasks ul li {
+    margin:5px;
+}
+
+
+.unassigned_tasks header {
+    display: flex;
+    width:  100%;
+    height: 40px;
+    gap:10px;
+    align-items: center;
+}
+
+.unassigned_tasks header button {
+    width:  50px;
+    border-radius: 6px;
+}
+
+.unassigned_tasks h3 {
+    width: 100%;
+}
+
+.workload_assignee {
+    width:100%;
+}
+
+
+.assigned_person {
+    border:1px #666 solid;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.assigned_person, .assigned_person ul  {
+    min-height: 100px;
+    width: 100%;
+}
+
+
+.assigned_person ul {
+    background: white;
+    padding:5px;
+    display: flex;
+    gap:5px;
+    margin:0;
+    list-style: none;
+}
+
+
+.project_person {
+    background: white;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height:50px;
+    width: 100%;
+    border-bottom: 1px #666 solid;
+    gap:5px;
+}
+
+.project_person span {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    width: 100%;
+    height: 40px;
+}
+
+.project_person button {
+    margin-right:5px;
+}
+
+
+.workload_task {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.wrkld_header {
+    height:20px;
+}
+
+.wrkld_task_status {
+    height:30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color:#00a86b;
+    font-weight: bold;
+}
+
+#add_new_task_dialog {
+    height:100px;
+    width: 60%;
+    position: fixed;
+    top: 30%;
+    left:15%;
+    gap:10px;
+}
+
+#add_new_task_dialog[open] {
+    display: flex;
+}
+
+#add_new_task_dialog input {
+    width:100%;
+    height:50px;
+}
+
+#add_new_task_dialog button {
+    height:50px;
+    width: 50px;
+}
+
+#show_unaasigned_tasks {
+    width: 60%;
+    min-height: 10%;
+}

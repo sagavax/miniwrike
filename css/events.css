@@ -1,0 +1,350 @@
+.project_event_manager_wrap{
+	display: flex;
+	flex-direction: column;
+}
+
+.project_event_manager_wrap header {
+	display: flex;
+	width: 100%;
+	justify-content: flex-end;
+    margin-top:20px;
+}
+
+#new_meeting {
+	width: 60%;
+}
+
+
+#new_meeting[open] {
+	display: flex;
+	flex-direction: column;
+}
+
+#new_meeting input,
+#new_meeting textarea {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+#new_meeting textarea {
+	height:120px;
+}
+
+.meeting_date_time {
+	width:100%;
+}
+
+#new_meeting[name="date_start"]{
+	width:20%;
+}
+
+#new_meeting input[type="date"]
+#new_meeting input[type="time"] {
+	width:20%;
+}
+
+
+
+
+.meeting_tech select {
+    width: 50%;
+    text-align: center;
+}
+
+
+.meeting_tech, .button_group {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.meeting_tech {
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+.button_group button:first-child {
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+
+.button_group button:last-child {
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+.meeting_save {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.event_manager_menu {
+	display: flex;
+	height: 45px;
+	align-items: center;
+}
+
+.event_button_group {
+	display: flex;
+}
+
+.event_manager_menu span {
+	width: 100%;
+}
+
+.event_content {
+	min-height: 50vh;
+}
+#add_meeting {
+    height: 45px;
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 5px;
+    text-align: right
+}
+
+
+/*#project_meetings_wrap {margin-top:10px;width:100%;min-height: 620px;border:1px #ddd solid; padding:5px}*/
+
+.project_meetings {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px #666 solid;
+    margin-top:20px;
+    box-sizing: border-box;
+    padding-left:10px;
+    padding-right: 10px;
+    border-radius: 6px;
+}
+
+
+#project_meetings_list tr {
+    border: 1px #eaebec solid;
+    height: 40px;
+}
+
+#project_meetings_list tr:hover {
+    background: #eaebec
+}
+
+#project_meetings_list h3 {
+    margin-left: 10px
+}
+
+#project_meetings_wrap {
+    width: 100%;
+    margin-top: 10px;
+    min-height: 700px;
+    border: 0px #ccc solid
+}
+
+#project_meeting_viewer input {
+    width: 600px;
+    height: 20px;
+    border: 1px #ddd solid;
+    padding-left: 5px;
+    font-weight: normal;
+    font-size: 13px;
+    color: #666;
+}
+
+#project_meeting_viewer textarea {
+    width: 600px;
+    height: 600px;
+    border: 1px #ddd solid;
+    padding: 5px
+}
+
+#project_meeting_log {
+    padding: 5px;
+    border: 1px #ddd solid;
+    color: #666;
+    font-family: 'Roboto', Helvetica, sans-serif;
+    font-size: 12px;
+    background: #fff
+}
+
+.meeting_log {
+    padding: 5px;
+    border: 1px #666 solid;
+    min-height: 100px
+}
+
+.bold {
+    font-weight: bold
+}
+
+#meeting_atendees {
+    width: 900px;
+    border: 1px #666 solid;
+    min-height: 100px;
+    padding: 5px
+}
+
+#project_meeting_planner {
+    border-collapse: collapse;
+}
+
+#project_meeting_planner tr td {
+    padding: 5px;
+}
+
+#project_meeting_planner input,
+#project_meeting_planner select {
+    height: 30px;
+    padding: 5px;
+    color: #666;
+}
+
+#meeting_atendees_list {
+    padding: 0;
+    margin-left: 5px;
+    list-style: none
+}
+
+#meeting_atendees_list li {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px;
+    border: 1px #999 solid;
+    padding: 3px;
+    min-width: 160px
+}
+
+#meeting_atendees_list li a {
+    font-weight: normal;
+    font-size: 1em
+}
+
+.meeting {
+	display: flex;
+	width: 100%;
+    height:60px;
+    border-bottom: 1px #666 solid;
+    background: white;
+}
+
+.meeting_title,
+.meeting_created,
+.meeting_date,
+ .meeting_start,
+ .meeting_end,
+ .meeting_location,
+ .meeting_type,
+ .metting_attendees,
+ .meeting_leave
+   {
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.meeting_title {
+	width: 50%;
+}
+
+
+.metting_attendees button{
+	height:40px;
+	width: 40px;
+	border-radius: 6px;
+}
+
+ .meeting_start,
+ .meeting_end {
+ 	width:6%;
+ }
+
+ .meeting_date {
+ 	width: 10%;
+ 	justify-content: center;
+ }
+
+ .meeting_location {
+ 	width: 15%;
+ 	justify-content: center;
+ }
+
+ #meeting_attendees {
+ 	position: absolute;
+ 	top:5%;
+ 	left: 5%;
+ 	width: 60%;
+ 	min-height: 100px;
+ }
+
+ #meeting_attendees[open]{
+ 	display: flex;
+ }
+
+ .attendees {
+    width: 100%;
+    heigth: 100%;
+    display: flex;
+    flex-direction: column;
+ }
+
+
+ .attendee {
+    display: flex;
+    width: 100%;
+    height:50px;
+    border-bottom: 1px #666 solid;
+    box-sizing: border-box;
+    padding:5px;
+ }
+
+ .attendee button {
+    height: 40px;
+    width: 40px;
+ }
+
+ .attendee_name {
+    width: 100%;
+    display: flex;
+    align-items: center;
+ }
+
+ .add_attendee {
+    margin-top:10px;
+    width: 100%;
+    /*border-left: 1px #666 solid;
+    border-right: 1px #666 solid;
+    border-bottom: 1px #6666 solid;*/
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    padding:5px;
+    gap:5px;
+}
+
+.add_attendee select {
+    width: 100%;
+}
+
+.orgenizer_wrap {
+  height: 50px;  
+  align-items: center;
+  display: flex;
+  width:100%;
+  gap:10px;
+  margin-bottom: 10px;
+}
+
+.orgenizer_wrap button, .orgenizer_wrap input {
+    height: 100%;
+}
+
+#meeting_add_change_location {
+    height: 50%;
+    width: 50%;
+}

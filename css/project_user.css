@@ -1,0 +1,21 @@
+.basic_information,.user_role_tech_information {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+}
+
+.basic_information input {
+	margin-bottom: 5px;
+	width: 50%;
+}
+
+
+.user_role_tech_information section {
+	width: 100%;
+	margin-bottom: 10px;
+	display: flex;
+}
+
+.user_role_tech_information section select {
+	width:60%;
+}

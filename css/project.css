@@ -1,0 +1,717 @@
+dialog[open] {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.dialog_wrap select {
+    width: 100%;
+}
+
+.project_roles, .project_technologies {
+    display: flex;
+    flex-direction: column;
+    margin-top:10px;
+    margin-bottom: 10px;
+ }   
+  .assigned_roles, .assigned_techs {
+    display: flex;
+    flex-wrap: wrap;    
+    border:0px;
+    justify-content: flex-start;
+    padding: 10px;
+    gap: 5px;
+    
+}
+
+.project_roles h3, .project_technologies h3 {
+    margin:0;
+    margin-top: 10px;
+}
+
+.project_roles button, .project_technologies button {
+    border-radius: 6px;
+}
+
+
+/*.assigned_ppl_action select,.assigned_project_roles select, .assigned_project_technologies select {
+    width: 100%;
+    height:55px;
+    outline: 0;
+    font-size: 16px;
+    color: #444;
+    box-sizing: border-box;
+    padding-left: 10px;
+    text-align: center;
+}*/
+
+.assigned_project_roles span, .assigned_project_technologies span {
+    width: 200px;
+}
+
+.assigned_ppl_action button {
+    margin-right: 5px;
+
+}
+
+.assigned_people_list header {
+    width:100%;
+    display: flex;
+    align-items: center;
+    gap:10px;
+}
+
+.assigned_people_list header input {
+    width: 100%;
+    height:45px;
+    background: aliceblue;
+    border: 1px #666 solid;
+    border-radius: 5px;
+}
+
+.assigned_people_list header input:focus {
+    background: white;
+}
+
+.assigned_people_list header input::placeholder {
+    color:#666 ;
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+/*  PROJECT_DETAILS */
+
+
+.project_details {
+    margin-top:30px;
+    border:1px #666 solid;
+    border-radius: 6px;
+    box-sizing: border-box;
+    padding :10px;
+    border:1px #666 solid;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    color: #666;
+
+}
+
+
+.project_details textarea {
+    padding: 4px;
+    padding-left: 5px;
+    font-weight: bold;
+    border: 1px #ccc solid;
+    border-radius: 2px;
+    color: #666;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    min-height: 200px;
+    background: aliceblue;
+}
+
+.project_details input {
+    padding-left: 5px;
+    width: 100%;
+    border: 1px #ccc solid;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #666;
+    outline: 0;
+    font-family: 'Roboto', sans-serif;
+    height: 45px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background: aliceblue;
+}
+
+.project_details select {
+    font-weight: bold;
+    color: #666;
+    width: 410px;
+    height: 40px;
+    margin-top:10px;
+    background: aliceblue;
+}
+
+
+.project_details select {
+    margin-bottom: 10px;
+}
+
+
+
+#project_details_dashboard {
+    margin-top: 20px;
+    box-sizing: border-box;
+    flex-direction: column;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#project_details_dashboard h3 {
+    display: flex;
+    font-size: 20px;
+    justify-content: center;    
+}
+.dashboard {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.assigned_ppl_list form {
+    display: flex;
+   justify-content: flex-end;
+}
+
+.assigned_ppl_list header {
+    height: 60px;
+    line-height: 50px;
+    border: 0px #999 solid
+}
+
+.assigned_person {
+    display: flex;
+    width: 100%;
+    border-top: 1px #ddd solid;
+    cursor: pointer;
+    height: 100%;
+    height:45px;
+}
+
+.assigned_person:hover {
+    background: aliceblue;
+}
+
+
+.assigned_date {
+    width: 300px;
+}
+
+.create_new_user {
+    float: right;
+    margin-right: 10px
+}
+
+.project_assigne_pp_post form {
+    height: 400px;
+    width: 100%;
+}
+
+.person_image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+}
+
+.assigned_ppl_list_image img {
+    margin: 10px auto;
+}
+
+.assigned_ppl_list_body {
+    width: 100%;
+    border: 0px #999 solid
+}
+
+.project_assigned_people_wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.project_assigned_people_status_bar {
+    height:50px;
+    width: 100%;
+    border-top: 1px #d1d1d1 solid;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+
+.assigned_people_list {
+    box-sizing: border-box;
+    padding:5px;
+    border: 2px #d1d1d1 solid;
+    border-radius: 6px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+
+.assigned_ppl_list select {
+    height: 5px;
+    width: 200px;
+}
+
+.assigned_ppl_action form {
+    width:100%;
+}
+
+
+.assigned_people_list input {
+    width: 500px;
+    outline: 0;
+    border: 1px solid #D5D5D5;
+    color: #666;
+    font-size: 13px;
+    padding: 6px;
+    border-radius: 2px;
+    height: 20px
+}
+
+.assigned_people_list button {
+    margin-right: 10px;
+    outline: 0;
+}
+
+.assigned_people_list h3, .assigned_people_list header h3 {
+    width: 100%;
+    margin-left: 10px;
+    height: 20px;
+}
+
+.assigned_people_list header h3 {
+    width:30%;
+}
+
+.assigned_people_list ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: white;
+    width: 100%;
+    display: flex;
+}
+
+.assigned_people_list ul li {
+    display: flex;
+    height: 60px;
+    border: 0px #eee solid;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+.assigned_duration {
+    display: flex;
+    width: 200px;
+    font-weight: normal;
+}
+
+.person_name {
+    display: flex;
+    width: 100%;
+    font-size: 16px;
+    color: #00acee;
+}
+
+.remove_person {
+    float: right;
+    margin-right: 5px;
+    height: 50px;
+    width: 30px;
+    text-align: center;
+}
+
+.assigned_person_details {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+.assigned_person_details form {
+ }
+
+
+.project_user {
+    border-collapse: collapse;
+    margin-top: 10px;
+    width: 100%
+}
+
+.project_user tr td {
+    padding: 5px;
+}
+
+.project_user select {
+    height: 30px;
+    padding: 6px;
+    color: #666;
+    font-family: 'Roboto', sans-serif;
+}
+
+.project_user input {
+    height: 25px;
+    width: 400px;
+    font-weight: normal;
+    font-size: 13px
+}
+
+.project_user textarea {
+    width: 900px;
+    height: 300px;
+}
+
+#create_user_wrap {
+    float: left;
+    margin-top: 10px;
+    border: 0px #666 solid;
+    width: 975px;
+    height: 700px;
+    padding: 5px;
+    margin-left: 0px;
+}
+
+#project_stats {
+    width: 200px;
+    color: #666;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#project_stats td {
+    padding: 4px;
+}
+
+
+.project_created {
+    width: 100%;
+    height:50px;
+    margin-top:10px;
+    margin-bottom:10px;
+    display: flex;
+    
+}
+
+.value {
+    font-family: 'Roboto', sans-serif;
+    ;
+    font-size: 18px;
+    color: #666;
+    text-align: right
+}
+
+#project_short_details_wrap {
+    float: left;
+    margin-top: 2px;
+    width: 100%;
+    min-height: 30px;
+    line-height: 30px;
+    box-shadow: 0 5px 5px -5px rgba(0, 0, 0, .3);
+    border:
+}
+
+
+
+
+
+.pro_title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+.pro_descr {
+    font-style: italic;
+    font-family: 'Roboto';
+    font-size: 14px;
+}
+
+#project_task_title {
+    color: #666;
+    font-size: 15px;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    border: 1px #d1d1d1 solid;
+    justify-content: flex-start;
+    align-items: center;
+    background: white;
+    border-radius: 5px;
+}
+
+.status_badge {
+        border: 2px #3f8abf solid;
+    border-radius: 5px;
+    /* text-align: center; */
+    background: #fff;
+    height: 50%;
+    display: flex;
+    width: 80px;
+    margin: 12px auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.status {
+    color: #3f8abf;
+    font-size: 14px;
+}
+
+#project_task_details_dashboard {
+    padding-bottom: 10px
+}
+
+
+
+.person_card{
+    flex-direction: column;
+    width: 200px;
+    height:200px;
+    border:1px #666 solid;
+    border-radius: 10px;
+    background: #3f8abf;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);*/
+    box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.card_person_name {
+    font-weight: bold;
+    font-size:15px;
+    text-transform: uppercase;
+    height:45px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.project_assigned_people_cards,.project_assigned_people_badges {
+    display: flex;
+    margin-bottom: 20px;
+    gap:10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+.assigned_person_badge {
+    margin-top: 20px;
+    background: white;
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    border:1px #666 solid ;
+    gap:10px;
+    box-sizing: border-box;
+    padding-left: 5px;
+}
+
+.assigned_person_badge:hover {
+    background: aliceblue;
+    cursor: pointer;
+}
+
+
+.assigned_person_badge button {
+  height:35px;
+  width: 35px;      
+  background: inherit;
+  border-radius: 50%;
+  color: #666;
+  border:0;
+}
+
+.assigned_person_badge button:hover {
+    background: #ddd;
+}
+
+.person_image {
+    height:100%;
+}
+
+.remove_person {
+    position: absolute;
+    top:5px;
+    right:5px;
+    height:30px;
+    width: 30px;
+    border-radius: 50%;
+    background: #3f8abf;
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+}
+
+.add_person {
+    height:30px;
+    width: 30px;
+    border-radius: 50%;
+    background: #3f8abf;
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+}
+
+.remove_person i, .add_person i {
+    color:white;
+    cursor: pointer;
+}
+
+
+
+.person_card img {
+    margin-top: 10px;
+    height:80px;
+    width: 80px;
+    border: 1px #666 solid;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.project_managers_wrap {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding:5px;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+.pm_wrap_header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.pm_wrap_header h3 {
+    width: 100%;
+}
+
+.pm_wrap_header button {
+    height:45px;
+    width: 45px;
+}
+
+.project_managers {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+    gap:5px;
+    flex-wrap: wrap;
+}
+
+
+.project_manager .assigned_person_badge {
+    margin:0;
+}
+
+#project_managers_popup {
+    min-height:50%;
+    width: 80%;
+}
+
+#project_managers_popup[open]{
+    display: flex;
+    gap:10px
+}
+
+/*#project_managers_popup button {
+    min-width: 150px;
+    height:50px;
+
+}*/
+
+.assigned_people_pm_popup, 
+.assign_new_pm_wrap,
+.alpha_list,
+.find_user_wrap,
+.find_use_search_bar
+ {
+    display: flex;
+    width: 100%;
+}
+
+.assign_new_pm_wrap {
+    flex-direction: column;
+}
+
+
+.find_use_search_bar {
+    margin-top: 10px;
+}
+
+.find_use_search_bar input {
+    border: 1px #666 solid;
+    border-radius: 6px;
+}
+
+.assigned_people_pm_popup {
+    
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.alpha_list {
+    margin-top: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:5px;
+}
+
+
+.alpha_list button {
+    height: 40px;
+    width: 40px;
+}
+
+.find_user_wrap {
+    flex-direction: column;
+}
+
+.found_people_list {
+    display: flex;
+    gap:10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.project_assigned_people_status_bar .pagination button {
+    height:40px;
+    width: 40px;
+}
+
+.project_technology, .project_role {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project_technology {
+    width:30%;
+}
+
+
+#add_person_project_role, #add_person_project_technology {
+    width:70%;
+}
+
+
+#add_person_project_role[open], #add_person_project_technology[open]{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:10px;
+}

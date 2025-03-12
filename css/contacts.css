@@ -1,0 +1,122 @@
+.project_contacts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px #666 solid;
+    border-radius: 6px;
+    background: white;
+    padding:10px;
+}
+
+.contact {
+    height:50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px #666 solid;
+}
+
+.contact_button_group {
+    display: flex;
+    align-items: center;
+    gap:5px;
+}
+
+.contact_button_group button {
+    height: 40px;
+    width: 40px;
+}
+
+.contact:last-child {
+    border-bottom: 0;
+}
+
+.contact_button_group button:first-child {
+    border-top-left-radius: 6px ;
+    border-bottom-left-radius: 6px;
+}
+
+.contact_button_group button:last-child {
+    border-top-right-radius: 6px ;
+    border-bottom-right-radius: 6px;
+}
+
+.manage_contacts {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 55px;
+    border: 0px #ccc solid;
+    margin-top: 15px;
+    gap:5px;
+}
+
+.manage_contacts button {
+    height: 40px;
+    min-width: 40px;
+}
+
+#add_contact_dialog,#send_new_mail_dialog, #view_user_details_dialog, #edit_user_details_dialog {
+   width: 60%; 
+}
+
+#add_contact_dialog[open], #send_new_mail_dialog[open], #view_user_details_dialog[open];#edit_user_details_dialog[open] {
+    display: flex;
+    flex-direction: column;
+     width: 60%;
+}
+
+#add_contact_dialog input,
+ #send_new_mail_dialog input,
+ #send_new_mail_dialog textarea ,
+ #view_user_details_dialog input, 
+ #edit_user_details_dialog input { 
+    width: 100%;
+    border-radius: 6px;
+    border: 1px #666 solid;
+    box-sizing: border-box;
+    padding:5px;
+    margin-bottom: 5px;
+    color: #3f8abf;
+}
+
+#view_user_details_dialog input {
+    border: 0;
+}
+
+#add_contact_dialog input:focus,
+#send_new_mail_dialog input:focus,
+#send_new_mail_dialog textarea:focus,
+#view_user_details_dialog input:focus, 
+ #edit_user_details_dialog input:focus
+ {
+   border: 2px #666 solid; 
+}
+
+#send_new_mail_dialog textarea {
+    min-height: 150px;
+}
+
+#add_contact_dialog h3,
+#send_new_mail_dialog h3
+ {
+    height: 40px;
+    width: 100%;
+    padding:0;
+    margin: 0;
+}
+
+.add_contacts_action,
+.send_message_action {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.full_name {
+    display: flex;
+    width: 100%;
+
+}

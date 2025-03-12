@@ -1,0 +1,88 @@
+.projects_sort {
+	display: flex;
+	height: 60px;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-end;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+    gap:10px;
+}
+
+.projects_sort button {
+	 border-radius: 6px;
+	 width: 80px;
+	 cursor: pointer;
+}
+
+.projects_sort button:hover {
+	 background-color: #606c88;
+}
+
+
+.add_project {
+    display: flex;
+    height:50px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+#main #projects_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* This would display the children elements in  three equal columns with equal width */
+    gap: 5px; /* To set a gap between  thegrid items */
+}
+#main #projects_grid .project {
+
+}
+
+
+#main #projects_grid .project {
+    border:1px #d1d1d1 solid;
+    padding: 20px 20px 20px 60px;
+    background-color: #fff;
+    box-shadow: 1px 1px 40px rgba( 0 0 0 / .01);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+#main #projects_grid .project:hover {
+    background: aliceblue;
+}
+
+
+#main #projects_grid .project h2 {
+    color: #555;
+    font-size: 20px;
+    line-height: 0;
+}
+
+#main #projects_grid .project span,
+#main #projects_grid .project {
+    color: #727272;
+}
+
+.project p {
+    width: 100%;
+    height:90px;
+}
+
+.project span {
+    width: 200px;
+}
+
+.project_status {
+	font-weight: bold;
+	font-size: 16px;
+	color:green;
+	padding: 5px;
+}
+
+#create_new_project {
+    width: 60%;
+    height: 400px;
+}

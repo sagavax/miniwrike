@@ -1,0 +1,500 @@
+#project_task_details_quick_notes input {
+    width: 850px;
+    outline: 0;
+    border: 1px solid #D5D5D5;
+    color: #666;
+    font-size: 13px;
+    padding: 6px;
+    border-radius: 2px;
+}
+
+#project_task_details_quick_notes button {
+    margin-left: 10px;
+    outline: 0;
+    width: 30px;
+    height: 30px
+}
+#project_task_details_comments,
+#project_task_details_attachements,
+#project_task_details_basic_info,
+#project_task_details_quick_notes,
+
+#project_task_subtasks,
+#project_task_assigned_person,
+#project_task_details_dashboard,
+.project_task_title,
+#new_customer_wrap,
+#customer_contacts {
+    width: 100%;
+    border: 0px #ddd solid;
+    margin-top: 35px;
+    min-height: 50px
+}
+
+
+
+#project_task_details_comments h3,
+#project_task_details_dashboard h3,
+#project_details_dashboard h3,
+#project_task_subtasks h3,
+#project_details_dashboard_charts h3 {
+    float: left;
+    margin-left: 10px;
+    width: 100%
+}
+
+.subtask_date {
+    float: left;
+    font-weight: normal;
+    color: #999;
+    width: 120px;
+    text-align: center;
+}
+
+.subtask_priority {
+    display: table;
+    float: left;
+    width: 110px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+
+.subtask_duration {
+    float: left;
+    font-weight: bold;
+    width: 50px;
+    text-align: center;
+}
+
+.subtask_action {
+    float: right;
+    margin-right: 5px
+}
+
+.subtask_status {
+    float: left;
+    width: 120px;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+
+#task_subtasks_wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#project_task_details_filelist {
+    width: 100%;
+    height: 60px;
+    border: 1px #ddd solid;
+}
+
+
+.info_box_wrap {
+    display: flex;
+}
+
+
+.project_task_title {
+    display: flex;
+    align-items: center;
+     font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 100%;
+    height: 60px;
+    border: 1px #3a87ad solid;
+    background: white;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding:5px;
+}
+
+
+#project_task_details_upload_form {
+    margin-top: 15px;
+}
+
+#project_task_title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#project_task_details_attachements h3,
+#project_task_details_quick_notes h3,
+#project_task_assigned_person h3 {
+    margin-left: 10px
+}
+
+#project_task_assigned_person ul {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+#project_task_assigned_person input {
+    margin-left: 0px;
+    width: 920px;
+    padding: 6px;
+    height: 22px;
+    margin-top: 10px
+}
+
+#project_task_assigned_person table {
+    margin-left: 0px
+}
+
+.task_assigned_ppl_action {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 65px;
+    border-top: 1px #ddd solid;
+}
+
+.task_assigned_ppl_list {
+    display: flex;
+    margin-top:20px;
+    box-sizing: border-box;
+    padding:10px;
+    border: 1px #666 solid;
+    margin-bottom: 20px;
+    flex-direction: column;
+    background: white;
+    border-radius: 6px;
+}
+
+.task_assigned_ppl_list ul {
+    padding: 0;
+    margin:0;
+    list-style: none;
+}
+
+
+.task_assigned_ppl_list select {
+    height: 5px;
+    width: 100%;
+    height: 50px;
+}
+
+.assigned_ppl_action form {
+    width:100%;
+}
+
+
+.assigned_ppl_action select {
+    width: 100%;
+    height:55px;
+    margin-right: 5px;
+    outline: 0;
+}
+
+.assigned_ppl_action button {
+    margin-right: 5px;
+
+}
+
+.project_task_comments,.project_task_timelines,.task_timeline,.dialog_task_timeline, .task_documents{
+    display: flex;
+    flex-direction: column;
+    border: 1px #666 solid;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 20px;
+    background: white;
+}
+
+.task_documents {
+    margin-top: 20px;
+    gap:10px;
+}
+
+.upload_file {
+    display:flex;
+    align-items: center;
+    gap:5px;
+    width: 100%;
+}
+
+.upload_file input {
+    height: 40px;
+    width:100%;
+}
+
+.upload_file button {
+    height:40px;
+    display: flex;
+    align-items: center;
+}
+
+.uploaded_files {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.timeline_see_more {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.time_line_action {
+    height:30px;
+    width: 100%;
+}
+
+.task_comments {
+    display: flex;
+    flex-direction: column;
+}
+
+.task_comment:first-child{
+    border-top:1px #666 solid;
+    border-right:1px #666 solid ;
+    border-left:1px #666 solid ;
+
+}
+.task_comment:last-child{
+    border-bottom:1px #666 solid;
+    border-right:1px #666 solid ;
+    border-left:1px #666 solid ;
+
+}
+
+.project_task_comments input {
+    width: 920px;
+    outline: 0;
+    border: 1px solid #D5D5D5;
+    color: #666;
+    height: 22px;
+    font-size: 13px;
+    padding: 6px;
+    border-radius: 2px;
+}
+
+.project_task_comments button {
+    outline: 0;
+    width: 80px;
+    height: 45px
+}
+
+.project_task_comments textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    padding:10px;
+    font-family: 'Roboto',sans-serif;
+    font-size: 14px;
+}
+
+.project_task_timelines, .task_timeline, .dialog_task_timeline {
+    width: 100%;
+    
+}
+
+.project_task_timelines {
+    margin-top:20px;
+}
+
+.timeline_pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:45px;
+}
+
+.timeline_pagination button {
+    height:45px;
+    width: 45px;
+}
+
+
+.action {
+    width:100%;
+    display: flex;
+    gap:10px;
+}
+
+.action button {
+    width:50px;
+}
+
+.action form {
+    width: 100%;
+    display: flex;
+     gap:5px;
+}
+
+
+.task_assigned_person {
+    display: flex;
+    background: white;
+    border:  1px #666 solid;
+    box-sizing: border-box;
+    padding:5px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.task_assigned_person_wrap {
+    width: 100%;   
+    display: flex;
+    gap: 10px;
+}
+
+.task_assigned_person h3 {
+    width: 10%;
+}
+
+
+.task_assigned_person button[name="add_new_person"] {
+    width:50px;
+}
+
+
+.task_assigned_person_details {
+    display: flex;
+    width: 100%;
+}
+
+.task_assigned_person_details span {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    flex:1;
+}
+
+.task_person_image {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    width: 50px;
+}
+
+
+.task_person_image img {
+    border-radius: 50%;
+}
+
+.task_comments {
+    display: flex;
+    flex-direction: column;
+}
+
+.task_comment {
+    width:100% ;
+    display: flex;
+    align-items: center;
+    background: white;
+    border-bottom: 1px #999 solid;
+    border-left: 1px #999 solid;
+    border-right: 1px #999 solid;;
+    box-sizing: border-box;
+    padding:5px;
+    min-height: 60px;
+}
+
+.task_comment:hover {
+     background: #eff3f4;;
+}
+
+.task_comment_text {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    justify-content: flex-start;
+}
+
+.task_commented_by {
+   
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task_comment_date {
+    display: flex;
+    align-items: center;
+    /*width: 15%;*/
+    color: #999;   
+    text-indent: 5px;
+    text-align: center;
+}
+
+.task_user_image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.task_user_image img {
+    border-radius: 50%;
+}
+
+.task_comment_action {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    height: 45px;
+}
+
+.task_comment_action button {
+    width: 85px;
+    height:45px;
+}
+
+
+#project_task_full_history{
+    width: 60%;
+    top:0%;
+    left:0%;
+}
+
+#project_task_full_history[open]{
+    display: flex;
+    flex-direction: column;
+}
+
+#project_task_full_history header {
+    width: 100%;
+    display: flex;
+    height:45px;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding:5px;
+}
+
+#project_task_full_history span {
+    width:100%;
+}
+
+#project_task_full_history button {
+    width: 35px;
+    height:35px;
+}
+
+#assign_person_to_project {
+    width: 70%;
+    min-height: 10%;
+}
+
+#assign_person_to_project[open] {
+    flex-direction: column;
+    gap:10px;
+    flex-wrap: wrap;
+}
+
+#assign_person_to_project button {
+    margin-right: 10px;
+}
