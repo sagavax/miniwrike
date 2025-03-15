@@ -69,8 +69,8 @@ session_start();
         $customer_name = GetCustomerName($customer_id);
 
         echo "<div class='project' project-id='$id' project-status='$project_status'>";
-        echo "<div class='project_priority'></div>";
-        echo "<h2>$project_name</h2>";
+        echo "<div class='project_priority'>$project_name</div>";
+        //echo "";
         echo "<p>$project_descr</p>";
         echo "<span>" . ProjectDuration($id) . "</span>";
         echo "<div class='project_status'>$project_status</div>";
