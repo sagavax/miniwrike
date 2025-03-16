@@ -19,5 +19,6 @@ if (isset($_GET['project_id'])) {
 		<li><a href="project_workload.php">Workload</a></li>
 		<li><a href="project_contacts.php">Contacts*</a></li>
 		<li><a href="miniwrike_ideas.php">Ideas</a></li>
+		<li><a href="miniwrike_bugs.php">Bugs</a></li>
 	 </ul>
 </div>
