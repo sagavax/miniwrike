@@ -68,7 +68,7 @@
                                       echo "<div class='span_modpack'>$nr_of_comments comment(s)</div>";
                                       
                                       echo "<button type='submit' name='see_bug_details' class='button small_button'><i class='fa fa-eye'></i></button>";
-                                      
+                                      echo "<button type='submit' name='move_to_bugs' class='button small_button' title='Move to Ideas'><i class='fas fa-arrow-right'></i></i></button>";
 
                                    if($is_fixed==0){
                                       echo "<button type='submit' name='delete_bug' class='button small_button'><i class='fa fa-times'></i></button>";
