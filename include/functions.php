@@ -56,6 +56,16 @@ function GetCountIdeaComments($idea_id){
 	return $nr_of_comms;			
 }	
 
+function GetCountBugComments($bug_id){
+	global $db;
+	$query = "SELECT COUNT(*) as nr_of_comms from bugs_commnents WHERE bug_id=$bug_id";
+	$result=mysqli_query($db, $query);
+	$row = mysqli_fetch_array($result);
+	 $nr_of_comms= $row['nr_of_comms'];
+	return $nr_of_comms;			
+}	
+
+
 function GetProjectStatus($project_id){
 	global $db;
 	$get_project_ststus = "SELECT project_status from projects WHERE project_id=$project_id";

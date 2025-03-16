@@ -53,7 +53,7 @@
                               $bug_id = $row['bug_id'];
                               $bug_title = $row['bug_title'];
                               $bug_text = $row['bug_text'];
-                              $is_applied = $row['is_applied'];
+                              $is_fixed = $row['is_fixed'];
                               $added_date = $row['added_date'];
 
                               echo "<div class='bug'>";
@@ -63,20 +63,20 @@
                                     echo "<div class='bug_footer'>";
                                     
                                       echo "<input type='hidden' name='bug_id' value=$bug_id>";
-                                      echo "<input type='hidden' name='is_applied' value=$is_applied>";
+                                      echo "<input type='hidden' name='is_applied' value=$is_fixed>";
                                       $nr_of_comments = GetCountbugComments($bug_id);
                                       echo "<div class='span_modpack'>$nr_of_comments comment(s)</div>";
                                       
                                       echo "<button type='submit' name='see_bug_details' class='button small_button'><i class='fa fa-eye'></i></button>";
                                       
 
-                                   if($is_applied==0){
+                                   if($is_fixed==0){
                                       echo "<button type='submit' name='delete_bug' class='button small_button'><i class='fa fa-times'></i></button>";
-                                        echo "<button type='submit' name='to_apply' class='button small_button'><i class='fa fa-check'></i></button>";
+                                        echo "<button type='submit' name='mark_as_fixed' class='button small_button'><i class='fa fa-check'></i></button>";
                                           
                                     } else {
 
-                                          echo "<div class='span_modpack'>applied</div>";
+                                          echo "<div class='span_modpack'>fixed/div>";
                                     }        
 
 
