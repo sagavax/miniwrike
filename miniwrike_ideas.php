@@ -68,7 +68,7 @@
                                       echo "<div class='span_modpack'>$nr_of_comments comment(s)</div>";
                                       
                                       echo "<button type='submit' name='see_idea_details' class='button small_button'><i class='fa fa-eye'></i></button>";
-                                      echo "<button type='submit' name='move_to_bugs' class='button small_button'><i class='fas fa-arrow-right'></i></i></button>";
+                                      echo "<button type='submit' name='move_to_bugs' class='button small_button' title='Move to bugs'><i class='fas fa-arrow-right'></i></i></button>";
 
                                    if($is_applied==0){
                                       echo "<button type='submit' name='delete_idea' class='button small_button'><i class='fa fa-times'></i></button>";
