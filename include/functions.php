@@ -261,68 +261,75 @@ while ($row = mysqli_fetch_array($result)) {
 
 } */
 
-function ProjectDuration($project_id) {
+function ProjectDuration($project_id, $rowData = null) {
     global $db;
-    
-    // Use prepared statement to prevent SQL injection
-    $sql = "SELECT project_status, established_date, finished_date FROM projects WHERE id = ?";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $project_id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    
-    if (!$result) {
-        return "Error: " . mysqli_error($db);
-    }
-    
-    while ($row = mysqli_fetch_array($result)) {
-        $project_status = $row['project_status'];
-        
-        // Check if established_date is valid
-        if (empty($row['established_date'])) {
-            return "Error: Established date is not set";
+
+    if ($rowData === null) {
+        // Use prepared statement to prevent SQL injection
+        $sql = "SELECT project_status, established_date, finished_date FROM projects WHERE id = ?";
+        $stmt = mysqli_prepare($db, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $project_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (!$result) {
+            return "Error: " . mysqli_error($db);
         }
-        
-        try {
-            $established_date = new DateTime($row['established_date']);
-            
-            // Handle finished_date based on project status
-            if ($project_status != 'finished') {
-                $now = new DateTime('now', new DateTimeZone('Europe/Bratislava'));
-                $duration = $established_date->diff($now);
-            } else {
-                // Check if finished_date is valid for completed projects
-                if (empty($row['finished_date'])) {
-                    return "Error: Finished date is not set for completed project";
-                }
-                $finished_date = new DateTime($row['finished_date']);
-                $duration = $established_date->diff($finished_date);
+
+        $row = mysqli_fetch_array($result);
+        if (!$row) {
+            return "Error: Project not found";
+        }
+    } else {
+        $row = $rowData;
+    }
+
+    $project_status = $row['project_status'];
+
+    // Check if established_date is valid
+    if (empty($row['established_date'])) {
+        return "Error: Established date is not set";
+    }
+
+    try {
+        $established_date = new DateTime($row['established_date']);
+
+        // Handle finished_date based on project status
+        if ($project_status != 'finished') {
+            $now = new DateTime('now', new DateTimeZone('Europe/Bratislava'));
+            $duration = $established_date->diff($now);
+        } else {
+            // Check if finished_date is valid for completed projects
+            if (empty($row['finished_date'])) {
+                return "Error: Finished date is not set for completed project";
             }
-            
-            // Extract relevant information from DateInterval object
-            $years = $duration->y;
-            $months = $duration->m;
-            $days = $duration->d;
-            $hours = $duration->h;
-            $minutes = $duration->i;
-            $seconds = $duration->s;
-            
-            // Build duration string only including non-zero values
-            $duration_parts = [];
-            if ($years > 0) $duration_parts[] = "$years " . ($years == 1 ? "year" : "years");
-            if ($months > 0) $duration_parts[] = "$months " . ($months == 1 ? "month" : "months");
-            if ($days > 0) $duration_parts[] = "$days " . ($days == 1 ? "day" : "days");
-            if ($hours > 0) $duration_parts[] = "$hours " . ($hours == 1 ? "hour" : "hours");
-            if ($minutes > 0) $duration_parts[] = "$minutes " . ($minutes == 1 ? "minute" : "minutes");
-            if ($seconds > 0) $duration_parts[] = "$seconds " . ($seconds == 1 ? "second" : "seconds");
-            
-            return empty($duration_parts) ? "0 seconds" : implode(", ", $duration_parts);
-            
-        } catch (Exception $e) {
-            return "Error: Invalid date format - " . $e->getMessage();
+            $finished_date = new DateTime($row['finished_date']);
+            $duration = $established_date->diff($finished_date);
         }
+
+        // Extract relevant information from DateInterval object
+        $years = $duration->y;
+        $months = $duration->m;
+        $days = $duration->d;
+        $hours = $duration->h;
+        $minutes = $duration->i;
+        $seconds = $duration->s;
+
+        // Build duration string only including non-zero values
+        $duration_parts = [];
+        if ($years > 0) $duration_parts[] = "$years " . ($years == 1 ? "year" : "years");
+        if ($months > 0) $duration_parts[] = "$months " . ($months == 1 ? "month" : "months");
+        if ($days > 0) $duration_parts[] = "$days " . ($days == 1 ? "day" : "days");
+        if ($hours > 0) $duration_parts[] = "$hours " . ($hours == 1 ? "hour" : "hours");
+        if ($minutes > 0) $duration_parts[] = "$minutes " . ($minutes == 1 ? "minute" : "minutes");
+        if ($seconds > 0) $duration_parts[] = "$seconds " . ($seconds == 1 ? "second" : "seconds");
+
+        return empty($duration_parts) ? "0 seconds" : implode(", ", $duration_parts);
+
+    } catch (Exception $e) {
+        return "Error: Invalid date format - " . $e->getMessage();
     }
-    
+
     return "Error: Project not found";
 }
 
