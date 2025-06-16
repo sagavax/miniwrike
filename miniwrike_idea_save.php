@@ -11,6 +11,6 @@
             $save_idea = "INSERT INTO ideas (idea_title, idea_text, is_applied, added_date) VALUES ('$idea_title','$idea_text', $is_applied,now())";
             $result=mysqli_query($db, $save_idea);
         
-        echo "<script>alert('Minecraft IS: Bola vtytvorena nova idea');
+        echo "<script>alert('Minecraft IS: Bola vytvorena nova idea');
         window.location.href='miniwrike_ideas.php';
         </script>";
