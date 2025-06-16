@@ -28,7 +28,7 @@ if (!isset($_SESSION['user_id'])) {
               echo "<a href='project_inbox.php?user_id=1' class='small-blue-badge'>$msg_count</a>";
               ?>
     			<div id="clock"></div>
-		</div><!--logger_user -->
+                </div><!-- logged_user -->
 </div><!-- header -->
 
 <script type="text/javascript">
