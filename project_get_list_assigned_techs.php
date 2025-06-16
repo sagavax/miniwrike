@@ -23,5 +23,5 @@
 	    echo $json;
 	} else {
 	    // Handle the case where the query fails
-	    echo "Error executing query: " . mysqli_error($link);
+            echo "Error executing query: " . mysqli_error($db);
 	}
